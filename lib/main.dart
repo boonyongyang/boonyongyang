@@ -12,6 +12,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Index(title: 'just a demo app');
+    return const Index(title: 'issa demo app');
   }
 }
