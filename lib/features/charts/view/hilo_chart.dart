@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import '../../../core/style/style.dart';
 import '../../../data.dart';
 import 'chart_data.dart';
 import 'stock_item.dart';
@@ -18,6 +17,10 @@ class HiloChart extends StatefulWidget {
 class HiloChartState extends State<HiloChart> {
   late bool _toggleVisibility;
   TooltipBehavior? _tooltipBehavior;
+
+  // Define colors locally to avoid constant issues
+  final Color textColor = const Color(0xFFEBF0FF); // hologramWhite
+  final Color accentColor = const Color(0xFF3A7BEF); // neonBlue
 
   @override
   void initState() {
@@ -38,9 +41,9 @@ class HiloChartState extends State<HiloChart> {
         builder: (BuildContext context, StateSetter stateSetter) {
       return Row(
         children: <Widget>[
-          const Text('Show indication for\nsame values ',
+          Text('Show indication for\nsame values ',
               style: TextStyle(
-                color: AppColors.textColor,
+                color: textColor,
                 fontSize: 16,
               )),
           Padding(
@@ -48,7 +51,7 @@ class HiloChartState extends State<HiloChart> {
             child: SizedBox(
                 width: 90,
                 child: CheckboxListTile(
-                    activeColor: AppColors.primaryColor,
+                    activeColor: accentColor,
                     value: _toggleVisibility,
                     onChanged: (bool? value) {
                       setState(() {
@@ -65,7 +68,10 @@ class HiloChartState extends State<HiloChart> {
   SfCartesianChart _buildHilo() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: const ChartTitle(text: 'AAPL - 2016'),
+      title: ChartTitle(
+        text: 'AAPL - 2016',
+        textStyle: TextStyle(color: textColor),
+      ),
       primaryXAxis: DateTimeAxis(
           dateFormat: DateFormat.MMMd(),
           minimum: DateTime(2016),
@@ -77,9 +83,11 @@ class HiloChartState extends State<HiloChart> {
           minimum: 60,
           maximum: 140,
           labelFormat: r'${value}',
-          axisLine: AxisLine(width: 0)),
+          axisLine: AxisLine(width: 0),
+          labelStyle: TextStyle(color: Color(0xFFCED5E5))), // matrixSilver
       series: _getHiloSeries(),
       tooltipBehavior: _tooltipBehavior,
+      backgroundColor: const Color(0xFF1E2740).withOpacity(0.6), // techNavy
     );
   }
 
@@ -87,7 +95,7 @@ class HiloChartState extends State<HiloChart> {
     return <HiloSeries<ChartData, DateTime>>[
       HiloSeries<ChartData, DateTime>(
           dataSource: _injectData(),
-          color: AppColors.primaryColor,
+          color: accentColor,
           name: 'AAPL',
           showIndicationForSameValues: _toggleVisibility,
           xValueMapper: (ChartData sales, _) => sales.x as DateTime,
@@ -98,16 +106,5 @@ class HiloChartState extends State<HiloChart> {
 
   List<ChartData> _injectData() {
     return kStockData;
-    // final List<ChartData> chartData = <ChartData>[];
-    // for (int i = 0; i < widget.stock.data.length; i++) {
-    //   chartData.add(ChartData(
-    //       widget.stock.data[i].date,
-    //       widget.stock.data[i].low,
-    //       widget.stock.data[i].high,
-    //       widget.stock.data[i].open,
-    //       widget.stock.data[i].close,
-    //       widget.stock.data[i].volume));
-    // }
-    // return chartData;
   }
 }

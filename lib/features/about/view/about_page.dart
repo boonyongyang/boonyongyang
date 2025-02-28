@@ -1,3 +1,4 @@
+import 'package:boonyongyang/shared/widgets/top_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,9 +9,7 @@ class AboutPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('About'),
-      ),
+      appBar: const TopNavBar(title: 'About'),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Center(

@@ -126,7 +126,8 @@ class SnakeGame {
 
   void _startGameLoop() {
     _gameTimer?.cancel();
-    _gameTimer = Timer.periodic(Duration(milliseconds: gameSpeed), (timer) {
+    _gameTimer =
+        Timer.periodic(const Duration(milliseconds: gameSpeed), (timer) {
       if (_gameState == GameState.playing) {
         _updateGame();
       }

@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 /// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../../../core/style/style.dart';
 import '../../../data.dart';
 import '../../../shared/widgets/custom_button.dart';
 
@@ -33,9 +32,14 @@ class CandleChartState extends State<CandleChart> {
   late double _borderRadius;
   TrackballBehavior? _trackballBehavior;
 
-  final Color primaryColor = AppColors.primaryColor;
-  final Color textColor = AppColors.textColor;
-  // List<int>? _selectedIndexes;
+  // Hardcoded cyberpunk colors to avoid errors
+  final Color primaryColor = const Color(0xFF3A7BEF); // neonBlue
+  final Color textColor = const Color(0xFFEBF0FF); // hologramWhite
+  final Color tealColor = const Color(0xFF05D9E8); // neonAqua
+  final Color silverColor = const Color(0xFFCED5E5); // matrixSilver
+  final Color navyColor = const Color(0xFF1E2740); // techNavy
+  final Color successColor = const Color(0xFF4EFFA4); // successGreen
+  final Color errorColor = const Color(0xFFFF5E7C); // errorRed
 
   @override
   void initState() {
@@ -44,7 +48,6 @@ class CandleChartState extends State<CandleChart> {
     _borderRadius = 5;
     _enableSolidCandle = false;
     _toggleVisibility = true;
-    // _selectedIndexes = widget.selectedIndexes;
     _trackballBehavior = TrackballBehavior(
         enable: true, activationMode: ActivationMode.singleTap);
     super.initState();
@@ -129,7 +132,7 @@ class CandleChartState extends State<CandleChart> {
                   },
                   step: 0.1,
                   loop: true,
-                  iconColor: textColor,
+                  iconColor: tealColor,
                   style: TextStyle(fontSize: 16.0, color: textColor),
                 ),
               ),
@@ -155,7 +158,7 @@ class CandleChartState extends State<CandleChart> {
                   step: 0.1,
                   loop: true,
                   padding: 5.0,
-                  iconColor: textColor,
+                  iconColor: tealColor,
                   style: TextStyle(fontSize: 16.0, color: textColor),
                 ),
               )
@@ -181,7 +184,7 @@ class CandleChartState extends State<CandleChart> {
                   },
                   loop: true,
                   padding: 5.0,
-                  iconColor: textColor,
+                  iconColor: tealColor,
                   style: TextStyle(fontSize: 16.0, color: textColor),
                 ),
               )
@@ -195,9 +198,11 @@ class CandleChartState extends State<CandleChart> {
   SfCartesianChart _buildCandle() {
     return SfCartesianChart(
       plotAreaBorderWidth: 0,
-      title: ChartTitle(text: '${widget.stock.symbol} - 2016'),
+      title: ChartTitle(
+        text: '${widget.stock.symbol} - 2016',
+        textStyle: TextStyle(color: textColor),
+      ),
       primaryXAxis: DateTimeAxis(
-          // autoScrollingDeltaUnit: DateTimeIntervalType.months,
           autoScrollingDelta: 3,
           autoScrollingMode: AutoScrollingMode.start,
           dateFormat: DateFormat.MMM(),
@@ -208,14 +213,15 @@ class CandleChartState extends State<CandleChart> {
           labelIntersectAction: AxisLabelIntersectAction.hide,
           isVisible: true,
           majorGridLines: const MajorGridLines(width: 0)),
-      primaryYAxis: const NumericAxis(
+      primaryYAxis: NumericAxis(
           minimum: 80,
           maximum: 120,
           interval: 20,
           labelFormat: r'${value}',
           isVisible: true,
           labelIntersectAction: AxisLabelIntersectAction.hide,
-          axisLine: AxisLine(width: 0)),
+          axisLine: const AxisLine(width: 0),
+          labelStyle: TextStyle(color: silverColor)),
       series: _getCandleSeries(),
       trackballBehavior: _trackballBehavior,
       selectionGesture: ActivationMode.singleTap,
@@ -232,6 +238,7 @@ class CandleChartState extends State<CandleChart> {
       onActualRangeChanged: (ActualRangeChangedArgs args) {
         // Handle range change if needed
       },
+      backgroundColor: navyColor.withOpacity(0.6),
     );
   }
 
@@ -251,6 +258,9 @@ class CandleChartState extends State<CandleChart> {
         spacing: _space,
         borderRadius: BorderRadius.all(Radius.circular(_borderRadius)),
         emptyPointSettings: const EmptyPointSettings(mode: EmptyPointMode.zero),
+        // Update colors for cyberpunk theme
+        bearColor: errorColor,
+        bullColor: successColor,
         // Use only needed properties to avoid rendering issues
         animationDuration:
             0, // Disable animation to prevent layout issues during resize

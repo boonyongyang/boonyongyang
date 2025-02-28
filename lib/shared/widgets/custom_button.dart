@@ -4,6 +4,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import '../../core/style/style.dart';
 
 /// Collection of left, right or up, down icon buttons with text widget
 class CustomDirectionalButtons extends StatefulWidget {
@@ -20,15 +21,14 @@ class CustomDirectionalButtons extends StatefulWidget {
     this.horizontal = true,
     this.style,
     double this.padding = 0.0,
-    Color this.iconColor = Colors.black,
+    Color? this.iconColor,
   })  : assert(minValue != null),
         assert(maxValue != null),
         assert(initialValue != null),
         assert(onChanged != null),
         assert(step != null),
         assert(loop != null),
-        assert(padding != null),
-        assert(iconColor != null);
+        assert(padding != null);
   // assert(initialValue >= minValue && initialValue <= maxValue),
   // assert(minValue < maxValue);
 
@@ -142,7 +142,7 @@ class _CustomButton extends State<CustomDirectionalButtons> {
   }
 
   Widget _getCount() {
-    return Text(
+    final String displayValue =
         widget.initialValue! % 1 == 0 && widget.step! % 1 == 0
             ? ((_counter.isNaN)
                 ? 'null'
@@ -153,12 +153,21 @@ class _CustomButton extends State<CustomDirectionalButtons> {
                 ? 'null'
                 : (widget.needNull!)
                     ? _counter.toInt().toString()
-                    : _counter.toStringAsFixed(1),
-        style: widget.style ?? Theme.of(context).textTheme.headlineSmall);
+                    : _counter.toStringAsFixed(1);
+
+    return Text(
+      displayValue,
+      style: widget.style ??
+          Theme.of(context).textTheme.headlineSmall?.copyWith(
+                color: AppColors.hologramWhite,
+              ),
+    );
   }
 
   /// Return different widgets for a horizontal and vertical BuildPicker
   Widget _buildCustomButton() {
+    final Color buttonColor = widget.iconColor ?? AppColors.neonBlue;
+
     return (!widget.horizontal!)
         ? Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -167,7 +176,7 @@ class _CustomButton extends State<CustomDirectionalButtons> {
                 icon: const Icon(Icons.arrow_drop_up),
                 padding: EdgeInsets.only(bottom: widget.padding!),
                 alignment: Alignment.bottomCenter,
-                color: widget.iconColor,
+                color: buttonColor,
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onPressed: () {
@@ -176,33 +185,36 @@ class _CustomButton extends State<CustomDirectionalButtons> {
               ),
               _getCount(),
               IconButton(
-                  icon: const Icon(Icons.arrow_drop_down),
-                  padding: EdgeInsets.only(top: widget.padding!),
-                  alignment: Alignment.topCenter,
-                  color: widget.iconColor,
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onPressed: () {
-                    _count(_CountDirection.Down);
-                  }),
+                icon: const Icon(Icons.arrow_drop_down),
+                padding: EdgeInsets.only(top: widget.padding!),
+                alignment: Alignment.topCenter,
+                color: buttonColor,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onPressed: () {
+                  _count(_CountDirection.Down);
+                },
+              ),
             ],
           )
         : Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               IconButton(
-                  icon: const Icon(Icons.arrow_left),
-                  padding: EdgeInsets.only(right: widget.padding!),
-                  color: widget.iconColor,
-                  splashColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onPressed: () {
-                    _count(_CountDirection.Down);
-                  }),
+                icon: const Icon(Icons.arrow_left),
+                padding: EdgeInsets.only(right: widget.padding!),
+                color: buttonColor,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onPressed: () {
+                  _count(_CountDirection.Down);
+                },
+              ),
               _getCount(),
               IconButton(
                 icon: const Icon(Icons.arrow_right),
                 padding: EdgeInsets.only(left: widget.padding!),
-                color: widget.iconColor,
+                color: buttonColor,
                 splashColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onPressed: () {

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import '../../core/style/style.dart';
 
 class RandomQuoteWidget extends StatefulWidget {
   const RandomQuoteWidget({super.key});
@@ -81,16 +82,27 @@ class _RandomQuoteWidgetState extends State<RandomQuoteWidget> {
         children: [
           SelectableText(
             _currentQuote,
-            style: const TextStyle(fontSize: 18, fontStyle: FontStyle.italic),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  fontStyle: FontStyle.italic,
+                  color: AppColors.hologramWhite,
+                ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: AppSpacing.md),
           SizedBox(
             width: screenWidth * 0.5,
-            child: LinearProgressIndicator(value: _progressValue),
+            child: LinearProgressIndicator(
+              value: _progressValue,
+              backgroundColor: AppColors.hologramWhite.withOpacity(0.2),
+              valueColor:
+                  const AlwaysStoppedAnimation<Color>(AppColors.neonBlue),
+            ),
           ),
-          const SizedBox(height: 20),
-          SelectableText('${(_progressValue * 100).round()}%'),
+          const SizedBox(height: AppSpacing.md),
+          SelectableText(
+            '${(_progressValue * 100).round()}%',
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
           IconButton(
             onPressed: () {
               if (mounted) {
@@ -100,7 +112,10 @@ class _RandomQuoteWidgetState extends State<RandomQuoteWidget> {
                 });
               }
             },
-            icon: const Icon(Icons.refresh),
+            icon: Icon(
+              Icons.refresh,
+              color: AppColors.hologramWhite.withOpacity(0.5),
+            ),
           ),
         ],
       ),

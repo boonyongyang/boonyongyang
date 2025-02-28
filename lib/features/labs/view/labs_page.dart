@@ -1,4 +1,6 @@
+import 'package:boonyongyang/shared/widgets/top_nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'theme_showcase_page.dart';
 
 class LabsPage extends StatelessWidget {
   const LabsPage({super.key});
@@ -6,15 +8,26 @@ class LabsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Labs'),
-      ),
+      appBar: const TopNavBar(title: 'Labs'),
       body: GridView.count(
         padding: const EdgeInsets.all(16),
         crossAxisCount: 2,
         mainAxisSpacing: 16,
         crossAxisSpacing: 16,
         children: [
+          _ExperimentCard(
+            title: 'Theme Showcase',
+            description: 'Fantasy-inspired dark theme',
+            icon: Icons.auto_awesome,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ThemeShowcasePage(),
+                ),
+              );
+            },
+          ),
           _ExperimentCard(
             title: 'Experiment 1',
             description: 'Testing new features',

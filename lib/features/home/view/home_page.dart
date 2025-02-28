@@ -5,8 +5,9 @@ import 'package:go_router/go_router.dart';
 import '../../../shared/widgets/gif_carousel_widget.dart';
 import '../../../shared/widgets/top_nav_bar.dart';
 import '../../../shared/widgets/random_quote_widget.dart';
-import '../../../shared/widgets/date_timer_widget.dart';
-import '../../../shared/widgets/custom_button.dart';
+import '../../../shared/widgets/animated_hero_section.dart';
+import '../../../shared/widgets/glass_card.dart';
+import '../../../core/theme/color_palette.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -18,235 +19,294 @@ class HomePage extends StatelessWidget {
     final isPortrait = screenSize.height > screenSize.width;
 
     return Scaffold(
+      backgroundColor: ColorPalette.darkBackground,
       appBar: const TopNavBar(title: 'Explore'),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Hero Section with Date Timer
-              Center(
-                child: Column(
-                  children: [
-                    const DateTimerWidget(),
-                    const Gap(16),
-                    Text(
-                      'Interactive Experiences',
-                      style: theme.textTheme.displaySmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: theme.primaryColor,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const Gap(8),
-                    Text(
-                      'Discover a world of games, maps, and data visualization',
-                      style: theme.textTheme.titleLarge?.copyWith(
-                        color: Colors.grey[600],
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const Gap(32),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Hero Section with DateTimer
+            SizedBox(
+              height: isPortrait
+                  ? screenSize.height * 0.8
+                  : screenSize.height * 0.9,
+              child: const AnimatedHeroSection(
+                badge: "Flutter Web Showcase",
+                title1: "Experience",
+                title2: "Interactive Design",
+                description:
+                    "Discover a world of games, maps, and data visualization in this interactive Flutter web experience.",
+              ),
+            ),
+
+            // Features Grid with staggered animations
+            Container(
+              color: theme.scaffoldBackgroundColor,
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                children: [
+                  const Gap(48),
+                  _buildFeaturesGrid(context),
+                  const Gap(48),
+                ],
+              ),
+            ),
+
+            // Carousel Section with glass effect
+            Container(
+              decoration: BoxDecoration(
+                color: theme.scaffoldBackgroundColor,
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black.withOpacity(0.8),
+                    theme.scaffoldBackgroundColor,
                   ],
                 ),
               ),
-
-              // Featured Content Carousel
-              SizedBox(
-                height: isPortrait
-                    ? screenSize.width * 0.6
-                    : screenSize.height * 0.4,
-                child: const GifCarousel(),
-              ),
-              const Gap(48),
-
-              // Inspirational Quote Section
-              Container(
-                width: double.infinity,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
-                decoration: BoxDecoration(
-                  color: theme.primaryColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Column(
-                  children: [
-                    RandomQuoteWidget(),
-                  ],
-                ),
-              ),
-              const Gap(48),
-
-              // Features Grid
-              Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 1200),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Explore Features',
-                        style: theme.textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const Gap(24),
-                      Wrap(
-                        spacing: 16,
-                        runSpacing: 16,
-                        children: [
-                          _FeatureCard(
-                            title: 'Games & Fun',
-                            description:
-                                'Challenge yourself with interactive games',
-                            icon: Icons.games,
-                            color: Colors.purple,
-                            onTap: () => context.go('/plays'),
-                          ),
-                          _FeatureCard(
-                            title: 'Data Visualization',
-                            description:
-                                'Beautiful charts and graphs for data analysis',
-                            icon: Icons.show_chart,
-                            color: Colors.green,
-                            onTap: () => context.go('/charts'),
-                          ),
-                          _FeatureCard(
-                            title: 'Interactive Maps',
-                            description:
-                                'Explore locations with our interactive mapping system',
-                            icon: Icons.map,
-                            color: Colors.blue,
-                            onTap: () => context.go('/maps'),
-                          ),
-                          _FeatureCard(
-                            title: 'Experimental Lab',
-                            description:
-                                'Try out our latest experimental features',
-                            icon: Icons.science,
-                            color: Colors.orange,
-                            onTap: () => context.go('/labs'),
-                          ),
-                        ],
-                      ),
-                      const Gap(48),
-
-                      // About Section with Custom Button
-                      Center(
-                        child: Column(
-                          children: [
-                            Text(
-                              'About the Project',
-                              style: theme.textTheme.headlineMedium?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const Gap(16),
-                            SizedBox(
-                              width: isPortrait ? double.infinity : 600,
-                              child: Card(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(24.0),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        'A showcase of interactive Flutter web capabilities',
-                                        style: theme.textTheme.titleLarge,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const Gap(16),
-                                      Text(
-                                        'This project demonstrates the power of Flutter for web applications, featuring interactive maps, data visualization, experimental features, and engaging games. Explore different sections to experience the full capabilities of modern web development with Flutter.',
-                                        style:
-                                            theme.textTheme.bodyLarge?.copyWith(
-                                          color: Colors.grey[600],
-                                          height: 1.5,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      const Gap(24),
-                                      ElevatedButton.icon(
-                                        onPressed: () => context.go('/about'),
-                                        icon: const Icon(Icons.info_outline),
-                                        label: const Text('Learn More'),
-                                        style: ElevatedButton.styleFrom(
-                                          backgroundColor: theme.primaryColor,
-                                          foregroundColor: Colors.white,
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 32,
-                                            vertical: 16,
-                                          ),
-                                          textStyle: const TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: isPortrait
+                        ? screenSize.width * 0.6
+                        : screenSize.height * 0.4,
+                    child: const GifCarousel(),
                   ),
-                ),
+                  const Gap(48),
+                ],
               ),
-            ],
-          ),
+            ),
+
+            // Quote Section with enhanced glass effect
+            Container(
+              color: theme.scaffoldBackgroundColor,
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                children: [
+                  GlassCard(
+                    accentColor: theme.primaryColor,
+                    child: const RandomQuoteWidget(),
+                  ),
+                  const Gap(48),
+                ],
+              ),
+            ),
+
+            // // Date and Time Widget
+            // const Positioned(
+            //   top: 24,
+            //   left: 0,
+            //   right: 0,
+            //   child: DateTimerWidget(),
+            // ),
+
+            // About Section with glass effect
+            Container(
+              color: theme.scaffoldBackgroundColor,
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                children: [
+                  _buildAboutSection(context, isPortrait),
+                  const Gap(48),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
-}
 
-class _FeatureCard extends StatelessWidget {
-  final String title;
-  final String description;
-  final IconData icon;
-  final Color color;
-  final VoidCallback onTap;
+  Widget _buildFeaturesGrid(BuildContext context) {
+    final features = [
+      (
+        title: 'Games & Fun',
+        description: 'Challenge yourself with interactive games',
+        icon: Icons.games,
+        color: Colors.purple,
+        path: '/plays'
+      ),
+      (
+        title: 'Data Visualization',
+        description: 'Beautiful charts and graphs for data analysis',
+        icon: Icons.show_chart,
+        color: Colors.green,
+        path: '/charts'
+      ),
+      (
+        title: 'Interactive Maps',
+        description: 'Explore locations with our interactive mapping system',
+        icon: Icons.map,
+        color: Colors.blue,
+        path: '/maps'
+      ),
+      (
+        title: 'Experimental Lab',
+        description: 'Try out our latest experimental features',
+        icon: Icons.science,
+        color: Colors.orange,
+        path: '/labs'
+      ),
+    ];
 
-  const _FeatureCard({
-    required this.title,
-    required this.description,
-    required this.icon,
-    required this.color,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      elevation: 2,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          width: 280,
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(icon, size: 48, color: color),
-              const Gap(16),
-              Text(
-                title,
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+    return Center(
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 1200),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ShaderMask(
+              shaderCallback: (bounds) =>
+                  ColorPalette.titleGradient.createShader(bounds),
+              child: Text(
+                'Explore Features',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
               ),
-              const Gap(8),
-              Text(
-                description,
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Colors.grey[600],
+            ),
+            const Gap(24),
+            Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                for (var i = 0; i < features.length; i++)
+                  GlassCard(
+                    delay: Duration(milliseconds: 200 * i),
+                    accentColor: features[i].color,
+                    onTap: () => context.go(features[i].path),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          features[i].icon,
+                          size: 48,
+                          color: features[i].color,
+                        ),
+                        const Gap(16),
+                        Text(
+                          features[i].title,
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color: ColorPalette.textPrimary,
+                                  ),
+                        ),
+                        const Gap(8),
+                        SizedBox(
+                          width: 280,
+                          child: Text(
+                            features[i].description,
+                            style:
+                                Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                      color: ColorPalette.textSecondary,
+                                    ),
+                          ),
+                        ),
+                      ],
                     ),
+                  ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAboutSection(BuildContext context, bool isPortrait) {
+    return Center(
+      child: Column(
+        children: [
+          ShaderMask(
+            shaderCallback: (bounds) =>
+                ColorPalette.titleGradient.createShader(bounds),
+            child: Text(
+              'About the Project',
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+          ),
+          const Gap(16),
+          GlassCard(
+            padding: const EdgeInsets.all(32),
+            child: SizedBox(
+              width: isPortrait ? double.infinity : 600,
+              child: Column(
+                children: [
+                  Text(
+                    'A showcase of interactive Flutter web capabilities',
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          color: ColorPalette.textPrimary,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const Gap(16),
+                  Text(
+                    'This project demonstrates the power of Flutter for web applications, featuring interactive maps, data visualization, experimental features, and engaging games. Explore different sections to experience the full capabilities of modern web development with Flutter.',
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          color: ColorPalette.textSecondary,
+                          height: 1.5,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const Gap(24),
+                  _buildGlowButton(
+                    context: context,
+                    onPressed: () => context.go('/about'),
+                    icon: Icons.info_outline,
+                    label: 'Learn More',
+                  ),
+                ],
               ),
-            ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGlowButton({
+    required BuildContext context,
+    required VoidCallback onPressed,
+    required IconData icon,
+    required String label,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Theme.of(context).primaryColor,
+            Theme.of(context).primaryColor.withOpacity(0.8),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(32),
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).primaryColor.withOpacity(0.3),
+            blurRadius: 12,
+            spreadRadius: -2,
+          ),
+        ],
+      ),
+      child: ElevatedButton.icon(
+        onPressed: onPressed,
+        icon: Icon(icon),
+        label: Text(label),
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.white,
+          shadowColor: Colors.transparent,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 32,
+            vertical: 16,
+          ),
+          textStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ),
