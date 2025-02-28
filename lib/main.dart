@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'pages/home_page.dart';
-import 'pages/osm/osm_widget.dart';
-import 'pages/plays_page.dart';
-import 'pages/labs_page.dart';
-import 'pages/about_page.dart';
+import 'core/routes/app_router.dart';
+import 'core/theme/app_theme.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+void main() {
   runApp(const MyApp());
 }
 
@@ -15,24 +11,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'byy',
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      themeMode: ThemeMode.light,
+    return MaterialApp.router(
+      title: 'Flutter Web Demo',
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      routerConfig: AppRouter.router,
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const HomePage(),
-        '/plays': (context) => const PlaysPage(),
-        '/labs': (context) => const LabsPage(),
-        '/osm': (context) => const OsmWidget(),
-        '/search': (context) => const SearchPage(),
-        '/gemini': (context) => const OsmWidget(),
-        '/chart': (context) => const OsmWidget(),
-        '/animate': (context) => const OsmWidget(),
-        '/about': (context) => const AboutPage(),
-      },
     );
   }
 }

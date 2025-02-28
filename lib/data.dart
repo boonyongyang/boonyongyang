@@ -1,5 +1,5 @@
-import 'pages/chart/chart_data.dart';
-import 'pages/chart/stock_item.dart';
+import 'features/charts/view/chart_data.dart';
+import 'features/charts/view/stock_item.dart';
 
 final kPrompt = [
   // 'Generate an overview of the stock ${stock.name} (${stock.symbol}). '
