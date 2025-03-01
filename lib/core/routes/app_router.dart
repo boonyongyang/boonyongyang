@@ -12,6 +12,7 @@ import '../../features/plays/view/plays_page.dart';
 import '../../features/plays/view/connect4_view.dart';
 import '../../features/plays/view/ai_tic_tac_toe_view.dart';
 import '../../features/plays/view/snake_game_view.dart';
+import '../../features/plays/view/brick_breaker_view.dart';
 import '../di/service_locator.dart';
 import '../providers/navigation_state.dart';
 
@@ -27,6 +28,7 @@ class AppRouter {
     'connect4': (path: '/plays/connect4', name: 'connect4'),
     'ticTacToe': (path: '/plays/tic-tac-toe', name: 'ticTacToe'),
     'snake': (path: '/plays/snake', name: 'snake'),
+    'brickBreaker': (path: '/plays/brick-breaker', name: 'brickBreaker'),
     'about': (path: '/about', name: 'about'),
   };
 
@@ -117,6 +119,17 @@ class AppRouter {
                 name: routes['snake']!.name,
                 pageBuilder: (context, state) => buildPageWithTransition(
                   child: const SnakeGameView(),
+                  name: state.name,
+                  arguments: state.extra,
+                  restorationId: state.pageKey.value,
+                  key: state.pageKey,
+                ),
+              ),
+              GoRoute(
+                path: 'brick-breaker',
+                name: routes['brickBreaker']!.name,
+                pageBuilder: (context, state) => buildPageWithTransition(
+                  child: const BrickBreakerView(),
                   name: state.name,
                   arguments: state.extra,
                   restorationId: state.pageKey.value,
