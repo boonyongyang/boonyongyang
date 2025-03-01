@@ -7,26 +7,26 @@ import 'core/utils/smooth_scroll_behavior.dart';
 import 'core/providers/performance_config.dart';
 
 void main() {
-  // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
 
   // Initialize services
   setupServiceLocator();
 
-  // // Optimize system UI and performance
-  // SystemChrome.setSystemUIOverlayStyle(
-  //   const SystemUiOverlayStyle(
-  //     statusBarColor: Colors.transparent,
-  //     systemNavigationBarColor: Colors.transparent,
-  //     systemNavigationBarDividerColor: Colors.transparent,
-  //   ),
-  // );
+  // Optimize system UI and performance
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarDividerColor: Colors.transparent,
+    ),
+  );
 
-  // // Enable render profiling in debug mode
-  // debugPrintRebuildDirtyWidgets = false;
+  // Enable render profiling in debug mode
+  debugPrintRebuildDirtyWidgets = false;
 
-  // // Initialize performance settings
-  // // final performanceConfig = getIt<PerformanceConfig>();
-  // // performanceConfig.optimizeForDevice();
+  // Initialize performance settings
+  final performanceConfig = getIt<PerformanceConfig>();
+  performanceConfig.optimizeForDevice();
 
   runApp(const MyApp());
 }
@@ -36,26 +36,32 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      title: 'Interactive Flutter Web',
-      theme: AppTheme.lightTheme,
-      darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.dark,
-      scrollBehavior: SmoothScrollBehavior(),
-      routerConfig: AppRouter.config,
-      // builder: (context, child) {
-      //   // // Apply performance optimizations
-      //   // final performanceConfig = getIt<PerformanceConfig>();
+    final performanceConfig = getIt<PerformanceConfig>();
 
-      //   // // Optimize animations based on performance settings
-      //   // return AnimatedBuilder(
-      //   //   animation: performanceConfig,
-      //   //   builder: (context, _) {
-      //   return child ?? const CircularProgressIndicator.adaptive();
-      //   //   },
-      //   // );
-      // },
+    return AnimatedBuilder(
+      animation: performanceConfig,
+      builder: (context, _) {
+        // Adjust scroll behavior based on performance mode
+        final scrollBehavior = SmoothScrollBehavior(
+          // Lower friction for high-performance mode (smoother scrolling)
+          // Higher friction for low-performance mode (more resistant)
+          overscrollFriction:
+              performanceConfig.isHighPerformanceMode ? 0.15 : 0.3,
+          // Higher damping factor means quicker settling
+          overscrollDampingFactor:
+              performanceConfig.reduceAnimations ? 1.0 : 0.85,
+        );
+
+        return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          title: 'Interactive Flutter Web',
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: ThemeMode.dark,
+          scrollBehavior: scrollBehavior,
+          routerConfig: AppRouter.config,
+        );
+      },
     );
   }
 }

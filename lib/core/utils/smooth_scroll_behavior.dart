@@ -1,9 +1,26 @@
 import 'package:flutter/material.dart';
 
+/// Custom scroll behavior with enhanced overscroll effects
 class SmoothScrollBehavior extends ScrollBehavior {
+  final double overscrollFriction;
+  final double overscrollDampingFactor;
+
+  /// Creates a SmoothScrollBehavior with customizable parameters
+  ///
+  /// [overscrollFriction] controls how "sticky" the overscroll feels (higher = more resistance)
+  /// [overscrollDampingFactor] controls how quickly the overscroll bounce settles
+  const SmoothScrollBehavior({
+    this.overscrollFriction = 0.2,
+    this.overscrollDampingFactor = 0.9,
+  });
+
   @override
   ScrollPhysics getScrollPhysics(BuildContext context) {
-    return const BouncingScrollPhysics();
+    return CustomBouncingScrollPhysics(
+      parent: const AlwaysScrollableScrollPhysics(),
+      customFrictionFactor: overscrollFriction,
+      dampingFactor: overscrollDampingFactor,
+    );
   }
 
   @override
@@ -40,6 +57,39 @@ class SmoothScrollBehavior extends ScrollBehavior {
     return StretchingOverscrollIndicator(
       axisDirection: details.direction,
       child: child,
+    );
+  }
+}
+
+/// Custom physics that provides more controlled bouncing when overscrolling
+class CustomBouncingScrollPhysics extends BouncingScrollPhysics {
+  final double customFrictionFactor;
+  final double dampingFactor;
+
+  const CustomBouncingScrollPhysics({
+    ScrollPhysics? parent,
+    this.customFrictionFactor = 0.2,
+    this.dampingFactor = 0.9,
+  }) : super(parent: parent);
+
+  @override
+  CustomBouncingScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return CustomBouncingScrollPhysics(
+      parent: buildParent(ancestor),
+      customFrictionFactor: customFrictionFactor,
+      dampingFactor: dampingFactor,
+    );
+  }
+
+  double getFrictionFactor(double overscrollFraction) => customFrictionFactor;
+
+  @override
+  SpringDescription get spring {
+    // Customizing spring physics for the bounce back effect
+    return SpringDescription.withDampingRatio(
+      mass: 0.5,
+      stiffness: 100.0,
+      ratio: dampingFactor,
     );
   }
 }
