@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:flutter/material.dart';
 
 enum GameState { playing, gameOver, win, paused }
 
@@ -33,7 +34,30 @@ class Ball {
   Vector2D velocity;
   double radius;
 
-  Ball({required this.position, required this.velocity, required this.radius});
+  // Add angular velocity for spin effect
+  double spin = 0.0;
+  // Track previous positions for velocity calculations
+  Vector2D previousPosition;
+  DateTime lastUpdateTime;
+
+  Ball({
+    required this.position,
+    required this.velocity,
+    required this.radius,
+  })  : previousPosition = Vector2D(position.x, position.y),
+        lastUpdateTime = DateTime.now(),
+        spin = 0.0;
+
+  // Calculate actual velocity based on position changes
+  Vector2D get actualVelocity {
+    return position - previousPosition;
+  }
+
+  // Update previous position
+  void updatePreviousPosition() {
+    previousPosition = Vector2D(position.x, position.y);
+    lastUpdateTime = DateTime.now();
+  }
 }
 
 // Paddle that the player controls
@@ -96,11 +120,29 @@ enum PowerUpType {
   multiball
 }
 
+// Add a new Particle class for explosion effects
+class Particle {
+  Vector2D position;
+  Vector2D velocity;
+  double size;
+  double lifespan;
+  double maxLifespan;
+  Color color;
+
+  Particle({
+    required this.position,
+    required this.velocity,
+    required this.size,
+    required this.maxLifespan,
+    required this.color,
+  }) : lifespan = maxLifespan;
+}
+
 class BrickBreakerGame {
   // Constants
   static const int rows = 8;
   static const int columns = 10;
-  static const double ballSpeed = 280.0;
+  static const double ballSpeed = 180.0; // Adjusted to match casual speed
   static const double paddleSpeed = 400.0;
   static const double powerUpSpeed = 100.0;
   static const Duration gameLoopInterval =
@@ -114,6 +156,8 @@ class BrickBreakerGame {
   late Paddle paddle;
   List<Brick> bricks = [];
   List<PowerUp> powerUps = [];
+  // Add particles list for explosion effects
+  List<Particle> particles = [];
 
   // Game state
   GameState _gameState = GameState.playing;
@@ -137,6 +181,9 @@ class BrickBreakerGame {
 
   // Add speed multiplier
   double _speedMultiplier = 1.0;
+
+  // Add normal paddle width property
+  double _normalPaddleWidth = 0.0;
 
   // Stream controllers
   final StreamController<GameState> _gameStateController =
@@ -202,14 +249,13 @@ class BrickBreakerGame {
     _totalPausedTime = Duration.zero;
     _pauseStartTime = null;
 
-    // Create paddle
-    double paddleWidth = screenWidth * 0.15;
-    double paddleHeight = screenHeight * 0.02;
+    // Create paddle with stored normal width
+    _normalPaddleWidth = screenWidth * 0.15;
     paddle = Paddle(
-        position:
-            Vector2D(screenWidth / 2 - paddleWidth / 2, screenHeight * 0.9),
-        width: paddleWidth,
-        height: paddleHeight);
+        position: Vector2D(
+            screenWidth / 2 - _normalPaddleWidth / 2, screenHeight * 0.9),
+        width: _expandedPaddle ? _normalPaddleWidth * 1.5 : _normalPaddleWidth,
+        height: screenHeight * 0.02);
 
     // Create initial ball
     _resetBall();
@@ -231,6 +277,9 @@ class BrickBreakerGame {
         : _difficultyLevel == DifficultyLevel.medium
             ? 3
             : 2;
+
+    // Reset paddle state
+    _expandedPaddle = false;
 
     // Emit initial state
     _emitState();
@@ -333,22 +382,30 @@ class BrickBreakerGame {
       _gameTimeController.add(gameTime);
     }
 
-    // Update all balls
+    // Update all balls with improved physics
     for (int i = balls.length - 1; i >= 0; i--) {
       Ball ball = balls[i];
+
+      // Store previous position
+      ball.updatePreviousPosition();
+
+      // Apply spin influence to velocity
+      if (ball.spin != 0) {
+        ball.velocity.x += ball.spin * spinFactor * dt;
+        _normalizeVelocity(ball);
+      }
 
       // Update ball position
       ball.position.x += ball.velocity.x * dt;
       ball.position.y += ball.velocity.y * dt;
 
-      // Handle ball collisions with walls
+      // Handle collisions
       _handleWallCollisions(ball);
-
-      // Handle ball collisions with paddle
       _handlePaddleCollisions(ball);
-
-      // Handle ball collisions with bricks
       _handleBrickCollisions(ball);
+
+      // Gradually reduce spin
+      ball.spin *= 0.99;
 
       // Remove ball if it falls below the screen
       if (ball.position.y > screenHeight) {
@@ -371,6 +428,9 @@ class BrickBreakerGame {
     // Update power-ups
     _updatePowerUps(dt);
 
+    // Update particles
+    _updateParticles(dt);
+
     // Check win condition
     _checkWinCondition();
 
@@ -378,28 +438,45 @@ class BrickBreakerGame {
     _emitState();
   }
 
-  // Handle ball collisions with walls
+  // Handle ball collisions with walls with improved physics
   void _handleWallCollisions(Ball ball) {
-    // Left and right walls
+    bool collided = false;
+
+    // Left wall
     if (ball.position.x <= 0) {
       ball.position.x = 0;
-      ball.velocity.x = -ball.velocity.x;
-    } else if (ball.position.x + ball.radius * 2 >= screenWidth) {
+      ball.velocity.x = -ball.velocity.x * wallBounceDamping;
+      ball.spin *= 0.8; // Reduce spin on wall collision
+      collided = true;
+    }
+    // Right wall
+    else if (ball.position.x + ball.radius * 2 >= screenWidth) {
       ball.position.x = screenWidth - ball.radius * 2;
-      ball.velocity.x = -ball.velocity.x;
+      ball.velocity.x = -ball.velocity.x * wallBounceDamping;
+      ball.spin *= 0.8;
+      collided = true;
     }
 
     // Top wall
     if (ball.position.y <= 0) {
       ball.position.y = 0;
-      ball.velocity.y = -ball.velocity.y;
+      ball.velocity.y = -ball.velocity.y * wallBounceDamping;
+      ball.spin *= 0.8;
+      collided = true;
+    }
+
+    // Apply spin effect after wall collisions
+    if (collided && ball.spin != 0) {
+      double spinInfluence = ball.spin * spinFactor;
+      ball.velocity.x += spinInfluence;
+      // Ensure ball maintains minimum speed
+      _normalizeVelocity(ball);
     }
   }
 
-  // Handle ball collisions with paddle
+  // Handle ball collisions with paddle with improved physics
   void _handlePaddleCollisions(Ball ball) {
     if (ball.velocity.y > 0) {
-      // Only check when ball is moving downward
       bool ballInPaddleXRange =
           ball.position.x + ball.radius > paddle.position.x &&
               ball.position.x + ball.radius < paddle.position.x + paddle.width;
@@ -413,296 +490,123 @@ class BrickBreakerGame {
         double hitPosition =
             (ball.position.x + ball.radius - paddle.position.x) / paddle.width;
 
-        // Angle calculation based on hit position
-        // hitPosition 0.5 (center) = -pi/2 (straight up)
-        // hitPosition 0.0 (left) = -pi * 0.75 (up and left)
-        // hitPosition 1.0 (right) = -pi * 0.25 (up and right)
-        double angle = pi * (-0.75 + (hitPosition * 0.5));
+        // Calculate paddle velocity influence with smoothing
+        double paddleVelocityX = _paddleVelocity.x;
+        double smoothedVelocity =
+            paddleVelocityX * 0.7; // Add velocity smoothing
+        double velocityInfluence = smoothedVelocity * paddleSpinInfluence;
 
-        // Calculate current speed (preserve momentum)
+        // More controlled angle calculation (reduce extreme angles)
+        double baseAngle =
+            pi * (-0.65 + (hitPosition * 0.3)); // Reduced angle range
+
+        // Smoother angle modification based on paddle movement
+        if (paddleVelocityX.abs() > 30) {
+          // Reduced threshold
+          double angleModifier =
+              (paddleVelocityX / 1200) * pi * 0.2; // Reduced influence
+          baseAngle += angleModifier.clamp(-pi * 0.12, pi * 0.12);
+        }
+
+        // Speed adjustment with smoother transitions
         double currentSpeed = sqrt(ball.velocity.x * ball.velocity.x +
             ball.velocity.y * ball.velocity.y);
+        double speedMultiplier = 1.0;
 
-        // Set new velocity based on angle and current speed
-        ball.velocity.x = cos(angle) * currentSpeed;
-        ball.velocity.y = sin(angle) * currentSpeed;
+        // More subtle speed adjustments based on paddle movement
+        if ((ball.velocity.x > 0 && paddleVelocityX > 0) ||
+            (ball.velocity.x < 0 && paddleVelocityX < 0)) {
+          speedMultiplier = 1.1; // Reduced from 1.2
+        } else if (paddleVelocityX.abs() > 30) {
+          speedMultiplier = 0.95; // Less slowdown
+        }
 
-        // Move ball just above paddle to prevent multiple collisions
+        // Smoother speed transition
+        double targetSpeed =
+            (currentSpeed * speedMultiplier * paddleBounceDamping)
+                .clamp(minBallSpeed, maxBallSpeed);
+
+        // Gradual speed adjustment
+        double newSpeed = currentSpeed + (targetSpeed - currentSpeed) * 0.3;
+
+        // Set new velocity with smoother transition
+        ball.velocity.x = cos(baseAngle) * newSpeed + velocityInfluence * 0.8;
+        ball.velocity.y = sin(baseAngle) * newSpeed;
+
+        // Smoother spin application
+        ball.spin =
+            (paddleVelocityX / 600).clamp(-0.7, 0.7); // Reduced spin range
+
+        // Move ball just above paddle
         ball.position.y = paddle.position.y - ball.radius * 2;
+
+        // Ensure minimum vertical velocity for better gameplay
+        _normalizeVelocity(ball);
       }
     }
   }
 
-  // Handle ball collisions with bricks
-  void _handleBrickCollisions(Ball ball) {
-    for (int i = bricks.length - 1; i >= 0; i--) {
-      Brick brick = bricks[i];
-      if (brick.isDestroyed) continue;
+  // Ensure ball maintains minimum speed and doesn't exceed maximum speed
+  void _normalizeVelocity(Ball ball) {
+    double speed = sqrt(
+        ball.velocity.x * ball.velocity.x + ball.velocity.y * ball.velocity.y);
 
-      // Check for collision
-      if (_checkBallBrickCollision(ball, brick)) {
-        // Handle collision based on brick type
-        switch (brick.type) {
-          case BrickType.explosive:
-            _triggerExplosion(brick);
-            break;
-          case BrickType.powerUp:
-            _spawnPowerUp(brick);
-            break;
-          default:
-            // Reduce hit points for normal and hard bricks
-            brick.hitPoints--;
-            if (brick.hitPoints <= 0) {
-              brick.isDestroyed = true;
-              _score += brick.points;
-              _scoreController.add(_score);
-            }
-        }
-
-        // Calculate bounce direction (simplified)
-        // Determine which side of the brick was hit
-        double overlapLeft =
-            ball.position.x + ball.radius * 2 - brick.position.x;
-        double overlapRight = brick.position.x + brick.width - ball.position.x;
-        double overlapTop =
-            ball.position.y + ball.radius * 2 - brick.position.y;
-        double overlapBottom =
-            brick.position.y + brick.height - ball.position.y;
-
-        // Find the smallest overlap
-        double minOverlap =
-            min(min(overlapLeft, overlapRight), min(overlapTop, overlapBottom));
-
-        if (minOverlap == overlapLeft || minOverlap == overlapRight) {
-          ball.velocity.x = -ball.velocity.x;
-        } else {
-          ball.velocity.y = -ball.velocity.y;
-        }
-      }
+    if (speed < minBallSpeed || speed > maxBallSpeed) {
+      double targetSpeed = speed.clamp(minBallSpeed, maxBallSpeed);
+      // Gradual speed adjustment
+      double newSpeed = speed + (targetSpeed - speed) * 0.3;
+      double ratio = newSpeed / speed;
+      ball.velocity.x *= ratio;
+      ball.velocity.y *= ratio;
     }
 
-    // Remove destroyed bricks
-    bricks.removeWhere((brick) => brick.isDestroyed);
-  }
-
-  // Check if a ball collides with a brick
-  bool _checkBallBrickCollision(Ball ball, Brick brick) {
-    // Find the closest point on the brick to the ball
-    double closestX = max(brick.position.x,
-        min(ball.position.x + ball.radius, brick.position.x + brick.width));
-    double closestY = max(brick.position.y,
-        min(ball.position.y + ball.radius, brick.position.y + brick.height));
-
-    // Calculate the distance between the closest point and the center of the ball
-    double distanceX = (ball.position.x + ball.radius) - closestX;
-    double distanceY = (ball.position.y + ball.radius) - closestY;
-    double distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
-
-    return distanceSquared < (ball.radius * ball.radius);
-  }
-
-  // Handle explosive bricks
-  void _triggerExplosion(Brick explodingBrick) {
-    explodingBrick.isDestroyed = true;
-    _score += explodingBrick.points;
-    _scoreController.add(_score);
-
-    // Destroy nearby bricks
-    for (Brick brick in bricks) {
-      if (!brick.isDestroyed && brick != explodingBrick) {
-        double distance = (brick.position - explodingBrick.position)
-            .distanceTo(Vector2D(0, 0));
-        if (distance < brick.width * 2) {
-          brick.isDestroyed = true;
-          _score += brick.points ~/
-              2; // Half points for bricks destroyed by explosion
-        }
-      }
+    // Ensure minimum vertical velocity to prevent horizontal stalemates
+    double minVerticalRatio = 0.25; // Increased from 0.2
+    if (ball.velocity.y.abs() / speed < minVerticalRatio) {
+      double sign = ball.velocity.y.sign;
+      if (sign == 0) sign = -1;
+      ball.velocity.y = speed * minVerticalRatio * sign;
+      // Recalculate horizontal velocity to maintain speed
+      double newXSpeed =
+          sqrt(speed * speed - ball.velocity.y * ball.velocity.y);
+      ball.velocity.x = ball.velocity.x.sign * newXSpeed;
     }
   }
 
-  // Spawn a power-up from a brick
-  void _spawnPowerUp(Brick brick) {
-    brick.isDestroyed = true;
-    _score += brick.points;
-    _scoreController.add(_score);
+  // Add paddle movement tracking
+  Vector2D _previousPaddlePosition = Vector2D(0, 0);
+  DateTime _lastPaddleUpdateTime = DateTime.now();
+  Vector2D _paddleVelocity = Vector2D(0, 0);
 
-    // Determine power-up type
-    List<PowerUpType> availableTypes = [
-      PowerUpType.expandPaddle,
-      PowerUpType.extraLife,
-      PowerUpType.multiball,
-      PowerUpType.slowBall,
-    ];
-
-    // In hard difficulty, add shrink paddle and fast ball to possible power-ups
-    if (_difficultyLevel == DifficultyLevel.hard) {
-      availableTypes.add(PowerUpType.shrinkPaddle);
-      availableTypes.add(PowerUpType.fastBall);
-    }
-
-    PowerUpType type = availableTypes[_random.nextInt(availableTypes.length)];
-
-    // Create power-up
-    powerUps.add(PowerUp(
-        position: Vector2D(
-            brick.position.x + brick.width / 2 - screenWidth * 0.015,
-            brick.position.y + brick.height / 2 - screenWidth * 0.015),
-        velocity: Vector2D(0, powerUpSpeed),
-        radius: screenWidth * 0.015,
-        type: type));
-  }
-
-  // Update power-ups
-  void _updatePowerUps(double dt) {
-    for (int i = powerUps.length - 1; i >= 0; i--) {
-      PowerUp powerUp = powerUps[i];
-
-      // Update position
-      powerUp.position.y += powerUp.velocity.y * dt;
-
-      // Check for collection
-      if (_checkPowerUpCollection(powerUp)) {
-        _activatePowerUp(powerUp);
-        powerUps.removeAt(i);
-      }
-      // Remove if it falls off screen
-      else if (powerUp.position.y > screenHeight) {
-        powerUps.removeAt(i);
-      }
-    }
-  }
-
-  // Check if power-up is collected
-  bool _checkPowerUpCollection(PowerUp powerUp) {
-    return powerUp.position.y + powerUp.radius * 2 >= paddle.position.y &&
-        powerUp.position.y <= paddle.position.y + paddle.height &&
-        powerUp.position.x + powerUp.radius * 2 >= paddle.position.x &&
-        powerUp.position.x <= paddle.position.x + paddle.width;
-  }
-
-  // Activate collected power-up
-  void _activatePowerUp(PowerUp powerUp) {
-    switch (powerUp.type) {
-      case PowerUpType.extraLife:
-        _lives++;
-        _livesController.add(_lives);
-        break;
-      case PowerUpType.expandPaddle:
-        _expandedPaddle = true;
-        paddle.width = paddle.width * 1.5;
-        _paddleController.add(paddle);
-        _setPowerUpTimer();
-        break;
-      case PowerUpType.shrinkPaddle:
-        paddle.width = max(screenWidth * 0.08, paddle.width * 0.7);
-        _paddleController.add(paddle);
-        _setPowerUpTimer();
-        break;
-      case PowerUpType.slowBall:
-        _slowedBall = true;
-        for (Ball ball in balls) {
-          double speed = sqrt(ball.velocity.x * ball.velocity.x +
-              ball.velocity.y * ball.velocity.y);
-          double direction = atan2(ball.velocity.y, ball.velocity.x);
-          ball.velocity.x = cos(direction) * (speed * 0.7);
-          ball.velocity.y = sin(direction) * (speed * 0.7);
-        }
-        _setPowerUpTimer();
-        break;
-      case PowerUpType.fastBall:
-        for (Ball ball in balls) {
-          double speed = sqrt(ball.velocity.x * ball.velocity.x +
-              ball.velocity.y * ball.velocity.y);
-          double direction = atan2(ball.velocity.y, ball.velocity.x);
-          ball.velocity.x = cos(direction) * (speed * 1.3);
-          ball.velocity.y = sin(direction) * (speed * 1.3);
-        }
-        break;
-      case PowerUpType.multiball:
-        _addMultiBalls();
-        break;
-    }
-  }
-
-  // Add multiple balls (multiball power-up)
-  void _addMultiBalls() {
-    if (balls.isEmpty) return;
-
-    // Use the main ball as reference
-    Ball mainBall = balls[0];
-    double speed = sqrt(mainBall.velocity.x * mainBall.velocity.x +
-        mainBall.velocity.y * mainBall.velocity.y);
-
-    // Add 2 new balls at different angles
-    for (int i = 0; i < 2; i++) {
-      double angle = atan2(mainBall.velocity.y, mainBall.velocity.x) +
-          (i == 0 ? pi / 6 : -pi / 6); // +/- 30 degrees
-
-      Vector2D velocity = Vector2D(cos(angle) * speed, sin(angle) * speed);
-
-      balls.add(Ball(
-          position: Vector2D(mainBall.position.x, mainBall.position.y),
-          velocity: velocity,
-          radius: mainBall.radius));
-    }
-  }
-
-  // Set timer for temporary power-ups
-  void _setPowerUpTimer() {
-    _powerUpTimer?.cancel();
-    _powerUpTimer = Timer(const Duration(seconds: 10), () {
-      // Reset power-ups
-      _expandedPaddle = false;
-      _slowedBall = false;
-      paddle.width = screenWidth * 0.15;
-      _paddleController.add(paddle);
-
-      // Reset ball speeds if they were slowed
-      for (Ball ball in balls) {
-        double currentSpeed = sqrt(ball.velocity.x * ball.velocity.x +
-            ball.velocity.y * ball.velocity.y);
-        double normalSpeed = ballSpeed;
-        if (currentSpeed < normalSpeed * 0.9) {
-          double direction = atan2(ball.velocity.y, ball.velocity.x);
-          ball.velocity.x = cos(direction) * normalSpeed;
-          ball.velocity.y = sin(direction) * normalSpeed;
-        }
-      }
-    });
-  }
-
-  // Check win condition
-  void _checkWinCondition() {
-    if (bricks.isEmpty || bricks.every((brick) => brick.isDestroyed)) {
-      _gameState = GameState.win;
-      _gameStateController.add(_gameState);
-      _gameLoopTimer?.cancel();
-
-      // Update high score if needed
-      if (_score > highScore) {
-        highScore = _score;
-      }
-    }
-  }
-
-  // Game over
-  void _gameOver() {
-    _gameState = GameState.gameOver;
-    _gameStateController.add(_gameState);
-    _gameLoopTimer?.cancel();
-
-    // Update high score if needed
-    if (_score > highScore) {
-      highScore = _score;
-    }
-  }
+  // Constants for physics
+  static const double spinFactor = 0.3;
+  static const double paddleSpinInfluence = 0.5;
+  static const double minBallSpeed = 200.0; // Base speed for casual gameplay
+  static const double maxBallSpeed = 600.0; // Maximum speed for lightning mode
+  static const double paddleBounceDamping = 0.98;
+  static const double wallBounceDamping = 0.99;
+  static const double initialBallSpeed = minBallSpeed;
 
   // Move paddle
   void movePaddle(double targetX) {
+    double currentTime = DateTime.now().millisecondsSinceEpoch.toDouble();
+    double deltaTime =
+        (currentTime - _lastPaddleUpdateTime.millisecondsSinceEpoch) / 1000;
+
+    Vector2D oldPosition = Vector2D(paddle.position.x, paddle.position.y);
+
     // Calculate paddle movement based on target position
     double paddleTargetX = max(0, min(screenWidth - paddle.width, targetX));
     paddle.position.x = paddleTargetX;
+
+    // Update paddle velocity
+    if (deltaTime > 0) {
+      _paddleVelocity = Vector2D(
+          (paddle.position.x - _previousPaddlePosition.x) / deltaTime, 0);
+    }
+
+    _previousPaddlePosition = oldPosition;
+    _lastPaddleUpdateTime = DateTime.now();
     _paddleController.add(paddle);
   }
 
@@ -714,10 +618,14 @@ class BrickBreakerGame {
     screenWidth = width;
     screenHeight = height;
 
+    // Update normal paddle width
+    _normalPaddleWidth *= widthRatio;
+
     // Resize paddle
     paddle.position.x *= widthRatio;
     paddle.position.y *= heightRatio;
-    paddle.width *= widthRatio;
+    paddle.width =
+        _expandedPaddle ? _normalPaddleWidth * 1.5 : _normalPaddleWidth;
     paddle.height *= heightRatio;
 
     // Resize balls
@@ -802,6 +710,342 @@ class BrickBreakerGame {
     if (!_powerUpsController.isClosed)
       _powerUpsController.add(List.from(powerUps));
     if (!_gameStateController.isClosed) _gameStateController.add(_gameState);
+  }
+
+  // Update particles position and lifespan
+  void _updateParticles(double dt) {
+    for (int i = particles.length - 1; i >= 0; i--) {
+      Particle particle = particles[i];
+
+      // Update position
+      particle.position.x += particle.velocity.x * dt;
+      particle.position.y += particle.velocity.y * dt;
+
+      // Decrease lifespan
+      particle.lifespan -= dt;
+
+      // Remove dead particles
+      if (particle.lifespan <= 0) {
+        particles.removeAt(i);
+      }
+    }
+  }
+
+  // Handle ball collisions with bricks
+  void _handleBrickCollisions(Ball ball) {
+    for (int i = bricks.length - 1; i >= 0; i--) {
+      Brick brick = bricks[i];
+      if (brick.isDestroyed) continue;
+
+      // Check for collision
+      if (_checkBallBrickCollision(ball, brick)) {
+        // Handle collision based on brick type
+        switch (brick.type) {
+          case BrickType.explosive:
+            _triggerExplosion(brick);
+            break;
+          case BrickType.powerUp:
+            _spawnPowerUp(brick);
+            break;
+          default:
+            // Reduce hit points for normal and hard bricks
+            brick.hitPoints--;
+            if (brick.hitPoints <= 0) {
+              brick.isDestroyed = true;
+              _score += brick.points;
+              _scoreController.add(_score);
+            }
+        }
+
+        // Calculate bounce direction (simplified)
+        // Determine which side of the brick was hit
+        double overlapLeft =
+            ball.position.x + ball.radius * 2 - brick.position.x;
+        double overlapRight = brick.position.x + brick.width - ball.position.x;
+        double overlapTop =
+            ball.position.y + ball.radius * 2 - brick.position.y;
+        double overlapBottom =
+            brick.position.y + brick.height - ball.position.y;
+
+        // Find the smallest overlap
+        double minOverlap =
+            min(min(overlapLeft, overlapRight), min(overlapTop, overlapBottom));
+
+        if (minOverlap == overlapLeft || minOverlap == overlapRight) {
+          ball.velocity.x = -ball.velocity.x;
+        } else {
+          ball.velocity.y = -ball.velocity.y;
+        }
+      }
+    }
+
+    // Remove destroyed bricks
+    bricks.removeWhere((brick) => brick.isDestroyed);
+  }
+
+  // Check if a ball collides with a brick
+  bool _checkBallBrickCollision(Ball ball, Brick brick) {
+    // Find the closest point on the brick to the ball
+    double closestX = max(brick.position.x,
+        min(ball.position.x + ball.radius, brick.position.x + brick.width));
+    double closestY = max(brick.position.y,
+        min(ball.position.y + ball.radius, brick.position.y + brick.height));
+
+    // Calculate the distance between the closest point and the center of the ball
+    double distanceX = (ball.position.x + ball.radius) - closestX;
+    double distanceY = (ball.position.y + ball.radius) - closestY;
+    double distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+
+    return distanceSquared < (ball.radius * ball.radius);
+  }
+
+  // Handle explosive bricks with particle effect
+  void _triggerExplosion(Brick explodingBrick) {
+    explodingBrick.isDestroyed = true;
+    _score += explodingBrick.points;
+    _scoreController.add(_score);
+
+    // Create explosion particles
+    _addExplosionParticles(explodingBrick);
+
+    // Destroy nearby bricks
+    for (Brick brick in bricks) {
+      if (!brick.isDestroyed && brick != explodingBrick) {
+        double distance = (brick.position - explodingBrick.position)
+            .distanceTo(Vector2D(0, 0));
+        if (distance < brick.width * 2) {
+          brick.isDestroyed = true;
+          _score += brick.points ~/
+              2; // Half points for bricks destroyed by explosion
+
+          // Add smaller explosion for chain reactions
+          if (brick.type == BrickType.explosive) {
+            _addExplosionParticles(brick, isSecondary: true);
+          }
+        }
+      }
+    }
+  }
+
+  // Add particles for explosion effect
+  void _addExplosionParticles(Brick brick, {bool isSecondary = false}) {
+    final Random random = Random();
+    final int particleCount =
+        isSecondary ? 15 : 30; // More particles for primary explosion
+    final double maxVelocity = isSecondary ? 300.0 : 400.0;
+    final double particleSize = screenWidth * 0.01;
+    final double maxLifespan = isSecondary ? 0.5 : 0.8; // Seconds
+
+    // Get explosion center position
+    final Vector2D center = Vector2D(brick.position.x + brick.width / 2,
+        brick.position.y + brick.height / 2);
+
+    // Generate particles with different colors based on brick type
+    List<Color> particleColors = [
+      Colors.red.shade300,
+      Colors.red.shade400,
+      Colors.red.shade500,
+      Colors.orange.shade300,
+      Colors.orange.shade400,
+      Colors.yellow.shade300
+    ];
+
+    for (int i = 0; i < particleCount; i++) {
+      // Random angle for particle direction
+      final double angle = random.nextDouble() * pi * 2;
+      // Random velocity
+      final double velocity = random.nextDouble() * maxVelocity;
+      // Random size variation
+      final double sizeVariation = random.nextDouble() * 0.5 + 0.5;
+      // Random color from available colors
+      final Color color = particleColors[random.nextInt(particleColors.length)];
+
+      particles.add(Particle(
+        position: Vector2D(center.x, center.y),
+        velocity: Vector2D(cos(angle) * velocity, sin(angle) * velocity),
+        size: particleSize * sizeVariation,
+        maxLifespan: maxLifespan *
+            (0.7 + random.nextDouble() * 0.3), // Slight variation in lifespan
+        color: color,
+      ));
+    }
+  }
+
+  // Spawn a power-up from a brick
+  void _spawnPowerUp(Brick brick) {
+    brick.isDestroyed = true;
+    _score += brick.points;
+    _scoreController.add(_score);
+
+    // Determine power-up type
+    List<PowerUpType> availableTypes = [
+      PowerUpType.expandPaddle,
+      PowerUpType.extraLife,
+      PowerUpType.multiball,
+      PowerUpType.slowBall,
+    ];
+
+    // In hard difficulty, add shrink paddle and fast ball to possible power-ups
+    if (_difficultyLevel == DifficultyLevel.hard) {
+      availableTypes.add(PowerUpType.shrinkPaddle);
+      availableTypes.add(PowerUpType.fastBall);
+    }
+
+    PowerUpType type = availableTypes[_random.nextInt(availableTypes.length)];
+
+    // Create power-up
+    powerUps.add(PowerUp(
+        position: Vector2D(
+            brick.position.x + brick.width / 2 - screenWidth * 0.015,
+            brick.position.y + brick.height / 2 - screenWidth * 0.015),
+        velocity: Vector2D(0, powerUpSpeed),
+        radius: screenWidth * 0.015,
+        type: type));
+  }
+
+  // Update power-ups
+  void _updatePowerUps(double dt) {
+    for (int i = powerUps.length - 1; i >= 0; i--) {
+      PowerUp powerUp = powerUps[i];
+
+      // Update position
+      powerUp.position.y += powerUp.velocity.y * dt;
+
+      // Check for collection
+      if (_checkPowerUpCollection(powerUp)) {
+        _activatePowerUp(powerUp);
+        powerUps.removeAt(i);
+      }
+      // Remove if it falls off screen
+      else if (powerUp.position.y > screenHeight) {
+        powerUps.removeAt(i);
+      }
+    }
+  }
+
+  // Check if power-up is collected
+  bool _checkPowerUpCollection(PowerUp powerUp) {
+    return powerUp.position.y + powerUp.radius * 2 >= paddle.position.y &&
+        powerUp.position.y <= paddle.position.y + paddle.height &&
+        powerUp.position.x + powerUp.radius * 2 >= paddle.position.x &&
+        powerUp.position.x <= paddle.position.x + paddle.width;
+  }
+
+  // Activate collected power-up
+  void _activatePowerUp(PowerUp powerUp) {
+    switch (powerUp.type) {
+      case PowerUpType.extraLife:
+        _lives++;
+        _livesController.add(_lives);
+        break;
+      case PowerUpType.expandPaddle:
+        _expandedPaddle = true;
+        paddle.width = _normalPaddleWidth * 1.5;
+        _paddleController.add(paddle);
+        _setPowerUpTimer();
+        break;
+      case PowerUpType.shrinkPaddle:
+        paddle.width = max(screenWidth * 0.08, paddle.width * 0.7);
+        _paddleController.add(paddle);
+        _setPowerUpTimer();
+        break;
+      case PowerUpType.slowBall:
+        _slowedBall = true;
+        for (Ball ball in balls) {
+          double speed = sqrt(ball.velocity.x * ball.velocity.x +
+              ball.velocity.y * ball.velocity.y);
+          double direction = atan2(ball.velocity.y, ball.velocity.x);
+          ball.velocity.x = cos(direction) * (speed * 0.7);
+          ball.velocity.y = sin(direction) * (speed * 0.7);
+        }
+        _setPowerUpTimer();
+        break;
+      case PowerUpType.fastBall:
+        for (Ball ball in balls) {
+          double speed = sqrt(ball.velocity.x * ball.velocity.x +
+              ball.velocity.y * ball.velocity.y);
+          double direction = atan2(ball.velocity.y, ball.velocity.x);
+          ball.velocity.x = cos(direction) * (speed * 1.3);
+          ball.velocity.y = sin(direction) * (speed * 1.3);
+        }
+        break;
+      case PowerUpType.multiball:
+        _addMultiBalls();
+        break;
+    }
+  }
+
+  // Add multiple balls (multiball power-up)
+  void _addMultiBalls() {
+    if (balls.isEmpty) return;
+
+    // Use the main ball as reference
+    Ball mainBall = balls[0];
+    double speed = sqrt(mainBall.velocity.x * mainBall.velocity.x +
+        mainBall.velocity.y * mainBall.velocity.y);
+
+    // Add 2 new balls at different angles
+    for (int i = 0; i < 2; i++) {
+      double angle = atan2(mainBall.velocity.y, mainBall.velocity.x) +
+          (i == 0 ? pi / 6 : -pi / 6); // +/- 30 degrees
+
+      Vector2D velocity = Vector2D(cos(angle) * speed, sin(angle) * speed);
+
+      balls.add(Ball(
+          position: Vector2D(mainBall.position.x, mainBall.position.y),
+          velocity: velocity,
+          radius: mainBall.radius));
+    }
+  }
+
+  // Set timer for temporary power-ups
+  void _setPowerUpTimer() {
+    _powerUpTimer?.cancel();
+    _powerUpTimer = Timer(const Duration(seconds: 10), () {
+      // Reset power-ups
+      _expandedPaddle = false;
+      _slowedBall = false;
+      paddle.width = _normalPaddleWidth;
+      _paddleController.add(paddle);
+
+      // Reset ball speeds if they were slowed
+      for (Ball ball in balls) {
+        double currentSpeed = sqrt(ball.velocity.x * ball.velocity.x +
+            ball.velocity.y * ball.velocity.y);
+        double normalSpeed = ballSpeed;
+        if (currentSpeed < normalSpeed * 0.9) {
+          double direction = atan2(ball.velocity.y, ball.velocity.x);
+          ball.velocity.x = cos(direction) * normalSpeed;
+          ball.velocity.y = sin(direction) * normalSpeed;
+        }
+      }
+    });
+  }
+
+  // Check win condition
+  void _checkWinCondition() {
+    if (bricks.isEmpty || bricks.every((brick) => brick.isDestroyed)) {
+      _gameState = GameState.win;
+      _gameStateController.add(_gameState);
+      _gameLoopTimer?.cancel();
+
+      // Update high score if needed
+      if (_score > highScore) {
+        highScore = _score;
+      }
+    }
+  }
+
+  // Game over
+  void _gameOver() {
+    _gameState = GameState.gameOver;
+    _gameStateController.add(_gameState);
+    _gameLoopTimer?.cancel();
+
+    // Update high score if needed
+    if (_score > highScore) {
+      highScore = _score;
+    }
   }
 
   // Cleanup resources
