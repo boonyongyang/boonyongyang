@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../shared/widgets/top_nav_bar.dart';
+import '../../../core/style/style.dart';
 
 class PlaysPage extends StatelessWidget {
   const PlaysPage({super.key});
@@ -18,92 +19,101 @@ class PlaysPage extends StatelessWidget {
 
     return Scaffold(
       appBar: const TopNavBar(title: 'Games'),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(isMobile ? 16 : 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Available Games',
-              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              'Choose a game to play',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: Colors.grey[600],
-                  ),
-            ),
-            const SizedBox(height: 24),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                final itemWidth =
-                    (constraints.maxWidth - (crossAxisCount - 1) * 16) /
-                        crossAxisCount;
-                final itemHeight = itemWidth * 0.8;
+      body: Container(
+        decoration: const BoxDecoration(gradient: AppGradients.cyberHorizon),
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(isMobile ? AppSpacing.md : AppSpacing.lg),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Available Games',
+                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                      color: AppColors.hologramWhite,
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
+              SizedBox(height: AppSpacing.sm),
+              Text(
+                'Choose a game to play',
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: AppColors.ghostBlue,
+                    ),
+              ),
+              SizedBox(height: AppSpacing.lg),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final itemWidth = (constraints.maxWidth -
+                          (crossAxisCount - 1) * AppSpacing.md) /
+                      crossAxisCount;
+                  final itemHeight = itemWidth * 0.8;
 
-                return Wrap(
-                  spacing: 16,
-                  runSpacing: 16,
-                  children: [
-                    _GameCard(
-                      title: 'Snake Battle',
-                      description: 'Classic snake game with AI opponent',
-                      icon: Icons.sports_esports,
-                      color: Colors.green,
-                      width: itemWidth,
-                      height: itemHeight,
-                      onTap: () => context.go('/plays/snake'),
-                    ),
-                    _GameCard(
-                      title: 'Brick Breaker',
-                      description: 'Break bricks and collect power-ups',
-                      icon: Icons.games,
-                      color: Colors.blue,
-                      width: itemWidth,
-                      height: itemHeight,
-                      onTap: () => context.go('/plays/brick-breaker'),
-                    ),
-                    _GameCard(
-                      title: 'AI Tic Tac Toe',
-                      description: 'Challenge our unbeatable AI!',
-                      icon: Icons.computer,
-                      color: Colors.orange,
-                      width: itemWidth,
-                      height: itemHeight,
-                      onTap: () => context.go('/plays/tic-tac-toe'),
-                    ),
-                    _GameCard(
-                      title: 'Connect 4',
-                      description: 'Classic two-player connection game',
-                      icon: Icons.connect_without_contact,
-                      color: Colors.purple,
-                      width: itemWidth,
-                      height: itemHeight,
-                      onTap: () => context.go('/plays/connect4'),
-                    ),
-                    _GameCard(
-                      title: 'Coming Soon',
-                      description: 'More exciting games on the way!',
-                      icon: Icons.hourglass_empty,
-                      color: Colors.grey,
-                      width: itemWidth,
-                      height: itemHeight,
-                      onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('More games coming soon!'),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                );
-              },
-            ),
-          ],
+                  return Wrap(
+                    spacing: AppSpacing.md,
+                    runSpacing: AppSpacing.md,
+                    children: [
+                      _GameCard(
+                        title: 'Snake Battle',
+                        description: 'Classic snake game with AI opponent',
+                        icon: Icons.sports_esports,
+                        color: AppColors.successGreen,
+                        width: itemWidth,
+                        height: itemHeight,
+                        onTap: () => context.go('/plays/snake'),
+                      ),
+                      _GameCard(
+                        title: 'Brick Breaker',
+                        description: 'Break bricks and collect power-ups',
+                        icon: Icons.games,
+                        color: AppColors.neonAqua,
+                        width: itemWidth,
+                        height: itemHeight,
+                        onTap: () => context.go('/plays/brick-breaker'),
+                      ),
+                      _GameCard(
+                        title: 'AI Tic Tac Toe',
+                        description: 'Challenge our unbeatable AI!',
+                        icon: Icons.computer,
+                        color: AppColors.laserAmber,
+                        width: itemWidth,
+                        height: itemHeight,
+                        onTap: () => context.go('/plays/tic-tac-toe'),
+                      ),
+                      _GameCard(
+                        title: 'Connect 4',
+                        description: 'Classic two-player connection game',
+                        icon: Icons.connect_without_contact,
+                        color: AppColors.cyberpunkPurple,
+                        width: itemWidth,
+                        height: itemHeight,
+                        onTap: () => context.go('/plays/connect4'),
+                      ),
+                      _GameCard(
+                        title: 'Coming Soon',
+                        description: 'More exciting games on the way!',
+                        icon: Icons.hourglass_empty,
+                        color: AppColors.matrixSilver,
+                        width: itemWidth,
+                        height: itemHeight,
+                        onTap: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'More games coming soon!',
+                                style:
+                                    TextStyle(color: AppColors.hologramWhite),
+                              ),
+                              backgroundColor: AppColors.techNavy,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -138,25 +148,36 @@ class _GameCard extends StatelessWidget {
       width: width,
       height: height,
       child: Card(
-        elevation: 2,
+        elevation: 4,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: AppBorders.roundedMedium,
+          side: BorderSide(
+            color: color.withOpacity(0.3),
+            width: 1.5,
+          ),
         ),
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: AppBorders.roundedMedium,
           child: Container(
-            padding: EdgeInsets.all(isMobile ? 16 : 24),
+            padding: EdgeInsets.all(isMobile ? AppSpacing.md : AppSpacing.lg),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: AppBorders.roundedMedium,
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
-                  color.withOpacity(0.1),
-                  color.withOpacity(0.05),
+                  AppColors.techNavy,
+                  AppColors.midnightBlue,
                 ],
               ),
+              boxShadow: [
+                BoxShadow(
+                  color: color.withOpacity(0.2),
+                  blurRadius: 8,
+                  spreadRadius: -2,
+                ),
+              ],
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -166,7 +187,7 @@ class _GameCard extends StatelessWidget {
                   size: isMobile ? 40 : 48,
                   color: color,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: AppSpacing.md),
                 Text(
                   title,
                   style: theme.textTheme.titleLarge?.copyWith(
@@ -177,11 +198,11 @@ class _GameCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: AppSpacing.sm),
                 Text(
                   description,
                   style: theme.textTheme.bodyMedium?.copyWith(
-                    color: Colors.grey[600],
+                    color: AppColors.ghostBlue,
                   ),
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,

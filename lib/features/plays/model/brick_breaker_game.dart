@@ -108,7 +108,7 @@ class PowerUp {
 }
 
 // Types of bricks
-enum BrickType { normal, hard, explosive, powerUp }
+enum BrickType { normal, hard, explosive, powerUp, portal }
 
 // Types of power-ups
 enum PowerUpType {
@@ -240,6 +240,8 @@ class BrickBreakerGame {
     screenWidth = initialWidth;
     screenHeight = initialHeight;
     _difficultyLevel = difficultyLevel;
+    // Set initial speed multiplier to Fast (1.5x)
+    _speedMultiplier = 1.5;
     _initializeGame();
   }
 
@@ -289,12 +291,22 @@ class BrickBreakerGame {
     // Clear existing balls and add a new one
     balls.clear();
     double ballRadius = screenWidth * 0.015;
+
+    // Position the ball above the center of the paddle
     Vector2D ballPosition = Vector2D(
         paddle.position.x + paddle.width / 2 - ballRadius,
         paddle.position.y - ballRadius * 2);
 
-    // Set initial ball velocity (upwards with slight randomness)
-    double angle = (pi * 0.75) + _random.nextDouble() * (pi * 0.5);
+    // Calculate a more consistent starting angle
+    // The ball will always go upward in a direction tangent to the paddle
+    // Use a narrow angle range between 60° and 120° (in radians: π/3 to 2π/3)
+    double minAngle = pi / 3; // 60 degrees
+    double maxAngle = 2 * pi / 3; // 120 degrees
+    double angle = minAngle + _random.nextDouble() * (maxAngle - minAngle);
+
+    // Make sure it's going upward (negative y in screen coordinates)
+    angle = -angle;
+
     double speed = _slowedBall ? ballSpeed * 0.7 : ballSpeed;
     speed *= _speedMultiplier; // Apply speed multiplier
     Vector2D ballVelocity = Vector2D(cos(angle) * speed, sin(angle) * speed);
@@ -326,13 +338,16 @@ class BrickBreakerGame {
 
         if (r < 2) {
           // Top rows have harder bricks
-          if (rand < 0.3) {
+          if (rand < 0.25) {
             type = BrickType.hard;
             hitPoints = 2;
             points = 20;
-          } else if (rand < 0.4 && _difficultyLevel != DifficultyLevel.easy) {
+          } else if (rand < 0.35 && _difficultyLevel != DifficultyLevel.easy) {
             type = BrickType.explosive;
             points = 30;
+          } else if (rand < 0.4) {
+            type = BrickType.portal;
+            points = 25;
           }
         } else if (r < 4) {
           // Middle-top rows
@@ -343,12 +358,18 @@ class BrickBreakerGame {
           } else if (rand < 0.25) {
             type = BrickType.powerUp;
             points = 15;
+          } else if (rand < 0.3 && _difficultyLevel != DifficultyLevel.easy) {
+            type = BrickType.portal;
+            points = 25;
           }
         } else {
           // Bottom rows
-          if (rand < 0.2) {
+          if (rand < 0.15) {
             type = BrickType.powerUp;
             points = 15;
+          } else if (rand < 0.2) {
+            type = BrickType.portal;
+            points = 25;
           }
         }
 
@@ -441,18 +462,60 @@ class BrickBreakerGame {
   // Handle ball collisions with walls with improved physics
   void _handleWallCollisions(Ball ball) {
     bool collided = false;
+    double originalSpeed = sqrt(
+        ball.velocity.x * ball.velocity.x + ball.velocity.y * ball.velocity.y);
 
     // Left wall
     if (ball.position.x <= 0) {
       ball.position.x = 0;
-      ball.velocity.x = -ball.velocity.x * wallBounceDamping;
+
+      // Check if ball is trapped in a near-horizontal trajectory
+      double currentAngle = atan2(ball.velocity.y.abs(), ball.velocity.x.abs());
+      if (currentAngle < pi * 0.1) {
+        // If angle is less than ~6 degrees
+        // Force a more significant bounce angle
+        double newAngle = max(currentAngle, pi * 0.2); // At least ~11 degrees
+        double speed = originalSpeed * wallBounceDamping;
+
+        // Maintain the vertical direction (up/down)
+        int verticalSign =
+            ball.velocity.y.sign != 0 ? ball.velocity.y.sign.toInt() : -1;
+
+        // Set new velocity with better angle
+        ball.velocity.x = -speed * cos(newAngle);
+        ball.velocity.y = speed * sin(newAngle) * verticalSign;
+      } else {
+        // Normal reflection
+        ball.velocity.x = -ball.velocity.x * wallBounceDamping;
+      }
+
       ball.spin *= 0.8; // Reduce spin on wall collision
       collided = true;
     }
     // Right wall
     else if (ball.position.x + ball.radius * 2 >= screenWidth) {
       ball.position.x = screenWidth - ball.radius * 2;
-      ball.velocity.x = -ball.velocity.x * wallBounceDamping;
+
+      // Check if ball is trapped in a near-horizontal trajectory
+      double currentAngle = atan2(ball.velocity.y.abs(), ball.velocity.x.abs());
+      if (currentAngle < pi * 0.1) {
+        // If angle is less than ~6 degrees
+        // Force a more significant bounce angle
+        double newAngle = max(currentAngle, pi * 0.2); // At least ~11 degrees
+        double speed = originalSpeed * wallBounceDamping;
+
+        // Maintain the vertical direction
+        int verticalSign =
+            ball.velocity.y.sign != 0 ? ball.velocity.y.sign.toInt() : -1;
+
+        // Set new velocity with better angle
+        ball.velocity.x = speed * cos(newAngle);
+        ball.velocity.y = speed * sin(newAngle) * verticalSign;
+      } else {
+        // Normal reflection
+        ball.velocity.x = -ball.velocity.x * wallBounceDamping;
+      }
+
       ball.spin *= 0.8;
       collided = true;
     }
@@ -460,7 +523,28 @@ class BrickBreakerGame {
     // Top wall
     if (ball.position.y <= 0) {
       ball.position.y = 0;
-      ball.velocity.y = -ball.velocity.y * wallBounceDamping;
+
+      // Check if ball is trapped in a near-vertical trajectory
+      double currentAngle = atan2(ball.velocity.x.abs(), ball.velocity.y.abs());
+      if (currentAngle < pi * 0.1) {
+        // If angle is less than ~6 degrees
+        // Force a more significant bounce angle
+        double newAngle = max(currentAngle, pi * 0.15); // At least ~8-9 degrees
+        double speed = originalSpeed * wallBounceDamping;
+
+        // Maintain the horizontal direction
+        int horizontalSign = ball.velocity.x.sign != 0
+            ? ball.velocity.x.sign.toInt()
+            : (Random().nextBool() ? 1 : -1);
+
+        // Set new velocity with better angle
+        ball.velocity.x = speed * sin(newAngle) * horizontalSign;
+        ball.velocity.y = -speed * cos(newAngle);
+      } else {
+        // Normal reflection
+        ball.velocity.y = -ball.velocity.y * wallBounceDamping;
+      }
+
       ball.spin *= 0.8;
       collided = true;
     }
@@ -561,15 +645,54 @@ class BrickBreakerGame {
     }
 
     // Ensure minimum vertical velocity to prevent horizontal stalemates
-    double minVerticalRatio = 0.25; // Increased from 0.2
-    if (ball.velocity.y.abs() / speed < minVerticalRatio) {
-      double sign = ball.velocity.y.sign;
-      if (sign == 0) sign = -1;
-      ball.velocity.y = speed * minVerticalRatio * sign;
-      // Recalculate horizontal velocity to maintain speed
-      double newXSpeed =
-          sqrt(speed * speed - ball.velocity.y * ball.velocity.y);
-      ball.velocity.x = ball.velocity.x.sign * newXSpeed;
+    double minVerticalRatio =
+        0.3; // Increased from 0.25 to further prevent horizontal stalemates
+
+    // Calculate current vertical ratio of the velocity
+    double verticalRatio = ball.velocity.y.abs() / speed;
+
+    if (verticalRatio < minVerticalRatio) {
+      // Get current direction (angle)
+      double currentAngle = atan2(ball.velocity.y, ball.velocity.x);
+      double targetAngle;
+
+      // If moving mostly horizontally, adjust angle while preserving direction
+      if (ball.velocity.y.abs() < ball.velocity.x.abs()) {
+        // Determine if ball is moving up or down
+        int verticalSign =
+            ball.velocity.y.sign != 0 ? ball.velocity.y.sign.toInt() : -1;
+        // Determine if ball is moving left or right
+        int horizontalSign =
+            ball.velocity.x.sign != 0 ? ball.velocity.x.sign.toInt() : 1;
+
+        // Calculate target angle based on current direction (preserve quadrant)
+        if (horizontalSign > 0 && verticalSign < 0) {
+          // Moving up-right
+          targetAngle = -atan(
+              minVerticalRatio / sqrt(1 - minVerticalRatio * minVerticalRatio));
+        } else if (horizontalSign < 0 && verticalSign < 0) {
+          // Moving up-left
+          targetAngle = -pi +
+              atan(minVerticalRatio /
+                  sqrt(1 - minVerticalRatio * minVerticalRatio));
+        } else if (horizontalSign > 0 && verticalSign > 0) {
+          // Moving down-right
+          targetAngle = atan(
+              minVerticalRatio / sqrt(1 - minVerticalRatio * minVerticalRatio));
+        } else {
+          // Moving down-left
+          targetAngle = pi -
+              atan(minVerticalRatio /
+                  sqrt(1 - minVerticalRatio * minVerticalRatio));
+        }
+
+        // Smoothly blend current angle with target angle (70% current, 30% target)
+        double newAngle = currentAngle * 0.7 + targetAngle * 0.3;
+
+        // Set new velocity based on the adjusted angle
+        ball.velocity.x = cos(newAngle) * speed;
+        ball.velocity.y = sin(newAngle) * speed;
+      }
     }
   }
 
@@ -747,6 +870,9 @@ class BrickBreakerGame {
           case BrickType.powerUp:
             _spawnPowerUp(brick);
             break;
+          case BrickType.portal:
+            _teleportBall(ball, brick);
+            break;
           default:
             // Reduce hit points for normal and hard bricks
             brick.hitPoints--;
@@ -771,10 +897,13 @@ class BrickBreakerGame {
         double minOverlap =
             min(min(overlapLeft, overlapRight), min(overlapTop, overlapBottom));
 
-        if (minOverlap == overlapLeft || minOverlap == overlapRight) {
-          ball.velocity.x = -ball.velocity.x;
-        } else {
-          ball.velocity.y = -ball.velocity.y;
+        // For portal bricks, we don't calculate bounce since the ball is teleported
+        if (brick.type != BrickType.portal) {
+          if (minOverlap == overlapLeft || minOverlap == overlapRight) {
+            ball.velocity.x = -ball.velocity.x;
+          } else {
+            ball.velocity.y = -ball.velocity.y;
+          }
         }
       }
     }
@@ -1045,6 +1174,122 @@ class BrickBreakerGame {
     // Update high score if needed
     if (_score > highScore) {
       highScore = _score;
+    }
+  }
+
+  // Teleport ball for portal brick type
+  void _teleportBall(Ball ball, Brick brick) {
+    brick.isDestroyed = true;
+    _score += brick.points;
+    _scoreController.add(_score);
+
+    // Create portal effect particles
+    _addPortalParticles(brick);
+
+    // Find a safe position to teleport to (avoid placing directly into another brick)
+    double safeX = 0.0, safeY = 0.0;
+    double padding = ball.radius * 3; // Ensure some space around the ball
+    bool positionFound = false;
+    int attempts = 0;
+
+    // Try up to 10 times to find a good position
+    while (!positionFound && attempts < 10) {
+      attempts++;
+
+      // Generate random position within the top 2/3 of the screen
+      // (avoid placing ball at the bottom where it might fall immediately)
+      safeX = padding + _random.nextDouble() * (screenWidth - padding * 2);
+      safeY = padding + _random.nextDouble() * (screenHeight * 0.6);
+
+      // Check if this position is clear of bricks
+      bool collision = false;
+      for (final otherBrick in bricks) {
+        if (otherBrick.isDestroyed) continue;
+
+        if (safeX + ball.radius * 2 >= otherBrick.position.x &&
+            safeX <= otherBrick.position.x + otherBrick.width &&
+            safeY + ball.radius * 2 >= otherBrick.position.y &&
+            safeY <= otherBrick.position.y + otherBrick.height) {
+          collision = true;
+          break;
+        }
+      }
+
+      // If no collision, we found a good position
+      if (!collision) {
+        positionFound = true;
+      }
+    }
+
+    // If we couldn't find a perfect position, just use the last one calculated
+    if (!positionFound) {
+      safeX = padding + _random.nextDouble() * (screenWidth - padding * 2);
+      safeY = padding + _random.nextDouble() * (screenHeight * 0.5);
+    }
+
+    // Create exit portal particles at the destination
+    _addPortalParticles(null, exitPosition: Vector2D(safeX, safeY));
+
+    // Teleport the ball
+    ball.position.x = safeX;
+    ball.position.y = safeY;
+
+    // Add slight randomization to the ball's trajectory
+    double currentSpeed = sqrt(
+        ball.velocity.x * ball.velocity.x + ball.velocity.y * ball.velocity.y);
+    double newAngle =
+        _random.nextDouble() * pi * 2; // Completely random direction
+
+    // Ensure the ball doesn't go straight down
+    while (newAngle > pi - 0.5 && newAngle < pi + 0.5) {
+      newAngle = _random.nextDouble() * pi * 2;
+    }
+
+    ball.velocity.x = cos(newAngle) * currentSpeed;
+    ball.velocity.y = sin(newAngle) * currentSpeed;
+  }
+
+  // Add portal effect particles
+  void _addPortalParticles(Brick? brick, {Vector2D? exitPosition}) {
+    final Vector2D position = brick != null
+        ? Vector2D(brick.position.x + brick.width / 2,
+            brick.position.y + brick.height / 2)
+        : exitPosition!;
+
+    final bool isExit = brick == null;
+    const int particleCount = 25;
+    final double radius = isExit ? screenWidth * 0.03 : brick.width * 0.8;
+
+    // Colors for portal effect
+    List<Color> colors = [
+      Colors.cyan.shade300,
+      Colors.cyan.shade400,
+      Colors.cyan.shade200,
+      Colors.white,
+    ];
+
+    // Create spiral particle pattern
+    for (int i = 0; i < particleCount; i++) {
+      double angle = (i / particleCount) * pi * 2;
+      double radiusVariation = 0.2 + _random.nextDouble() * 0.8;
+      double speed = isExit ? 80.0 : 120.0;
+
+      // For entry portal, particles flow inward; for exit portal, particles flow outward
+      double direction = isExit ? 1.0 : -1.0;
+
+      Vector2D particlePos = Vector2D(
+          position.x + cos(angle) * radius * radiusVariation,
+          position.y + sin(angle) * radius * radiusVariation);
+
+      Vector2D velocity = Vector2D(
+          cos(angle) * speed * direction, sin(angle) * speed * direction);
+
+      particles.add(Particle(
+          position: particlePos,
+          velocity: velocity,
+          size: screenWidth * 0.008 * (0.5 + _random.nextDouble()),
+          maxLifespan: 0.6,
+          color: colors[_random.nextInt(colors.length)]));
     }
   }
 

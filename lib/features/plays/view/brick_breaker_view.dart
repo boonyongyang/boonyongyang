@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
+import '../../../core/style/style.dart';
 import '../../../shared/widgets/top_nav_bar.dart';
 import '../model/brick_breaker_game.dart';
 
@@ -56,6 +57,13 @@ class _BrickBreakerViewState extends State<BrickBreakerView>
       'points': '15 pts',
       'description': 'Contains special power-ups to help you!',
       'icon': Icons.stars,
+    },
+    BrickType.portal: {
+      'name': 'Portal',
+      'color': Colors.deepPurple.shade400,
+      'points': '25 pts',
+      'description': 'Teleports the ball to random location!',
+      'icon': Icons.swap_calls,
     },
   };
 
@@ -268,16 +276,8 @@ class _BrickBreakerViewState extends State<BrickBreakerView>
           child: Container(
             width: double.infinity,
             height: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.blue.shade900,
-                  Colors.indigo.shade900,
-                ],
-              ),
-            ),
+            decoration:
+                const BoxDecoration(gradient: AppGradients.cyberHorizon),
             child: Center(
               child: SingleChildScrollView(
                 child: Column(
@@ -286,23 +286,18 @@ class _BrickBreakerViewState extends State<BrickBreakerView>
                     // Game Status Section with glass effect
                     Container(
                       margin: EdgeInsets.symmetric(
-                          horizontal: isMobile ? 12 : 24,
-                          vertical: isMobile ? 8 : 16),
-                      padding: EdgeInsets.all(isMobile ? 12 : 16),
+                          horizontal: isMobile ? AppSpacing.sm : AppSpacing.md,
+                          vertical: isMobile ? AppSpacing.sm : AppSpacing.md),
+                      padding: EdgeInsets.all(
+                          isMobile ? AppSpacing.sm : AppSpacing.md),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(16),
+                        color: AppColors.techNavy.withOpacity(0.15),
+                        borderRadius: AppBorders.roundedMedium,
                         border: Border.all(
-                          color: Colors.white.withOpacity(0.2),
+                          color: AppColors.neonAqua.withOpacity(0.2),
                           width: 1.5,
                         ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 10,
-                            spreadRadius: -5,
-                          ),
-                        ],
+                        boxShadow: AppShadows.neonGlow,
                       ),
                       child: Column(
                         children: [
@@ -608,12 +603,15 @@ class _BrickBreakerViewState extends State<BrickBreakerView>
 
                                 // Speed Control
                                 Container(
-                                  padding: EdgeInsets.all(isMobile ? 12 : 16),
+                                  padding: EdgeInsets.all(
+                                      isMobile ? AppSpacing.sm : AppSpacing.md),
                                   decoration: BoxDecoration(
-                                    color: Colors.purple.withOpacity(0.1),
-                                    borderRadius: BorderRadius.circular(16),
+                                    color: AppColors.techNavy.withOpacity(0.1),
+                                    borderRadius: AppBorders.roundedMedium,
                                     border: Border.all(
-                                        color: Colors.purple.withOpacity(0.2)),
+                                      color: AppColors.cyborgPurple
+                                          .withOpacity(0.2),
+                                    ),
                                   ),
                                   child: Column(
                                     children: [
@@ -1042,19 +1040,13 @@ class _BrickBreakerViewState extends State<BrickBreakerView>
       width: gameWidth,
       height: gameHeight,
       decoration: BoxDecoration(
-        color: Colors.black87,
-        borderRadius: BorderRadius.circular(16),
+        color: AppColors.nightShade,
+        borderRadius: AppBorders.roundedMedium,
         border: Border.all(
-          color: Colors.blue.withOpacity(0.5),
+          color: AppColors.neonAqua.withOpacity(0.5),
           width: 2,
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            blurRadius: 10,
-            spreadRadius: 1,
-          ),
-        ],
+        boxShadow: AppShadows.neonGlow,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
@@ -1358,27 +1350,45 @@ class BrickBreakerPainter extends CustomPainter {
       // Set brick color based on type
       switch (brick.type) {
         case BrickType.normal:
-          _brickPaint.color = Colors.blue.shade400;
+          _brickPaint.color = AppColors.neonBlue;
           break;
         case BrickType.hard:
-          _brickPaint.color = Colors.purple.shade400;
+          _brickPaint.color = AppColors.cyberpunkPurple;
           break;
         case BrickType.explosive:
-          _brickPaint.color = Colors.red.shade400;
+          _brickPaint.color = AppColors.errorRed;
           break;
         case BrickType.powerUp:
-          _brickPaint.color = Colors.green.shade400;
+          _brickPaint.color = AppColors.successGreen;
+          break;
+        case BrickType.portal:
+          _brickPaint.color = AppColors.syntheticIndigo;
           break;
       }
 
-      // Add gradient effect based on hit points
+      // Add gradient effect based on brick type
       if (brick.type == BrickType.hard && brick.hitPoints > 1) {
-        _brickPaint.shader = LinearGradient(
+        _brickPaint.shader = const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Colors.purple.shade400,
-            Colors.purple.shade600,
+            AppColors.cyberpunkPurple,
+            AppColors.cyborgPurple,
+          ],
+        ).createShader(Rect.fromLTWH(
+          brick.position.x,
+          brick.position.y,
+          brick.width,
+          brick.height,
+        ));
+      } else if (brick.type == BrickType.portal) {
+        _brickPaint.shader = const RadialGradient(
+          center: Alignment.center,
+          radius: 0.8,
+          colors: [
+            AppColors.syntheticIndigo,
+            AppColors.cyborgPurple,
+            AppColors.cyberpunkPurple,
           ],
         ).createShader(Rect.fromLTWH(
           brick.position.x,
@@ -1390,6 +1400,7 @@ class BrickBreakerPainter extends CustomPainter {
         _brickPaint.shader = null;
       }
 
+      // Draw the brick
       canvas.drawRRect(
         RRect.fromRectAndRadius(
           Rect.fromLTWH(
@@ -1402,13 +1413,39 @@ class BrickBreakerPainter extends CustomPainter {
         ),
         _brickPaint,
       );
+
+      // Draw portal symbol if it's a portal brick
+      if (brick.type == BrickType.portal) {
+        final iconPainter = TextPainter(
+          text: const TextSpan(
+            text: '⟿', // Portal symbol
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+            ),
+          ),
+          textDirection: TextDirection.ltr,
+          textAlign: TextAlign.center,
+        );
+
+        iconPainter.layout(minWidth: 0, maxWidth: brick.width);
+
+        // Center the icon in the brick
+        final xCenter =
+            brick.position.x + brick.width / 2 - iconPainter.width / 2;
+        final yCenter =
+            brick.position.y + brick.height / 2 - iconPainter.height / 2;
+
+        // Draw the icon
+        iconPainter.paint(canvas, Offset(xCenter, yCenter));
+      }
     }
 
     // Draw paddle with gradient
-    final paddleGradient = LinearGradient(
+    final paddleGradient = const LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: [Colors.blue.shade300, Colors.blue.shade700],
+      colors: [AppColors.neonAqua, AppColors.neonBlue],
     ).createShader(Rect.fromLTWH(
       game.paddle.position.x,
       game.paddle.position.y,
@@ -1416,6 +1453,24 @@ class BrickBreakerPainter extends CustomPainter {
       game.paddle.height,
     ));
     _paddlePaint.shader = paddleGradient;
+
+    // Draw paddle with neon glow effect
+    final glowPaint = Paint()
+      ..color = AppColors.neonAqua.withOpacity(0.3)
+      ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 3);
+
+    canvas.drawRRect(
+      RRect.fromRectAndRadius(
+        Rect.fromLTWH(
+          game.paddle.position.x,
+          game.paddle.position.y,
+          game.paddle.width,
+          game.paddle.height,
+        ),
+        const Radius.circular(8),
+      ),
+      glowPaint,
+    );
 
     canvas.drawRRect(
       RRect.fromRectAndRadius(
@@ -1461,20 +1516,35 @@ class BrickBreakerPainter extends CustomPainter {
 
     // Draw balls with glow effect
     for (final ball in game.balls) {
-      // Draw glow
-      final glowPaint = Paint()
-        ..color = Colors.blue.withOpacity(0.3)
+      // Draw outer glow
+      final ballGlowPaint = Paint()
+        ..color = AppColors.neonAqua.withOpacity(0.3)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
+
       canvas.drawCircle(
         Offset(
           ball.position.x + ball.radius,
           ball.position.y + ball.radius,
         ),
         ball.radius * 1.5,
-        glowPaint,
+        ballGlowPaint,
       );
 
-      // Draw ball
+      // Draw ball with gradient
+      final ballGradient = const RadialGradient(
+        center: Alignment.topLeft,
+        radius: 1.2,
+        colors: [AppColors.hologramWhite, AppColors.neonAqua],
+      ).createShader(Rect.fromCircle(
+        center: Offset(
+          ball.position.x + ball.radius,
+          ball.position.y + ball.radius,
+        ),
+        radius: ball.radius,
+      ));
+
+      _ballPaint.shader = ballGradient;
+
       canvas.drawCircle(
         Offset(
           ball.position.x + ball.radius,
@@ -1502,7 +1572,7 @@ class BrickBreakerPainter extends CustomPainter {
         text: TextSpan(
           text: _getPowerUpIcon(powerUp.type),
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.hologramWhite,
             fontSize: powerUp.radius * 1.2,
             height: 1,
           ),
@@ -1528,17 +1598,17 @@ class BrickBreakerPainter extends CustomPainter {
   Color _getPowerUpColor(PowerUpType type) {
     switch (type) {
       case PowerUpType.extraLife:
-        return Colors.red;
+        return AppColors.errorRed;
       case PowerUpType.expandPaddle:
-        return Colors.green;
+        return AppColors.successGreen;
       case PowerUpType.shrinkPaddle:
-        return Colors.orange;
+        return AppColors.laserAmber;
       case PowerUpType.slowBall:
-        return Colors.blue;
+        return AppColors.neonBlue;
       case PowerUpType.fastBall:
-        return Colors.purple;
+        return AppColors.cyberpunkPurple;
       case PowerUpType.multiball:
-        return Colors.yellow;
+        return AppColors.syntheticIndigo;
     }
   }
 
