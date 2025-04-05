@@ -7,10 +7,12 @@ class ThemeShowcasePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.nightShade,
       appBar: AppBar(
         title: const Text('Cyberpunk Theme Showcase'),
       ),
       body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
         padding: const EdgeInsets.all(AppSpacing.md),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -50,6 +52,7 @@ class ThemeShowcasePage extends StatelessWidget {
               title: 'Gradients',
               child: _buildGradients(),
             ),
+            const SizedBox(height: AppSpacing.lg),
           ],
         ),
       ),
