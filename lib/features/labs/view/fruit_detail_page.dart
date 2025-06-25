@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import '../model/fruit_model.dart';
 
 class FruitDetailPage extends StatelessWidget {
@@ -18,7 +19,7 @@ class FruitDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildInfoCard(context),
-            const SizedBox(height: 16),
+            const Gap(16),
             _buildNutritionCard(context),
           ],
         ),
@@ -105,7 +106,7 @@ class FruitDetailPage extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 4),
+          const Gap(4),
           LinearProgressIndicator(
             value: value / 100, // Normalized value for progress indicator
             backgroundColor: color.withOpacity(0.2),

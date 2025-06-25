@@ -43,7 +43,7 @@ class AboutPage extends StatelessWidget {
                       child: Row(
                         children: [
                           const Icon(Icons.check_circle, size: 16),
-                          const SizedBox(width: 8),
+                          const Gap(8),
                           Text(feature),
                         ],
                       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import '../../../shared/widgets/top_nav_bar.dart';
 import '../model/ai_tic_tac_toe_game.dart';
 
@@ -66,7 +67,7 @@ class _AITicTacToeViewState extends State<AITicTacToeView> {
                           color: theme.primaryColor,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const Gap(8),
                     ],
                     Text(
                       'Can you beat the unbeatable?',
@@ -74,7 +75,7 @@ class _AITicTacToeViewState extends State<AITicTacToeView> {
                         color: Colors.grey[600],
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    const Gap(32),
                   ],
                 ),
               ),
@@ -118,7 +119,7 @@ class _AITicTacToeViewState extends State<AITicTacToeView> {
                         textAlign: TextAlign.center,
                       ),
                       if (gameState != GameState.playing) ...[
-                        const SizedBox(height: 16),
+                        const Gap(16),
                         ElevatedButton.icon(
                           onPressed: game.restart,
                           icon: const Icon(Icons.refresh),
@@ -135,7 +136,7 @@ class _AITicTacToeViewState extends State<AITicTacToeView> {
                   );
                 },
               ),
-              const SizedBox(height: 32),
+              const Gap(32),
 
               // Game Board
               StreamBuilder<List<List<Player?>>>(
@@ -220,7 +221,7 @@ class _AITicTacToeViewState extends State<AITicTacToeView> {
                   );
                 },
               ),
-              const SizedBox(height: 32),
+              const Gap(32),
 
               // Legend
               Wrap(
@@ -247,7 +248,7 @@ class _AITicTacToeViewState extends State<AITicTacToeView> {
 
               // Instructions
               if (!isMobile) ...[
-                const SizedBox(height: 48),
+                const Gap(48),
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
@@ -262,7 +263,7 @@ class _AITicTacToeViewState extends State<AITicTacToeView> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const Gap(8),
                       Text(
                         'Click on any empty cell to make your move. The AI will respond immediately.',
                         style: theme.textTheme.bodyLarge?.copyWith(

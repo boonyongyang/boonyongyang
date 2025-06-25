@@ -1,5 +1,6 @@
 import 'package:boonyongyang/shared/widgets/top_nav_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'fruits_page.dart';
 import 'theme_showcase_page.dart';
 
@@ -86,13 +87,13 @@ class _ExperimentCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon, size: 48),
-              const SizedBox(height: 8),
+              const Gap(8),
               Text(
                 title,
                 style: Theme.of(context).textTheme.titleLarge,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 4),
+              const Gap(4),
               Text(
                 description,
                 style: Theme.of(context).textTheme.bodyMedium,

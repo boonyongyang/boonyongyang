@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import '../model/fruit_model.dart';
 import '../services/fruit_service.dart';
 import 'fruit_detail_page.dart';
@@ -84,14 +85,14 @@ class _FruitsPageState extends State<FruitsPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(Icons.error_outline, size: 48, color: Colors.red),
-            const SizedBox(height: 16),
+            const Gap(16),
             SelectableText(
               'Error loading fruits',
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            const SizedBox(height: 8),
+            const Gap(8),
             SelectableText(_errorMessage!),
-            const SizedBox(height: 16),
+            const Gap(16),
             ElevatedButton(
               onPressed: _fetchFruits,
               child: const Text('Try Again'),
@@ -160,13 +161,13 @@ class _FruitsPageState extends State<FruitsPage> {
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
-              const SizedBox(height: 8),
+              const Gap(8),
               Text(
                 fruit.name,
                 style: Theme.of(context).textTheme.titleMedium,
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 4),
+              const Gap(4),
               Text(
                 'Family: ${fruit.family}',
                 style: Theme.of(context).textTheme.bodySmall,

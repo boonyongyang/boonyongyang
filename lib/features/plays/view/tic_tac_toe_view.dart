@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import '../../../shared/widgets/top_nav_bar.dart';
 import '../model/tic_tac_toe_game.dart';
 
@@ -95,7 +96,7 @@ class _TicTacToeViewState extends State<TicTacToeView> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 16),
+                      const Gap(16),
                       ElevatedButton.icon(
                         onPressed: game.restart,
                         icon: const Icon(Icons.refresh),
@@ -111,7 +112,7 @@ class _TicTacToeViewState extends State<TicTacToeView> {
                   );
                 },
               ),
-              const SizedBox(height: 32),
+              const Gap(32),
 
               // Game Board
               StreamBuilder<List<Player?>>(
@@ -142,7 +143,7 @@ class _TicTacToeViewState extends State<TicTacToeView> {
                   );
                 },
               ),
-              const SizedBox(height: 32),
+              const Gap(32),
 
               // Legend
               Row(
@@ -153,7 +154,7 @@ class _TicTacToeViewState extends State<TicTacToeView> {
                     color: Colors.blue,
                     theme: theme,
                   ),
-                  const SizedBox(width: 24),
+                  const Gap(24),
                   _buildLegendItem(
                     player: Player.O,
                     color: Colors.red,
@@ -201,7 +202,7 @@ class _TicTacToeViewState extends State<TicTacToeView> {
           color: color,
           size: 24,
         ),
-        const SizedBox(width: 8),
+        const Gap(8),
         Text(
           'Player ${player.name}',
           style: theme.textTheme.titleMedium?.copyWith(

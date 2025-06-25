@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import '../../../core/style/style.dart';
 
 class ThemeShowcasePage extends StatelessWidget {
@@ -22,37 +23,37 @@ class ThemeShowcasePage extends StatelessWidget {
               title: 'Color Palette',
               child: _buildColorPalette(),
             ),
-            const SizedBox(height: AppSpacing.lg),
+            const Gap(AppSpacing.lg),
             _buildSection(
               context,
               title: 'Typography',
               child: _buildTypography(context),
             ),
-            const SizedBox(height: AppSpacing.lg),
+            const Gap(AppSpacing.lg),
             _buildSection(
               context,
               title: 'Buttons',
               child: _buildButtons(),
             ),
-            const SizedBox(height: AppSpacing.lg),
+            const Gap(AppSpacing.lg),
             _buildSection(
               context,
               title: 'Cards',
               child: _buildCards(),
             ),
-            const SizedBox(height: AppSpacing.lg),
+            const Gap(AppSpacing.lg),
             _buildSection(
               context,
               title: 'Form Elements',
               child: _buildFormElements(),
             ),
-            const SizedBox(height: AppSpacing.lg),
+            const Gap(AppSpacing.lg),
             _buildSection(
               context,
               title: 'Gradients',
               child: _buildGradients(),
             ),
-            const SizedBox(height: AppSpacing.lg),
+            const Gap(AppSpacing.lg),
           ],
         ),
       ),
@@ -69,7 +70,7 @@ class ThemeShowcasePage extends StatelessWidget {
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         const Divider(),
-        const SizedBox(height: AppSpacing.md),
+        const Gap(AppSpacing.md),
         child,
       ],
     );
@@ -106,7 +107,7 @@ class ThemeShowcasePage extends StatelessWidget {
             boxShadow: AppShadows.subtle,
           ),
         ),
-        const SizedBox(height: 4),
+        const Gap(4),
         Text(
           name,
           style: const TextStyle(fontSize: 12),
@@ -161,7 +162,7 @@ class ThemeShowcasePage extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: AppSpacing.md),
+        const Gap(AppSpacing.md),
         Wrap(
           spacing: AppSpacing.md,
           runSpacing: AppSpacing.md,
@@ -183,7 +184,7 @@ class ThemeShowcasePage extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: AppSpacing.md),
+        const Gap(AppSpacing.md),
         Container(
           width: 200,
           decoration: BoxDecoration(
@@ -276,12 +277,12 @@ class ThemeShowcasePage extends StatelessWidget {
                           color: AppColors.hologramWhite,
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.sm),
+                      const Gap(AppSpacing.sm),
                       const Text(
                         'This card has a cyberpunk-style gradient header.',
                         style: TextStyle(color: AppColors.matrixSilver),
                       ),
-                      const SizedBox(height: AppSpacing.md),
+                      const Gap(AppSpacing.md),
                       TextButton(
                         onPressed: () {},
                         child: const Text('Learn More'),
@@ -346,7 +347,7 @@ class ThemeShowcasePage extends StatelessWidget {
             hintText: 'Enter text here',
           ),
         ),
-        const SizedBox(height: AppSpacing.md),
+        const Gap(AppSpacing.md),
         const TextField(
           decoration: InputDecoration(
             labelText: 'Password Field',
@@ -356,7 +357,7 @@ class ThemeShowcasePage extends StatelessWidget {
           ),
           obscureText: true,
         ),
-        const SizedBox(height: AppSpacing.md),
+        const Gap(AppSpacing.md),
         Row(
           children: [
             Checkbox(
@@ -375,7 +376,7 @@ class ThemeShowcasePage extends StatelessWidget {
             const Text('Dark mode'),
           ],
         ),
-        const SizedBox(height: AppSpacing.md),
+        const Gap(AppSpacing.md),
         Row(
           children: [
             Radio(
@@ -384,7 +385,7 @@ class ThemeShowcasePage extends StatelessWidget {
               onChanged: (_) {},
             ),
             const Text('Option 1'),
-            const SizedBox(width: AppSpacing.md),
+            const Gap(AppSpacing.md),
             Radio(
               value: 2,
               groupValue: 1,
@@ -393,7 +394,7 @@ class ThemeShowcasePage extends StatelessWidget {
             const Text('Option 2'),
           ],
         ),
-        const SizedBox(height: AppSpacing.md),
+        const Gap(AppSpacing.md),
         const Wrap(
           spacing: AppSpacing.sm,
           runSpacing: AppSpacing.sm,
@@ -420,11 +421,11 @@ class ThemeShowcasePage extends StatelessWidget {
     return Column(
       children: [
         _gradientTile('Cyber Horizon', AppGradients.cyberHorizon),
-        const SizedBox(height: AppSpacing.md),
+        const Gap(AppSpacing.md),
         _gradientTile('Neuro Portal', AppGradients.neuroPortal),
-        const SizedBox(height: AppSpacing.md),
+        const Gap(AppSpacing.md),
         _gradientTile('Synthwave Energy', AppGradients.synthwaveEnergy),
-        const SizedBox(height: AppSpacing.md),
+        const Gap(AppSpacing.md),
         _gradientTile('Neon Dream', AppGradients.neonDream),
       ],
     );
@@ -435,7 +436,7 @@ class ThemeShowcasePage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(name),
-        const SizedBox(height: AppSpacing.xs),
+        const Gap(AppSpacing.xs),
         Container(
           height: 60,
           width: double.infinity,

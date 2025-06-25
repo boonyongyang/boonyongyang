@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import '../../../shared/widgets/top_nav_bar.dart';
 import 'osm_widget.dart';
 
@@ -47,7 +48,7 @@ class MapsPage extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const Gap(16),
             const Expanded(
               child: OsmWidget(),
             ),

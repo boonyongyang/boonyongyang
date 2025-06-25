@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'page_transitions.dart';
 import '../theme/color_palette.dart';
@@ -175,7 +176,7 @@ class AppRouter {
                   style: Theme.of(context).textTheme.headlineMedium,
                 ),
               ),
-              const SizedBox(height: 24),
+              const Gap(24),
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(

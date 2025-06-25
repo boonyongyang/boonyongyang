@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import '../../../shared/widgets/top_nav_bar.dart';
 import '../model/connect4_game.dart';
 
@@ -72,7 +73,7 @@ class _Connect4ViewState extends State<Connect4View> {
                           color: theme.primaryColor,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const Gap(8),
                     ],
                     Text(
                       'Connect four pieces to win!',
@@ -140,7 +141,7 @@ class _Connect4ViewState extends State<Connect4View> {
                         ),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 16),
+                      const Gap(16),
                       ElevatedButton.icon(
                         onPressed: game.restart,
                         icon: const Icon(Icons.refresh),
@@ -283,7 +284,7 @@ class _Connect4ViewState extends State<Connect4View> {
 
               // Instructions
               if (!isMobile) ...[
-                const SizedBox(height: 48),
+                const Gap(48),
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
@@ -298,7 +299,7 @@ class _Connect4ViewState extends State<Connect4View> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 8),
+                      const Gap(8),
                       Text(
                         'Click on any column to drop your piece. Connect 4 pieces horizontally, vertically, or diagonally to win!',
                         style: theme.textTheme.bodyLarge?.copyWith(

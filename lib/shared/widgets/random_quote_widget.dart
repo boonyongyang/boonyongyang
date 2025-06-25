@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import '../../core/style/style.dart';
 
 class RandomQuoteWidget extends StatefulWidget {
@@ -88,7 +89,7 @@ class _RandomQuoteWidgetState extends State<RandomQuoteWidget> {
                 ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: AppSpacing.md),
+          const Gap(AppSpacing.md),
           SizedBox(
             width: screenWidth * 0.5,
             child: LinearProgressIndicator(
@@ -98,7 +99,7 @@ class _RandomQuoteWidgetState extends State<RandomQuoteWidget> {
                   const AlwaysStoppedAnimation<Color>(AppColors.neonBlue),
             ),
           ),
-          const SizedBox(height: AppSpacing.md),
+          const Gap(AppSpacing.md),
           SelectableText(
             '${(_progressValue * 100).round()}%',
             style: Theme.of(context).textTheme.labelLarge,

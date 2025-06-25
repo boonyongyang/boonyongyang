@@ -276,7 +276,7 @@ class _HomePageState extends State<HomePage>
           label: 'Try Games',
           color: Colors.purple,
         ),
-        const SizedBox(width: 16),
+        const Gap(16),
         _buildGlowButton(
           context: context,
           onPressed: () => context.go('/charts'),

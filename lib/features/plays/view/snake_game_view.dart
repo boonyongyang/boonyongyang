@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:gap/gap.dart';
 import '../../../shared/widgets/top_nav_bar.dart';
 import '../model/snake_game.dart';
 
@@ -381,7 +382,7 @@ class _LegendItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
           ),
         ),
-        const SizedBox(width: 8),
+        const Gap(8),
         Text(
           label,
           style: TextStyle(fontSize: fontSize),

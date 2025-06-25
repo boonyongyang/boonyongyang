@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/theme/color_palette.dart';
 import '../../core/constants/animation_constants.dart';
@@ -132,7 +133,7 @@ class _TopNavBarState extends State<TopNavBar> {
                                       ? theme.primaryColor
                                       : null,
                                 ),
-                                const SizedBox(width: 12),
+                                const Gap(12),
                                 Text(
                                   item.label,
                                   style: TextStyle(
@@ -216,7 +217,7 @@ class _NavButtonState extends State<_NavButton> {
                         ),
                   size: 20,
                 ),
-                const SizedBox(width: 8),
+                const Gap(8),
                 Text(
                   widget.label,
                   style: TextStyle(
