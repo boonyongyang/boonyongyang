@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import '../../utils/responsive_utils.dart';
 
 class TechTimeline extends StatelessWidget {
   const TechTimeline({super.key});
@@ -7,8 +8,8 @@ class TechTimeline extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isDesktop = MediaQuery.of(context).size.width > 1024;
-    final isTablet = MediaQuery.of(context).size.width > 768;
+    final isMobile = ResponsiveUtils.isMobile(context);
+    final isTablet = ResponsiveUtils.isTablet(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,18 +29,28 @@ class TechTimeline extends StatelessWidget {
         ),
         const Gap(32),
 
-        // Skills Grid
-        GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: isDesktop ? 4 : (isTablet ? 3 : 2),
-          mainAxisSpacing: 16,
-          crossAxisSpacing: 16,
-          childAspectRatio: isDesktop ? 1.2 : 1.1,
-          children: _getSkillCategories().map((category) {
-            return _buildSkillCard(category, theme);
-          }).toList(),
-        ),
+        // Skills Grid - Fixed for mobile
+        if (isMobile)
+          Column(
+            children: _getSkillCategories().map((category) {
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: _buildSkillCard(category, theme),
+              );
+            }).toList(),
+          )
+        else
+          GridView.count(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisCount: isTablet ? 3 : 4,
+            mainAxisSpacing: 16,
+            crossAxisSpacing: 16,
+            childAspectRatio: isTablet ? 1.1 : 1.2,
+            children: _getSkillCategories().map((category) {
+              return _buildSkillCard(category, theme);
+            }).toList(),
+          ),
 
         const Gap(24),
 
@@ -97,100 +108,137 @@ class TechTimeline extends StatelessWidget {
   }
 
   Widget _buildSkillCard(SkillCategory category, ThemeData theme) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            category.color.withOpacity(0.05),
-            category.color.withOpacity(0.1),
-          ],
-        ),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: category.color.withOpacity(0.2)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header with icon and level
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: category.color,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(
-                    category.icon,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                ),
-                const Spacer(),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: category.color.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Text(
-                    category.level,
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                      color: category.color,
-                    ),
-                  ),
-                ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isMobile = ResponsiveUtils.isMobile(context);
+
+        return Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                category.color.withOpacity(0.05),
+                category.color.withOpacity(0.1),
               ],
             ),
-
-            const Gap(12),
-
-            // Title
-            Text(
-              category.title,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-
-            const Gap(8),
-
-            // Skills as compact chips
-            Expanded(
-              child: Wrap(
-                spacing: 4,
-                runSpacing: 4,
-                children: category.skills.take(6).map((skill) {
-                  return Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(
-                      color: category.color.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      skill,
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: category.color.withOpacity(0.9),
-                        fontWeight: FontWeight.w500,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: category.color.withOpacity(0.2)),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Header with icon and level
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: category.color,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Icon(
+                        category.icon,
+                        color: Colors.white,
+                        size: 20,
                       ),
                     ),
-                  );
-                }).toList(),
-              ),
+                    const Gap(
+                        8), // Fixed spacing instead of Spacer to prevent overflow
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: category.color.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Text(
+                            category.level,
+                            style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w600,
+                              color: category.color,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                const Gap(12),
+
+                // Title
+                Text(
+                  category.title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
+
+                const Gap(8),
+
+                // Skills as compact chips - Fixed for mobile
+                if (isMobile)
+                  Wrap(
+                    spacing: 4,
+                    runSpacing: 4,
+                    children: category.skills.take(6).map((skill) {
+                      return Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 6, vertical: 2),
+                        decoration: BoxDecoration(
+                          color: category.color.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          skill,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: category.color.withOpacity(0.9),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  )
+                else
+                  Expanded(
+                    child: Wrap(
+                      spacing: 4,
+                      runSpacing: 4,
+                      children: category.skills.take(6).map((skill) {
+                        return Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 6, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: category.color.withOpacity(0.15),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            skill,
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: category.color.withOpacity(0.9),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -221,9 +269,10 @@ class TechTimeline extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.grey[50],
+            color: theme.colorScheme.surface.withOpacity(0.5),
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: Colors.grey[200]!),
+            border:
+                Border.all(color: theme.colorScheme.outline.withOpacity(0.2)),
           ),
           child: Wrap(
             spacing: 16,
@@ -238,44 +287,49 @@ class TechTimeline extends StatelessWidget {
   }
 
   Widget _buildTechItem(TechItem tech) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.1),
-            blurRadius: 4,
-            offset: const Offset(0, 2),
+    return Builder(
+      builder: (context) {
+        final theme = Theme.of(context);
+        return Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surface.withOpacity(0.8),
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: tech.color.withOpacity(0.1),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
           ),
-        ],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: tech.color.withOpacity(0.1),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(
-              tech.icon,
-              color: tech.color,
-              size: 24,
-            ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: tech.color.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  tech.icon,
+                  color: tech.color,
+                  size: 24,
+                ),
+              ),
+              const Gap(8),
+              Text(
+                tech.name,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
           ),
-          const Gap(8),
-          Text(
-            tech.name,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

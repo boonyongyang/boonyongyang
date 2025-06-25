@@ -64,9 +64,10 @@ class _ProjectCardState extends State<ProjectCard>
       animation: _hoverController,
       builder: (context, child) {
         return Transform.scale(
-          scale: _scaleAnimation.value,            child: MouseRegion(
-              onEnter: (_) => _hoverController.forward(),
-              onExit: (_) => _hoverController.reverse(),
+          scale: _scaleAnimation.value,
+          child: MouseRegion(
+            onEnter: (_) => _hoverController.forward(),
+            onExit: (_) => _hoverController.reverse(),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               curve: Curves.easeInOut,
@@ -84,7 +85,8 @@ class _ProjectCardState extends State<ProjectCard>
                 elevation: 0,
                 child: Container(
                   width: double.infinity,
-                  padding: EdgeInsets.all(ResponsiveUtils.getSpacing(context, mobile: 16, tablet: 20, desktop: 24)),
+                  padding: EdgeInsets.all(ResponsiveUtils.getSpacing(context,
+                      mobile: 16, tablet: 20, desktop: 24)),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     gradient: LinearGradient(
@@ -104,7 +106,11 @@ class _ProjectCardState extends State<ProjectCard>
                       Row(
                         children: [
                           Container(
-                            padding: EdgeInsets.all(ResponsiveUtils.getSpacing(context, mobile: 10, tablet: 12, desktop: 12)),
+                            padding: EdgeInsets.all(ResponsiveUtils.getSpacing(
+                                context,
+                                mobile: 10,
+                                tablet: 12,
+                                desktop: 12)),
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [color, color.withOpacity(0.8)],

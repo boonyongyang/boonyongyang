@@ -10,6 +10,7 @@ class ProductionAppsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isMobile = ResponsiveUtils.isMobile(context);
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -29,15 +30,23 @@ class ProductionAppsSection extends StatelessWidget {
                   'Production Applications',
                   style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const Gap(8),
-                Text(
-                  'Live iOS & Android apps currently serving thousands of users',
-                  style: theme.textTheme.bodyLarge?.copyWith(
-                    color: theme.colorScheme.onSurface.withOpacity(0.7),
+                    fontSize: isMobile ? 24 : null,
                   ),
                   textAlign: TextAlign.center,
+                ),
+                const Gap(8),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isMobile ? 0 : 32,
+                  ),
+                  child: Text(
+                    'Live iOS & Android apps currently serving thousands of users',
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      color: theme.colorScheme.onSurface.withOpacity(0.7),
+                      fontSize: isMobile ? 16 : null,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ],
             ),

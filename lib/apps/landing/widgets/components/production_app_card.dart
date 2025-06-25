@@ -47,7 +47,11 @@ class ProductionAppCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildHeader(theme, color, icon),
+            // Use unified header for consistency
+            _buildHeader(context, theme, color, icon),
+            const Gap(24),
+            // App mockup - below title
+            _buildAppMockup(theme, color, icon),
             const Gap(24),
             _buildAppInfo(theme, color),
             const Gap(24),
@@ -76,7 +80,7 @@ class ProductionAppCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _buildHeader(theme, color, icon),
+              _buildHeader(context, theme, color, icon),
               const Gap(20),
               _buildAppInfo(theme, color),
               const Gap(20),
@@ -113,7 +117,7 @@ class ProductionAppCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _buildHeader(theme, color, icon),
+                        _buildHeader(context, theme, color, icon),
                         const Gap(20),
                         _buildAppInfo(theme, color),
                         const Gap(20),
@@ -136,47 +140,66 @@ class ProductionAppCard extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(ThemeData theme, Color color, IconData icon) {
-    return Row(
+  Widget _buildHeader(
+      BuildContext context, ThemeData theme, Color color, IconData icon) {
+    final isMobile = ResponsiveUtils.isMobile(context);
+
+    // Unified responsive layout that always gives title full width
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [color, color.withOpacity(0.8)],
+        // Icon and store badges row - with proper constraints
+        Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [color, color.withOpacity(0.8)],
+                ),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(
+                icon,
+                color: Colors.white,
+                size: isMobile ? 28 : 32, // Responsive icon size
+              ),
             ),
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Icon(icon, color: Colors.white, size: 32),
+            const Spacer(),
+            // Store badges with intrinsic dimensions
+            IntrinsicWidth(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _buildStoreBadge('App Store', Icons.apple, theme),
+                  Gap(isMobile ? 6 : 8), // Responsive spacing
+                  _buildStoreBadge('Google Play', Icons.android, theme),
+                ],
+              ),
+            ),
+          ],
         ),
         const Gap(16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                project.title,
-                style: theme.textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: color,
-                ),
-              ),
-              const Gap(4),
-              Text(
-                project.subtitle,
-                style: theme.textTheme.titleMedium?.copyWith(
-                  color: theme.colorScheme.onSurface.withOpacity(0.7),
-                ),
-              ),
-            ],
-          ),
-        ),
-        // Store badges placeholder
+        // Title and subtitle - always full width
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildStoreBadge('App Store', Icons.apple, theme),
-            const Gap(8),
-            _buildStoreBadge('Google Play', Icons.android, theme),
+            Text(
+              project.title,
+              style: theme.textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: color,
+                fontSize: isMobile ? 24 : null, // Responsive font size
+              ),
+            ),
+            Gap(isMobile ? 6 : 4), // Responsive spacing
+            Text(
+              project.subtitle,
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: theme.colorScheme.onSurface.withOpacity(0.7),
+                fontSize: isMobile ? 16 : null, // Responsive font size
+              ),
+            ),
           ],
         ),
       ],
@@ -389,40 +412,55 @@ class ProductionAppCard extends StatelessWidget {
           ),
         ),
         const Gap(12),
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            childAspectRatio: 4,
-            crossAxisSpacing: 8,
-            mainAxisSpacing: 8,
-          ),
-          itemCount: project.features.length > 6 ? 6 : project.features.length,
-          itemBuilder: (context, index) {
-            return Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: color.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(6),
-                border: Border.all(color: color.withOpacity(0.3)),
+        // Constrained GridView with proper error handling
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final isMobile = ResponsiveUtils.isMobile(context);
+            final crossAxisCount = isMobile ? 1 : 2;
+            final itemCount =
+                project.features.length > 6 ? 6 : project.features.length;
+
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                childAspectRatio:
+                    isMobile ? 8 : 4, // Wider aspect ratio for mobile
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
               ),
-              child: Row(
-                children: [
-                  Icon(Icons.check, size: 14, color: color),
-                  const Gap(4),
-                  Expanded(
-                    child: Text(
-                      project.features[index],
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: color,
-                        fontWeight: FontWeight.w500,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
+              itemCount: itemCount,
+              itemBuilder: (context, index) {
+                if (index >= project.features.length)
+                  return const SizedBox.shrink();
+
+                return Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: color.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(6),
+                    border: Border.all(color: color.withOpacity(0.3)),
                   ),
-                ],
-              ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.check, size: 14, color: color),
+                      const Gap(4),
+                      Expanded(
+                        child: Text(
+                          project.features[index],
+                          style: theme.textTheme.bodySmall?.copyWith(
+                            color: color,
+                            fontWeight: FontWeight.w500,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             );
           },
         ),

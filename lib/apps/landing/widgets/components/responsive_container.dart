@@ -17,8 +17,10 @@ class ResponsiveContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final effectivePadding = padding ?? ResponsiveUtils.getContentPadding(context);
-    final effectiveMaxWidth = maxWidth ?? ResponsiveUtils.getMaxContentWidth(context);
+    final effectivePadding =
+        padding ?? ResponsiveUtils.getContentPadding(context);
+    final effectiveMaxWidth =
+        maxWidth ?? ResponsiveUtils.getMaxContentWidth(context);
 
     Widget content = Container(
       padding: effectivePadding,
@@ -71,22 +73,27 @@ class ResponsiveGrid extends StatelessWidget {
 
     if (columns == 1) {
       return Column(
-        children: children.map((child) => Padding(
-          padding: EdgeInsets.only(bottom: runSpacing),
-          child: child,
-        )).toList(),
+        children: children
+            .map((child) => Padding(
+                  padding: EdgeInsets.only(bottom: runSpacing),
+                  child: child,
+                ))
+            .toList(),
       );
     }
 
     return Wrap(
       spacing: spacing,
       runSpacing: runSpacing,
-      children: children.map((child) => SizedBox(
-        width: (MediaQuery.of(context).size.width - 
-               (spacing * (columns - 1)) - 
-               (ResponsiveUtils.getHorizontalPadding(context) * 2)) / columns,
-        child: child,
-      )).toList(),
+      children: children
+          .map((child) => SizedBox(
+                width: (MediaQuery.of(context).size.width -
+                        (spacing * (columns - 1)) -
+                        (ResponsiveUtils.getHorizontalPadding(context) * 2)) /
+                    columns,
+                child: child,
+              ))
+          .toList(),
     );
   }
 }

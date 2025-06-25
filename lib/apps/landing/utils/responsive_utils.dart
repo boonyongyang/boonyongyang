@@ -79,7 +79,8 @@ class ResponsiveUtils {
     );
   }
 
-  static double getSpacing(BuildContext context, {double? mobile, double? tablet, double? desktop}) {
+  static double getSpacing(BuildContext context,
+      {double? mobile, double? tablet, double? desktop}) {
     if (isMobile(context)) return mobile ?? 16.0;
     if (isTablet(context)) return tablet ?? 24.0;
     return desktop ?? 32.0;
