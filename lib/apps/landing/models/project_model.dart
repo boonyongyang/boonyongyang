@@ -59,7 +59,7 @@ class ProjectModel {
           'Clean Architecture'
         ],
         iconName: 'trending_up',
-        colorName: 'blue',
+        colorName: 'orange',
         status: 'Live in Production',
         metrics: '50K+ downloads • 4.2★ rating • 500+ brands',
       ),
@@ -93,7 +93,7 @@ class ProjectModel {
           'Local Storage'
         ],
         iconName: 'shopping_bag',
-        colorName: 'orange',
+        colorName: 'blue',
         status: 'Recently Launched',
         metrics: 'New product • Finding market fit',
       ),
@@ -132,7 +132,7 @@ class ProjectModel {
           'Clean Architecture'
         ],
         iconName: 'trending_up',
-        colorName: 'blue',
+        colorName: 'orange',
         status: 'Live in Production',
         metrics: '50K+ downloads • 4.2★ rating • 500+ brands',
       ),
@@ -166,7 +166,7 @@ class ProjectModel {
           'Local Storage'
         ],
         iconName: 'shopping_bag',
-        colorName: 'orange',
+        colorName: 'blue',
         status: 'Recently Launched',
         metrics: 'New product • Finding market fit',
       ),

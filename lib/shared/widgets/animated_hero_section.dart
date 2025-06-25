@@ -175,13 +175,11 @@ class AnimatedHeroSection extends StatelessWidget {
                           ColorPalette.titleGradient.createShader(bounds),
                       child: Text(
                         title1,
-                        style: Theme.of(context)
-                            .textTheme
-                            .displayMedium
-                            ?.copyWith(
-                              color: ColorPalette.textPrimary,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.displayMedium?.copyWith(
+                                  color: ColorPalette.textPrimary,
+                                  fontWeight: FontWeight.bold,
+                                ),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -191,13 +189,11 @@ class AnimatedHeroSection extends StatelessWidget {
                           ColorPalette.accentTitleGradient.createShader(bounds),
                       child: Text(
                         title2,
-                        style: Theme.of(context)
-                            .textTheme
-                            .displayLarge
-                            ?.copyWith(
-                              color: ColorPalette.textPrimary,
-                              fontWeight: FontWeight.w900,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.displayLarge?.copyWith(
+                                  color: ColorPalette.textPrimary,
+                                  fontWeight: FontWeight.w900,
+                                ),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -222,13 +218,11 @@ class AnimatedHeroSection extends StatelessWidget {
                         constraints: const BoxConstraints(maxWidth: 600),
                         child: Text(
                           description,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge
-                              ?.copyWith(
-                                color: ColorPalette.textTertiary,
-                                height: 1.5,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    color: ColorPalette.textTertiary,
+                                    height: 1.5,
+                                  ),
                           textAlign: TextAlign.center,
                         ),
                       ),
