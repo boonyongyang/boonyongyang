@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Boon Yong Yang - Mobile Engineer specializing in Flutter development. 1.8+ years delivering production apps with Clean Architecture, BLoC patterns, and CI/CD pipelines.">
+  <meta name="keywords" content="Boon Yong Yang, Flutter Developer, Mobile Engineer, iOS Developer, Android Developer, BLoC, Clean Architecture, CI/CD">
+  <meta name="author" content="Boon Yong Yang">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://boonyongyang.dev">
+  <meta property="og:title" content="Boon Yong Yang - Mobile Engineer (Flutter)">
+  <meta property="og:description" content="Mobile Engineer specializing in Flutter development. 1.8+ years delivering production apps with expertise in Clean Architecture and CI/CD pipelines.">
+  <meta property="og:image" content="https://boonyongyang.dev/icons/Icon-512.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://boonyongyang.dev">
+  <meta property="twitter:title" content="Boon Yong Yang - Mobile Engineer (Flutter)">
+  <meta property="twitter:description" content="Mobile Engineer specializing in Flutter development with 1.8+ years delivering production applications.">
+  <meta property="twitter:image" content="https://boonyongyang.dev/icons/Icon-512.png">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Boon Yong Yang">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+
+  <title>Boon Yong Yang - Mobile Engineer (Flutter) Portfolio</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Preconnect to external domains for faster loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://github.com">
+  <link rel="preconnect" href="https://linkedin.com">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      overflow-x: hidden;
+    }
+    
+    .loading {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 9999;
+    }
+    
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-left: 4px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: 16px;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    /* Hide loading when Flutter app loads */
+    .loading.hidden {
+      display: none;
+    }
+  </style>
+
+  <script>
+    var serviceWorkerVersion = null;
+  </script>
+  <script src="flutter.js" defer></script>
+</head>
+<body>
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p class="loading-text">Loading Portfolio...</p>
+  </div>
+
+  <script>
+    window.addEventListener('load', function(ev) {
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion: serviceWorkerVersion,
+        },
+        onEntrypointLoaded: function(engineInitializer) {
+          engineInitializer.initializeEngine().then(function(appRunner) {
+            document.getElementById('loading').classList.add('hidden');
+            appRunner.runApp();
+          });
+        }
+      });
+    });
+
+    // Add structured data for SEO
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Boon Yong Yang",
+      "jobTitle": "Mobile Engineer (Flutter)",
+      "description": "Mobile Engineer specializing in Flutter development with 1.8+ years delivering production applications using Clean Architecture and modern CI/CD practices",
+      "url": "https://boonyongyang.dev",
+      "sameAs": [
+        "https://github.com/boonyongyang",
+        "https://linkedin.com/in/boonyongyang"
+      ],
+      "knowsAbout": [
+        "Flutter",
+        "Dart",
+        "Mobile Development",
+        "iOS Development", 
+        "Android Development",
+        "BLoC Pattern",
+        "Clean Architecture",
+        "CI/CD",
+        "Firebase"
+      ]
+    };
+
+    const script = document.createElement('script');
+    script.type = 'application/ld+json';
+    script.textContent = JSON.stringify(structuredData);
+    document.head.appendChild(script);
+  </script>
+</body>
+</html>

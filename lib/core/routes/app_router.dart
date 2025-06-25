@@ -37,6 +37,7 @@ class AppRouter {
         initialLocation: routes['home']!.path,
         restorationScopeId: 'app_router',
         observers: [_NavigationObserver()],
+        debugLogDiagnostics: true, // This helps with debugging route issues
         routes: [
           GoRoute(
             path: routes['home']!.path,
