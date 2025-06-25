@@ -1,0 +1,198 @@
+import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import '../../services/url_launcher_service.dart';
+import '../../utils/responsive_utils.dart';
+
+class HeroSection extends StatelessWidget {
+  const HeroSection({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isMobile = ResponsiveUtils.isMobile(context);
+
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: ResponsiveUtils.getHorizontalPadding(context),
+        vertical: ResponsiveUtils.getVerticalPadding(context),
+      ),
+      constraints: const BoxConstraints(minHeight: 500),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // Enhanced avatar with professional styling
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: theme.colorScheme.primary.withOpacity(0.3),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
+                ),
+              ],
+            ),
+            child: CircleAvatar(
+              radius: isMobile ? 60 : 80,
+              backgroundColor: theme.colorScheme.primary.withOpacity(0.1),
+              child: Icon(
+                Icons.person,
+                size: isMobile ? 60 : 80,
+                color: theme.colorScheme.primary,
+              ),
+            ),
+          ),
+          const Gap(32),
+
+          // Name with enhanced typography
+          Text(
+            'Boon Yong Yang',
+            style: theme.textTheme.displayMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              fontSize: isMobile ? 32 : null,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const Gap(8),
+
+          // Professional title with status indicator
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 8,
+                height: 8,
+                decoration: const BoxDecoration(
+                  color: Colors.green,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              const Gap(8),
+              Text(
+                'Available for Work',
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const Gap(16),
+
+          Text(
+            'Mobile Engineer & Flutter Expert',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              color: theme.colorScheme.onSurface.withOpacity(0.7),
+              fontSize: isMobile ? 18 : null,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          const Gap(24),
+
+          // Key achievements banner
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  theme.colorScheme.primary.withOpacity(0.1),
+                  theme.colorScheme.secondary.withOpacity(0.05),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(25),
+              border: Border.all(
+                color: theme.colorScheme.primary.withOpacity(0.2),
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.verified,
+                  size: 20,
+                  color: theme.colorScheme.primary,
+                ),
+                const Gap(8),
+                Text(
+                  '2 Production Apps • Live on App Store • 2+ Years Experience',
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.primary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Gap(32),
+
+          // Enhanced description with better formatting
+          Container(
+            constraints: BoxConstraints(
+              maxWidth: ResponsiveUtils.getMaxContentWidth(context),
+            ),
+            child: Text(
+              'Specialized in Flutter mobile development with 2+ years delivering production apps.\n'
+              'Expert in architectural patterns, CI/CD pipelines, and performance optimization.\n'
+              'Passionate about clean code, scalable solutions, and exceptional user experiences.',
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: theme.colorScheme.onSurface.withOpacity(0.8),
+                height: 1.6,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          const Gap(48),
+
+          // Enhanced action buttons
+          Wrap(
+            spacing: 16,
+            runSpacing: 16,
+            alignment: WrapAlignment.center,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () => UrlLauncherService.launchApp(context),
+                icon: const Icon(Icons.launch),
+                label: const Text('Launch Live App'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.colorScheme.primary,
+                  foregroundColor: theme.colorScheme.onPrimary,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+              ),
+              OutlinedButton.icon(
+                onPressed: UrlLauncherService.launchGitHub,
+                icon: const Icon(Icons.code),
+                label: const Text('View GitHub'),
+                style: OutlinedButton.styleFrom(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+              ),
+              ElevatedButton.icon(
+                onPressed: UrlLauncherService.launchEmail,
+                icon: const Icon(Icons.email),
+                label: const Text('Get Resume'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.colorScheme.secondary,
+                  foregroundColor: theme.colorScheme.onSecondary,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
