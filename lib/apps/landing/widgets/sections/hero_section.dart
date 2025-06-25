@@ -148,7 +148,7 @@ class _HeroSectionState extends State<HeroSection>
                 ),
                 const Gap(8),
                 Text(
-                  '2 Production Apps • Live on App Store • 2+ Years Experience',
+                  '2 Production Apps  |  4+ Years Flutter Experience',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.primary,
                     fontWeight: FontWeight.w600,
@@ -179,8 +179,8 @@ class _HeroSectionState extends State<HeroSection>
 
           // Enhanced action buttons
           Wrap(
-            spacing: 16,
-            runSpacing: 16,
+            spacing: isMobile ? 12 : 16,
+            runSpacing: isMobile ? 12 : 16,
             alignment: WrapAlignment.center,
             children: [
               // Primary CTA with pulse animation
@@ -191,13 +191,15 @@ class _HeroSectionState extends State<HeroSection>
                     scale: _pulseAnimation.value,
                     child: ElevatedButton.icon(
                       onPressed: () => UrlLauncherService.launchApp(context),
-                      icon: const Icon(Icons.launch),
-                      label: const Text('Launch Live App'),
+                      icon: Icon(Icons.launch, size: isMobile ? 20 : 24),
+                      label: Text(isMobile ? 'Launch App' : 'Launch Live App'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: theme.colorScheme.primary,
                         foregroundColor: theme.colorScheme.onPrimary,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 32, vertical: 16),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: isMobile ? 24 : 32,
+                          vertical: isMobile ? 12 : 16,
+                        ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
@@ -208,11 +210,13 @@ class _HeroSectionState extends State<HeroSection>
               ),
               OutlinedButton.icon(
                 onPressed: UrlLauncherService.launchGitHub,
-                icon: const Icon(Icons.code),
-                label: const Text('View GitHub'),
+                icon: Icon(Icons.code, size: isMobile ? 20 : 24),
+                label: Text(isMobile ? 'GitHub' : 'View GitHub'),
                 style: OutlinedButton.styleFrom(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isMobile ? 24 : 32,
+                    vertical: isMobile ? 12 : 16,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
@@ -220,13 +224,15 @@ class _HeroSectionState extends State<HeroSection>
               ),
               ElevatedButton.icon(
                 onPressed: UrlLauncherService.launchEmail,
-                icon: const Icon(Icons.email),
-                label: const Text('Get Resume'),
+                icon: Icon(Icons.email, size: isMobile ? 20 : 24),
+                label: Text(isMobile ? 'Resume' : 'Get Resume'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: theme.colorScheme.secondary,
                   foregroundColor: theme.colorScheme.onSecondary,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isMobile ? 24 : 32,
+                    vertical: isMobile ? 12 : 16,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),

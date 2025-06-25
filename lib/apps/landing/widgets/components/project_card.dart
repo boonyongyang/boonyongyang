@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import '../../models/project_model.dart';
 import '../../services/url_launcher_service.dart';
+import '../../utils/responsive_utils.dart';
 
 class ProjectCard extends StatefulWidget {
   final ProjectModel project;
@@ -20,7 +21,6 @@ class _ProjectCardState extends State<ProjectCard>
   late AnimationController _hoverController;
   late Animation<double> _elevationAnimation;
   late Animation<double> _scaleAnimation;
-  bool _isHovering = false;
 
   @override
   void initState() {
@@ -58,23 +58,15 @@ class _ProjectCardState extends State<ProjectCard>
     final theme = Theme.of(context);
     final color = _getColorFromName(widget.project.colorName);
     final icon = _getIconFromName(widget.project.iconName);
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isMobile = screenWidth < 600;
+    final isMobile = ResponsiveUtils.isMobile(context);
 
     return AnimatedBuilder(
       animation: _hoverController,
       builder: (context, child) {
         return Transform.scale(
-          scale: _scaleAnimation.value,
-          child: MouseRegion(
-            onEnter: (_) {
-              setState(() => _isHovering = true);
-              _hoverController.forward();
-            },
-            onExit: (_) {
-              setState(() => _isHovering = false);
-              _hoverController.reverse();
-            },
+          scale: _scaleAnimation.value,            child: MouseRegion(
+              onEnter: (_) => _hoverController.forward(),
+              onExit: (_) => _hoverController.reverse(),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               curve: Curves.easeInOut,
@@ -92,7 +84,7 @@ class _ProjectCardState extends State<ProjectCard>
                 elevation: 0,
                 child: Container(
                   width: double.infinity,
-                  padding: EdgeInsets.all(isMobile ? 16 : 24),
+                  padding: EdgeInsets.all(ResponsiveUtils.getSpacing(context, mobile: 16, tablet: 20, desktop: 24)),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
                     gradient: LinearGradient(
@@ -112,7 +104,7 @@ class _ProjectCardState extends State<ProjectCard>
                       Row(
                         children: [
                           Container(
-                            padding: EdgeInsets.all(isMobile ? 10 : 12),
+                            padding: EdgeInsets.all(ResponsiveUtils.getSpacing(context, mobile: 10, tablet: 12, desktop: 12)),
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [color, color.withOpacity(0.8)],
@@ -122,7 +114,7 @@ class _ProjectCardState extends State<ProjectCard>
                             child: Icon(
                               icon,
                               color: Colors.white,
-                              size: isMobile ? 20 : 24,
+                              size: ResponsiveUtils.getIconSize(context),
                             ),
                           ),
                           const Spacer(),

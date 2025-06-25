@@ -12,7 +12,10 @@ class HeaderSection extends StatelessWidget {
     final isMobile = ResponsiveUtils.isMobile(context);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+      padding: EdgeInsets.symmetric(
+        horizontal: ResponsiveUtils.getHorizontalPadding(context),
+        vertical: isMobile ? 12 : 16,
+      ),
       decoration: BoxDecoration(
         color: theme.colorScheme.surface.withOpacity(0.95),
         border: Border(

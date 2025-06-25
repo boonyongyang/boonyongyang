@@ -48,7 +48,7 @@ class ExperienceCard extends StatelessWidget {
                       ),
                       const Gap(4),
                       Text(
-                        'IA • May 2023 – Present (1 year 8 months)',
+                        'IA • May 2023 – Present (2 years and counting)',
                         style: theme.textTheme.titleMedium?.copyWith(
                           color: theme.colorScheme.primary,
                         ),

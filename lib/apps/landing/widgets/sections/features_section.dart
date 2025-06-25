@@ -61,8 +61,8 @@ class FeaturesSection extends StatelessWidget {
   }
 
   Widget _buildFeaturesShowcase(BuildContext context, ThemeData theme) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isMobile = screenWidth < 900;
+    final isMobile = ResponsiveUtils.isMobile(context);
+    final isTablet = ResponsiveUtils.isTablet(context);
 
     final features = [
       _FeatureItem(
@@ -104,6 +104,7 @@ class FeaturesSection extends StatelessWidget {
     ];
 
     if (isMobile) {
+      // Mobile: Single column
       return Column(
         children: features
             .map((feature) => Padding(
@@ -112,12 +113,51 @@ class FeaturesSection extends StatelessWidget {
                 ))
             .toList(),
       );
+    } else if (isTablet) {
+      // Tablet: 2 columns
+      return Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10, bottom: 20),
+                  child: _buildCompactFeatureCard(features[0], theme),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10, bottom: 20),
+                  child: _buildCompactFeatureCard(features[1], theme),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: _buildCompactFeatureCard(features[2], theme),
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: _buildCompactFeatureCard(features[3], theme),
+                ),
+              ),
+            ],
+          ),
+        ],
+      );
     } else {
+      // Desktop: 4 columns in a single row
       return Row(
         children: features
             .map((feature) => Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: _buildCompactFeatureCard(feature, theme),
                   ),
                 ))
@@ -130,7 +170,7 @@ class FeaturesSection extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.colorScheme.surface.withOpacity(0.8),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: feature.color.withOpacity(0.2)),
         boxShadow: [
