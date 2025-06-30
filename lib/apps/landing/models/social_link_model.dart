@@ -1,3 +1,5 @@
+import '../quick_config.dart';
+
 class SocialLinkModel {
   final String name;
   final String iconName;
@@ -16,19 +18,19 @@ class SocialLinkModel {
       const SocialLinkModel(
         name: 'GitHub',
         iconName: 'code',
-        url: 'https://github.com/boonyongyang',
+        url: QuickConfig.githubUrl,
         displayText: 'GitHub Profile',
       ),
       const SocialLinkModel(
         name: 'LinkedIn',
         iconName: 'work',
-        url: 'https://www.linkedin.com/in/boon-yong-yang-64096b1aa/',
+        url: QuickConfig.linkedinUrl,
         displayText: 'LinkedIn Profile',
       ),
       const SocialLinkModel(
         name: 'Email',
         iconName: 'email',
-        url: 'mailto:boonyongyang@gmail.com',
+        url: 'mailto:${QuickConfig.email}',
         displayText: 'Contact via Email',
       ),
     ];
@@ -49,9 +51,10 @@ class FooterInfoModel {
   });
 
   static FooterInfoModel get current => const FooterInfoModel(
-        copyrightText: '© 2025 Boon Yong Yang. Built with Flutter.',
+        copyrightText:
+            '© ${QuickConfig.copyrightYear} ${QuickConfig.fullName}. Built with Flutter.',
         contactTitle: 'Get in Touch',
-        contactSubtitle: 'Available for Flutter development opportunities',
+        contactSubtitle: QuickConfig.contactSubtitle,
         launchAppText: 'Launch Live App',
       );
 }

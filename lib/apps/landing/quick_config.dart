@@ -16,13 +16,13 @@ class QuickConfig {
   static const String currentCompany = 'IA';
   static const String currentPosition = 'Mobile Engineer (Flutter)';
   static const String workDuration =
-      'May 2023 – Present (2 years and counting)';
+      'June 2023 – Present (2 years and counting)'; // Update as needed
 
   // 📊 ACHIEVEMENTS - Update these for your latest achievements
   static const String achievementBanner =
       '2 Production Apps  |  4+ Years Flutter Experience';
   static const String professionalSummary =
-      'Specialized in Flutter mobile development with 2+ years delivering production apps.\n'
+      'Specialized in Flutter mobile development with 4+ years of Flutter experience and over 2+ years in delivering production apps.\n'
       'Expert in architectural patterns, CI/CD pipelines, and performance optimization.\n'
       'Dedicated to writing clean code, building scalable solutions, and delivering exceptional user experiences.';
 
@@ -66,19 +66,17 @@ class QuickConfig {
 }
 
 /// 💡 USAGE INSTRUCTIONS:
-/// 1. Update the values above for quick content changes
-/// 2. For more detailed changes, edit the specific model files in /models/
-/// 3. The UI will automatically reflect these changes
+/// ✅ CONNECTED MODELS (auto-update when you change values above):
+/// - PersonalInfoModel ← Uses fullName, currentRole, workStatus, email, etc.
+/// - WorkExperienceModel ← Uses currentCompany, currentPosition, workDuration, etc.
+/// - SocialLinkModel ← Uses githubUrl, linkedinUrl, email
+/// - FooterInfoModel ← Uses copyrightYear, fullName, contactSubtitle
 ///
-/// 🔥 MOST COMMON UPDATES:
-/// - Update fullName when you change your name
-/// - Update currentRole when you get a new position
-/// - Update workStatus when your availability changes
-/// - Update currentCompany and workDuration when switching jobs
-/// - Update achievementBanner with your latest accomplishments
-/// - Update socialLinks when you change social media profiles
+/// 🔥 MOST COMMON UPDATES (single source of truth):
+/// - Update fullName → Auto-updates everywhere
+/// - Update currentRole → Auto-updates title across site  
+/// - Update workStatus → Auto-updates availability status
+/// - Update currentMetrics → Auto-updates achievements and stats
+/// - Update socialLinks → Auto-updates all footer/contact links
 ///
-/// 📋 TODO for implementation:
-/// - Connect this config to the actual model files
-/// - Add validation for URLs and email formats
-/// - Add helper methods for formatting
+/// � DEPLOYMENT READY: Just edit this file and rebuild!

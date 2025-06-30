@@ -1,3 +1,5 @@
+import '../quick_config.dart';
+
 class PersonalInfoModel {
   final String name;
   final String title;
@@ -21,18 +23,28 @@ class PersonalInfoModel {
     this.avatarUrl,
   });
 
-  static PersonalInfoModel get current => const PersonalInfoModel(
-        name: 'Boon Yong Yang',
-        title: 'Mobile Engineer & Flutter Expert',
-        subtitle: 'Available for Work',
-        status: 'available',
-        statusColor: 'green',
-        description:
-            'Specialized in Flutter mobile development with 2+ years delivering production apps.\n'
-            'Expert in architectural patterns, CI/CD pipelines, and performance optimization.\n'
-            'Dedicated to writing clean code, building scalable solutions, and delivering exceptional user experiences.',
-        achievementBanner: '2 Production Apps  |  4+ Years Flutter Experience',
-        email: 'boonyongyang@gmail.com',
+  static PersonalInfoModel get current => PersonalInfoModel(
+        name: QuickConfig.fullName,
+        title: QuickConfig.currentRole,
+        subtitle: QuickConfig.workStatus,
+        status: QuickConfig.statusType,
+        statusColor: _getStatusColor(QuickConfig.statusType),
+        description: QuickConfig.professionalSummary,
+        achievementBanner: QuickConfig.achievementBanner,
+        email: QuickConfig.email,
         avatarUrl: null, // Can be added later
       );
+
+  static String _getStatusColor(String status) {
+    switch (status) {
+      case 'available':
+        return 'green';
+      case 'busy':
+        return 'orange';
+      case 'unavailable':
+        return 'red';
+      default:
+        return 'gray';
+    }
+  }
 }

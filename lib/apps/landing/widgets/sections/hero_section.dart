@@ -3,7 +3,6 @@ import 'package:gap/gap.dart';
 import '../../services/url_launcher_service.dart';
 import '../../utils/responsive_utils.dart';
 import '../../models/landing_page_data_provider.dart';
-import '../../utils/landing_page_utils.dart';
 
 class HeroSection extends StatefulWidget {
   const HeroSection({super.key});
@@ -93,28 +92,28 @@ class _HeroSectionState extends State<HeroSection>
           const Gap(8),
 
           // Professional title with status indicator
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 8,
-                height: 8,
-                decoration: BoxDecoration(
-                  color: LandingPageUtils.getStatusColor(personalInfo.status),
-                  shape: BoxShape.circle,
-                ),
-              ),
-              const Gap(8),
-              Text(
-                personalInfo.subtitle,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: LandingPageUtils.getStatusColor(personalInfo.status),
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-          const Gap(16),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //     Container(
+          //       width: 8,
+          //       height: 8,
+          //       decoration: BoxDecoration(
+          //         color: LandingPageUtils.getStatusColor(personalInfo.status),
+          //         shape: BoxShape.circle,
+          //       ),
+          //     ),
+          //     const Gap(8),
+          //     Text(
+          //       personalInfo.subtitle,
+          //       style: theme.textTheme.bodySmall?.copyWith(
+          //         color: LandingPageUtils.getStatusColor(personalInfo.status),
+          //         fontWeight: FontWeight.bold,
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          // const Gap(16),
 
           Text(
             personalInfo.title,

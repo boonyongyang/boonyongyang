@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import '../../services/url_launcher_service.dart';
 import '../../utils/responsive_utils.dart';
+import '../../quick_config.dart';
 
 class HeaderSection extends StatelessWidget {
   const HeaderSection({super.key});
@@ -47,7 +48,7 @@ class HeaderSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Boon Yong Yang',
+                    QuickConfig.fullName,
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       color: theme.colorScheme.primary,
