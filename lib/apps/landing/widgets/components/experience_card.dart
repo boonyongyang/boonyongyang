@@ -85,11 +85,7 @@ class ExperienceCard extends StatelessWidget {
                 children: _buildImplementationCards(context),
               )
             else
-              Wrap(
-                spacing: 16,
-                runSpacing: 16,
-                children: _buildImplementationCards(context),
-              ),
+              _buildResponsiveGrid(context),
 
             const Gap(32),
 
@@ -99,6 +95,55 @@ class ExperienceCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildResponsiveGrid(BuildContext context) {
+    final isTablet = ResponsiveUtils.isTablet(context);
+    final cards = _buildImplementationCards(context);
+
+    if (isTablet) {
+      // Tablet: 2 columns
+      return Column(
+        children: [
+          for (int i = 0; i < cards.length; i += 2)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(child: cards[i]),
+                  const Gap(16),
+                  Expanded(
+                    child:
+                        i + 1 < cards.length ? cards[i + 1] : const SizedBox(),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      );
+    } else {
+      // Desktop: 2 columns with better spacing
+      return Column(
+        children: [
+          for (int i = 0; i < cards.length; i += 2)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(child: cards[i]),
+                  const Gap(24),
+                  Expanded(
+                    child:
+                        i + 1 < cards.length ? cards[i + 1] : const SizedBox(),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      );
+    }
   }
 
   List<Widget> _buildImplementationCards(BuildContext context) {
@@ -112,7 +157,7 @@ class ExperienceCard extends StatelessWidget {
           'Applied BLoC Feature First for rapid 3.5-month launch cycle',
           'Implemented Clean Architecture for scalable, maintainable codebases',
           'Successfully launched both apps on store_links',
-          'Owned complete top-down technical architecture decisions',
+          'Laid the groundwork for the core technical architecture still in use today',
         ],
         'tech': [
           'Flutter',
@@ -185,102 +230,99 @@ class ExperienceCard extends StatelessWidget {
     ];
 
     return implementations.map((impl) {
-      return SizedBox(
-        width: ResponsiveUtils.isMobile(context) ? double.infinity : 300,
-        child: Card(
-          elevation: 2,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Icon(
-                      impl['icon'] as IconData,
-                      size: 24,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    const Gap(8),
-                    Expanded(
-                      child: Text(
-                        impl['title'] as String,
-                        style:
-                            Theme.of(context).textTheme.titleMedium?.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                      ),
-                    ),
-                  ],
-                ),
-                const Gap(12),
-                Text(
-                  impl['description'] as String,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .onSurface
-                            .withOpacity(0.8),
-                      ),
-                ),
-                const Gap(16),
-
-                // Implementation details
-                ...((impl['details'] as List<String>).map((detail) {
-                  if (detail == 'store_links') {
-                    return _buildStoreLinks(context);
-                  }
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 4),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Icon(
-                          Icons.check_circle,
-                          size: 16,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        const Gap(8),
-                        Expanded(
-                          child: Text(
-                            detail,
-                            style: Theme.of(context).textTheme.bodySmall,
+      return Card(
+        elevation: 2,
+        child: Padding(
+          padding: EdgeInsets.all(ResponsiveUtils.isMobile(context) ? 16 : 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    impl['icon'] as IconData,
+                    size: 24,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  const Gap(8),
+                  Expanded(
+                    child: Text(
+                      impl['title'] as String,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
                           ),
+                    ),
+                  ),
+                ],
+              ),
+              const Gap(12),
+              Text(
+                impl['description'] as String,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onSurface
+                          .withOpacity(0.8),
+                    ),
+              ),
+              const Gap(16),
+
+              // Implementation details
+              ...((impl['details'] as List<String>).map((detail) {
+                if (detail == 'store_links') {
+                  return _buildStoreLinks(context);
+                }
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 4),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(
+                        Icons.check_circle,
+                        size: 16,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      const Gap(8),
+                      Expanded(
+                        child: Text(
+                          detail,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                );
+              }).toList()),
+
+              const Gap(16),
+
+              // Technologies
+              Wrap(
+                spacing: 4,
+                runSpacing: 4,
+                children: (impl['tech'] as List<String>).map((tech) {
+                  return Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      tech,
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.w500,
+                          ),
                     ),
                   );
-                }).toList()),
-
-                const Gap(16),
-
-                // Technologies
-                Wrap(
-                  spacing: 4,
-                  runSpacing: 4,
-                  children: (impl['tech'] as List<String>).map((tech) {
-                    return Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primary
-                            .withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        tech,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.w500,
-                            ),
-                      ),
-                    );
-                  }).toList(),
-                ),
-              ],
-            ),
+                }).toList(),
+              ),
+            ],
           ),
         ),
       );

@@ -40,11 +40,14 @@ class FeatureModel {
       ),
       const FeatureModel(
         iconName: 'security',
-        title: 'Quality & Reliability',
-        description: 'Thorough testing and automated CI/CD pipelines.',
+        title: 'Quality & Security',
+        description:
+            'Thorough testing, security best practices, and automated CI/CD pipelines.',
         colorName: 'orange',
         items: [
           'Unit, widget, and integration tests',
+          'Secure token management & API key protection',
+          'Mobile security best practices implementation',
           'Continuous integration with Codemagic',
           'Automated deployment (Fastlane)',
         ],

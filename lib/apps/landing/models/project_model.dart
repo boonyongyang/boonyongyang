@@ -89,13 +89,12 @@ class ProjectModel {
         ],
         features: [
           'Merchant Discovery & Search',
-          'Real-time Cashback Tracking',
-          'Secure Payment Processing',
+          'Accurate Cashback Tracking',
           'Transaction History & Analytics',
-          'Push Notifications & Alerts',
-          'User Profile & Preferences',
           'Cashback Withdrawal System',
-          'Shopping Cart & Checkout Flow',
+          'Push Notifications & Alerts',
+          'Enhanced Paste Product Link Checkout Flow',
+          'User Profile & Preferences',
         ],
         technologies: [
           'Flutter',
