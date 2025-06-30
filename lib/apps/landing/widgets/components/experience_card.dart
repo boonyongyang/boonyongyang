@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../utils/responsive_utils.dart';
-import 'tech_timeline.dart';
 import '../../models/landing_page_data_provider.dart';
 import '../../utils/landing_page_utils.dart';
+import 'technical_skill_section.dart';
 
 class ExperienceCard extends StatelessWidget {
   const ExperienceCard({super.key});
@@ -94,7 +94,7 @@ class ExperienceCard extends StatelessWidget {
             const Gap(32),
 
             // Technologies timeline
-            const TechTimeline(),
+            const TechnicalSkillSection(),
           ],
         ),
       ),

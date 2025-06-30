@@ -27,8 +27,8 @@ class WorkExperienceModel {
         duration: QuickConfig.workDuration,
         companyIconName: 'phone_android',
         description:
-            'Led end-to-end mobile development for two production applications from architecture to App Store deployment. '
-            'Owned complete technical architecture, implemented robust CI/CD pipelines, and delivered scalable Flutter solutions.',
+            'Initiated end-to-end mobile development for two production applications from architecture to App Store deployment. '
+            'Owned complete technical architecture, implemented robust CI/CD pipelines, and delivered scalable and maintainable codebases. ',
         keyImplementations: [
           'Architected and built ${QuickConfig.mainAppName} from 0 to ${QuickConfig.currentMetrics['totalDownloads']} downloads',
           'Designed clean architecture with BLoC pattern for scalable codebase',

@@ -23,7 +23,7 @@ class QuickConfig {
       '2 Production Apps  |  4+ Years Flutter Experience';
   static const String professionalSummary =
       'Specialized in Flutter mobile development with 4+ years of Flutter experience and over 2+ years in delivering production apps.\n'
-      'Expert in architectural patterns, CI/CD pipelines, and performance optimization.\n'
+      'Experienced in architectural patterns, CI/CD pipelines, and performance optimization.\n'
       'Dedicated to writing clean code, building scalable solutions, and delivering exceptional user experiences.';
 
   // 🔗 SOCIAL LINKS - Update these for social media changes
