@@ -75,51 +75,53 @@ class _LandingPageState extends State<LandingPage>
     return Scaffold(
       body: FadeTransition(
         opacity: _fadeAnimation,
-        child: SingleChildScrollView(
-          controller: _scrollController,
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  colorScheme.primary.withOpacity(0.1),
-                  colorScheme.secondary.withOpacity(0.05),
+        child: SelectionArea(
+          child: SingleChildScrollView(
+            controller: _scrollController,
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    colorScheme.primary.withOpacity(0.1),
+                    colorScheme.secondary.withOpacity(0.05),
+                  ],
+                ),
+              ),
+              child: Column(
+                children: [
+                  const AnimatedSection(
+                    delay: Duration(milliseconds: 0),
+                    child: HeaderSection(),
+                  ),
+                  SlideTransition(
+                    position: _slideAnimation,
+                    child: const HeroSection(),
+                  ),
+                  const AnimatedSection(
+                    delay: Duration(milliseconds: 200),
+                    child: WorkExperienceSection(),
+                  ),
+                  const AnimatedSection(
+                    delay: Duration(milliseconds: 400),
+                    child: ProductionAppsSection(),
+                  ),
+                  const AnimatedSection(
+                    delay: Duration(milliseconds: 600),
+                    child: PassionProjectsSection(),
+                  ),
+                  const AnimatedSection(
+                    delay: Duration(milliseconds: 800),
+                    child: FeaturesSection(),
+                  ),
+                  const AnimatedSection(
+                    delay: Duration(milliseconds: 1000),
+                    child: FooterSection(),
+                  ),
                 ],
               ),
-            ),
-            child: Column(
-              children: [
-                const AnimatedSection(
-                  delay: Duration(milliseconds: 0),
-                  child: HeaderSection(),
-                ),
-                SlideTransition(
-                  position: _slideAnimation,
-                  child: const HeroSection(),
-                ),
-                const AnimatedSection(
-                  delay: Duration(milliseconds: 200),
-                  child: WorkExperienceSection(),
-                ),
-                const AnimatedSection(
-                  delay: Duration(milliseconds: 400),
-                  child: ProductionAppsSection(),
-                ),
-                const AnimatedSection(
-                  delay: Duration(milliseconds: 600),
-                  child: PassionProjectsSection(),
-                ),
-                const AnimatedSection(
-                  delay: Duration(milliseconds: 800),
-                  child: FeaturesSection(),
-                ),
-                const AnimatedSection(
-                  delay: Duration(milliseconds: 1000),
-                  child: FooterSection(),
-                ),
-              ],
             ),
           ),
         ),

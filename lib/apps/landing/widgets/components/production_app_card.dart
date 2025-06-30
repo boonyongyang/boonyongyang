@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../models/project_model.dart';
 import '../../utils/responsive_utils.dart';
 
@@ -171,9 +172,11 @@ class ProductionAppCard extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _buildStoreBadge('App Store', Icons.apple, theme),
+                  _buildClickableStoreBadge(
+                      'App Store', Icons.apple, theme, true),
                   Gap(isMobile ? 6 : 8), // Responsive spacing
-                  _buildStoreBadge('Google Play', Icons.android, theme),
+                  _buildClickableStoreBadge(
+                      'Google Play', Icons.android, theme, false),
                 ],
               ),
             ),
@@ -203,6 +206,40 @@ class ProductionAppCard extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+
+  Widget _buildClickableStoreBadge(
+      String store, IconData icon, ThemeData theme, bool isAppStore) {
+    final storeUrls = _getStoreUrls();
+    final url = isAppStore ? storeUrls['appStore']! : storeUrls['playStore']!;
+
+    return InkWell(
+      onTap: url.isNotEmpty ? () => _launchUrl(url) : null,
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.circular(8),
+          border: url.isEmpty ? Border.all(color: Colors.grey) : null,
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: Colors.white, size: 16),
+            const Gap(4),
+            Text(
+              store,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -542,7 +579,7 @@ class ProductionAppCard extends StatelessWidget {
             Expanded(
               child: ElevatedButton.icon(
                 onPressed: () {
-                  // TODO: Link to App Store
+                  _launchUrl(_getStoreUrls()['appStore']!);
                 },
                 icon: const Icon(Icons.apple, size: 18),
                 label: const Text('App Store'),
@@ -557,7 +594,7 @@ class ProductionAppCard extends StatelessWidget {
             Expanded(
               child: ElevatedButton.icon(
                 onPressed: () {
-                  // TODO: Link to Google Play
+                  _launchUrl(_getStoreUrls()['playStore']!);
                 },
                 icon: const Icon(Icons.android, size: 18),
                 label: const Text('Google Play'),
@@ -572,6 +609,33 @@ class ProductionAppCard extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  // Method to launch URLs
+  Future<void> _launchUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
+  // Method to get store URLs based on project title
+  Map<String, String> _getStoreUrls() {
+    if (project.title.toLowerCase().contains('involve')) {
+      return {
+        'appStore': 'https://apps.apple.com/my/app/involve-asia/id6469589952',
+        'playStore':
+            'https://play.google.com/store/apps/details?id=asia.involve.app&hl=en',
+      };
+    } else if (project.title.toLowerCase().contains('cha ching')) {
+      return {
+        'appStore':
+            'https://apps.apple.com/us/app/cha-ching-shop-get-cashback/id6745090543',
+        'playStore':
+            'https://play.google.com/store/apps/details?id=com.cmv.chaching&hl=en',
+      };
+    }
+    return {'appStore': '', 'playStore': ''};
   }
 
   Color _getColorFromName(String colorName) {

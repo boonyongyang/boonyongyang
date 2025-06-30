@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import '../../utils/responsive_utils.dart';
+import '../../models/landing_page_data_provider.dart';
+import '../../utils/landing_page_utils.dart';
 
 class FeaturesSection extends StatelessWidget {
   const FeaturesSection({super.key});
@@ -43,14 +45,14 @@ class FeaturesSection extends StatelessWidget {
     return Column(
       children: [
         Text(
-          'Technical Excellence',
+          LandingPageDataProvider.sectionTitles['features']!,
           style: theme.textTheme.headlineMedium?.copyWith(
             fontWeight: FontWeight.bold,
           ),
         ),
         const Gap(12),
         Text(
-          'Production-ready features and technical capabilities that power scalable applications',
+          LandingPageDataProvider.sectionSubtitles['features']!,
           style: theme.textTheme.bodyLarge?.copyWith(
             color: Colors.grey[600],
           ),
@@ -64,44 +66,17 @@ class FeaturesSection extends StatelessWidget {
     final isMobile = ResponsiveUtils.isMobile(context);
     final isTablet = ResponsiveUtils.isTablet(context);
 
-    final features = [
-      _FeatureItem(
-        icon: Icons.architecture,
-        title: 'Scalable Architecture',
-        description: 'Clean Architecture with BLoC patterns',
-        color: Colors.blue,
-        items: [
-          'Feature-first structure',
-          'Repository pattern',
-          'Dependency injection'
-        ],
-      ),
-      _FeatureItem(
-        icon: Icons.speed,
-        title: 'Performance',
-        description: '60fps smooth experiences',
-        color: Colors.green,
-        items: [
-          'Memory optimization',
-          'Widget efficiency',
-          'DevTools profiling'
-        ],
-      ),
-      _FeatureItem(
-        icon: Icons.security,
-        title: 'Quality Assurance',
-        description: 'Comprehensive testing & CI/CD',
-        color: Colors.orange,
-        items: ['Automated testing', 'Patrol integration', 'OTA updates'],
-      ),
-      _FeatureItem(
-        icon: Icons.integration_instructions,
-        title: 'Integrations',
-        description: 'Modern APIs & services',
-        color: Colors.purple,
-        items: ['Firebase suite', 'Analytics', 'Push notifications'],
-      ),
-    ];
+    final features = LandingPageDataProvider.features
+        .map(
+          (feature) => _FeatureItem(
+            icon: LandingPageUtils.getIcon(feature.iconName),
+            title: feature.title,
+            description: feature.description,
+            color: LandingPageUtils.getColor(feature.colorName),
+            items: feature.items,
+          ),
+        )
+        .toList();
 
     if (isMobile) {
       // Mobile: Single column

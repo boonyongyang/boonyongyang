@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import '../../utils/responsive_utils.dart';
 import '../components/experience_card.dart';
+import '../../models/landing_page_data_provider.dart';
 
 class WorkExperienceSection extends StatelessWidget {
   const WorkExperienceSection({super.key});
@@ -23,7 +24,7 @@ class WorkExperienceSection extends StatelessWidget {
         children: [
           Center(
             child: Text(
-              'Work Experience',
+              LandingPageDataProvider.sectionTitles['workExperience']!,
               style: theme.textTheme.headlineMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),

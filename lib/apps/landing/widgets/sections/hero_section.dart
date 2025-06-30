@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import '../../services/url_launcher_service.dart';
 import '../../utils/responsive_utils.dart';
+import '../../models/landing_page_data_provider.dart';
+import '../../utils/landing_page_utils.dart';
 
 class HeroSection extends StatefulWidget {
   const HeroSection({super.key});
@@ -44,6 +46,7 @@ class _HeroSectionState extends State<HeroSection>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isMobile = ResponsiveUtils.isMobile(context);
+    final personalInfo = LandingPageDataProvider.personalInfo;
 
     return Container(
       padding: EdgeInsets.symmetric(
@@ -80,7 +83,7 @@ class _HeroSectionState extends State<HeroSection>
 
           // Name with enhanced typography
           Text(
-            'Boon Yong Yang',
+            personalInfo.name,
             style: theme.textTheme.displayMedium?.copyWith(
               fontWeight: FontWeight.bold,
               fontSize: isMobile ? 32 : null,
@@ -96,16 +99,16 @@ class _HeroSectionState extends State<HeroSection>
               Container(
                 width: 8,
                 height: 8,
-                decoration: const BoxDecoration(
-                  color: Colors.green,
+                decoration: BoxDecoration(
+                  color: LandingPageUtils.getStatusColor(personalInfo.status),
                   shape: BoxShape.circle,
                 ),
               ),
               const Gap(8),
               Text(
-                'Available for Work',
+                personalInfo.subtitle,
                 style: theme.textTheme.bodySmall?.copyWith(
-                  color: Colors.green,
+                  color: LandingPageUtils.getStatusColor(personalInfo.status),
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -114,7 +117,7 @@ class _HeroSectionState extends State<HeroSection>
           const Gap(16),
 
           Text(
-            'Mobile Engineer & Flutter Expert',
+            personalInfo.title,
             style: theme.textTheme.headlineSmall?.copyWith(
               color: theme.colorScheme.onSurface.withOpacity(0.7),
               fontSize: isMobile ? 18 : null,
@@ -148,7 +151,7 @@ class _HeroSectionState extends State<HeroSection>
                 ),
                 const Gap(8),
                 Text(
-                  '2 Production Apps  |  4+ Years Flutter Experience',
+                  personalInfo.achievementBanner,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.primary,
                     fontWeight: FontWeight.w600,
@@ -165,9 +168,7 @@ class _HeroSectionState extends State<HeroSection>
               maxWidth: ResponsiveUtils.getMaxContentWidth(context),
             ),
             child: Text(
-              'Specialized in Flutter mobile development with 2+ years delivering production apps.\n'
-              'Expert in architectural patterns, CI/CD pipelines, and performance optimization.\n'
-              'Passionate about clean code, scalable solutions, and exceptional user experiences.',
+              personalInfo.description,
               style: theme.textTheme.bodyLarge?.copyWith(
                 color: theme.colorScheme.onSurface.withOpacity(0.8),
                 height: 1.6,

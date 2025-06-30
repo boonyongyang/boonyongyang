@@ -1,16 +1,23 @@
+/// Project model for landing page portfolio projects
+///
+/// 🎯 Quick Update Guide:
+/// - Add new projects to getProductionApps() or getPersonalProjects()
+/// - Update existing project details by modifying the project objects
+/// - Use consistent iconName and colorName from landing_page_utils.dart
 class ProjectModel {
-  final String title;
-  final String subtitle;
-  final String description;
-  final List<String> achievements;
-  final List<String> features;
-  final List<String> technologies;
-  final String? githubUrl;
-  final String? liveUrl;
-  final String status;
-  final String metrics;
-  final String iconName;
-  final String colorName;
+  final String title; // Project name
+  final String
+      subtitle; // Platform & type (e.g., "iOS & Android • Finance App")
+  final String description; // Detailed project description
+  final List<String> achievements; // Key accomplishments
+  final List<String> features; // Main features list
+  final List<String> technologies; // Tech stack used
+  final String? githubUrl; // GitHub repository URL (optional)
+  final String? liveUrl; // Live app/demo URL (optional)
+  final String status; // Current status (e.g., "Live in Production")
+  final String metrics; // Key metrics (e.g., "50K+ downloads")
+  final String iconName; // Icon identifier (see landing_page_utils.dart)
+  final String colorName; // Color identifier (see landing_page_utils.dart)
 
   const ProjectModel({
     required this.title,
@@ -27,6 +34,13 @@ class ProjectModel {
     required this.colorName,
   });
 
+  /// 🏭 PRODUCTION APPLICATIONS
+  /// These are live apps serving real users in production
+  ///
+  /// To add a new production app:
+  /// 1. Add a new ProjectModel object to the list below
+  /// 2. Fill in all required fields
+  /// 3. Ensure iconName and colorName exist in landing_page_utils.dart
   static List<ProjectModel> getProductionApps() {
     return [
       const ProjectModel(
@@ -100,6 +114,13 @@ class ProjectModel {
     ];
   }
 
+  /// 🚀 PERSONAL & OPEN SOURCE PROJECTS
+  /// These showcase technical skills and architectural expertise
+  ///
+  /// To add a new personal project:
+  /// 1. Add a new ProjectModel object to the list below
+  /// 2. Include githubUrl for open source projects
+  /// 3. Focus on technical achievements and learning outcomes
   static List<ProjectModel> getPersonalProjects() {
     return [
       const ProjectModel(
