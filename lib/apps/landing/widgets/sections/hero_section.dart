@@ -14,7 +14,7 @@ class HeroSection extends StatefulWidget {
 class _HeroSectionState extends State<HeroSection>
     with TickerProviderStateMixin {
   late AnimationController _pulseController;
-  late Animation<double> _pulseAnimation;
+  // late Animation<double> _pulseAnimation;
 
   @override
   void initState() {
@@ -23,13 +23,13 @@ class _HeroSectionState extends State<HeroSection>
       duration: const Duration(seconds: 2),
       vsync: this,
     );
-    _pulseAnimation = Tween<double>(
-      begin: 1.0,
-      end: 1.05,
-    ).animate(CurvedAnimation(
-      parent: _pulseController,
-      curve: Curves.easeInOut,
-    ));
+    // _pulseAnimation = Tween<double>(
+    //   begin: 1.0,
+    //   end: 1.05,
+    // ).animate(CurvedAnimation(
+    //   parent: _pulseController,
+    //   curve: Curves.easeInOut,
+    // ));
 
     // Start pulsing animation
     _pulseController.repeat(reverse: true);
@@ -184,30 +184,30 @@ class _HeroSectionState extends State<HeroSection>
             alignment: WrapAlignment.center,
             children: [
               // Primary CTA with pulse animation
-              AnimatedBuilder(
-                animation: _pulseAnimation,
-                builder: (context, child) {
-                  return Transform.scale(
-                    scale: _pulseAnimation.value,
-                    child: ElevatedButton.icon(
-                      onPressed: () => UrlLauncherService.launchApp(context),
-                      icon: Icon(Icons.launch, size: isMobile ? 20 : 24),
-                      label: Text(isMobile ? 'Launch App' : 'Launch Live App'),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: theme.colorScheme.primary,
-                        foregroundColor: theme.colorScheme.onPrimary,
-                        padding: EdgeInsets.symmetric(
-                          horizontal: isMobile ? 24 : 32,
-                          vertical: isMobile ? 12 : 16,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+              // AnimatedBuilder(
+              //   animation: _pulseAnimation,
+              //   builder: (context, child) {
+              //     return Transform.scale(
+              //       scale: _pulseAnimation.value,
+              //       child: ElevatedButton.icon(
+              //         onPressed: () => UrlLauncherService.launchApp(context),
+              //         icon: Icon(Icons.launch, size: isMobile ? 20 : 24),
+              //         label: Text(isMobile ? 'Launch App' : 'Launch Live App'),
+              //         style: ElevatedButton.styleFrom(
+              //           backgroundColor: theme.colorScheme.primary,
+              //           foregroundColor: theme.colorScheme.onPrimary,
+              //           padding: EdgeInsets.symmetric(
+              //             horizontal: isMobile ? 24 : 32,
+              //             vertical: isMobile ? 12 : 16,
+              //           ),
+              //           shape: RoundedRectangleBorder(
+              //             borderRadius: BorderRadius.circular(30),
+              //           ),
+              //         ),
+              //       ),
+              //     );
+              //   },
+              // ),
               OutlinedButton.icon(
                 onPressed: UrlLauncherService.launchGitHub,
                 icon: Icon(Icons.code, size: isMobile ? 20 : 24),
@@ -222,22 +222,22 @@ class _HeroSectionState extends State<HeroSection>
                   ),
                 ),
               ),
-              ElevatedButton.icon(
-                onPressed: UrlLauncherService.launchEmail,
-                icon: Icon(Icons.email, size: isMobile ? 20 : 24),
-                label: Text(isMobile ? 'Resume' : 'Get Resume'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: theme.colorScheme.secondary,
-                  foregroundColor: theme.colorScheme.onSecondary,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isMobile ? 24 : 32,
-                    vertical: isMobile ? 12 : 16,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-              ),
+              // ElevatedButton.icon(
+              //   onPressed: UrlLauncherService.launchEmail,
+              //   icon: Icon(Icons.email, size: isMobile ? 20 : 24),
+              //   label: Text(isMobile ? 'Resume' : 'Get Resume'),
+              //   style: ElevatedButton.styleFrom(
+              //     backgroundColor: theme.colorScheme.secondary,
+              //     foregroundColor: theme.colorScheme.onSecondary,
+              //     padding: EdgeInsets.symmetric(
+              //       horizontal: isMobile ? 24 : 32,
+              //       vertical: isMobile ? 12 : 16,
+              //     ),
+              //     shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadius.circular(30),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ],
