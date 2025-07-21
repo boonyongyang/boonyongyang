@@ -453,7 +453,28 @@ class ProductionAppCard extends StatelessWidget {
         LayoutBuilder(
           builder: (context, constraints) {
             final isMobile = ResponsiveUtils.isMobile(context);
-            final crossAxisCount = isMobile ? 1 : 2;
+            final isTablet = ResponsiveUtils.isTablet(context);
+
+            // Better responsive grid columns
+            int crossAxisCount;
+            double childAspectRatio;
+            int maxLines;
+
+            if (isMobile) {
+              crossAxisCount = 1;
+              childAspectRatio = 8;
+              maxLines = 2;
+            } else if (isTablet) {
+              crossAxisCount =
+                  1; // Single column for tablet for better readability
+              childAspectRatio = 10;
+              maxLines = 1;
+            } else {
+              crossAxisCount = 2; // Desktop can handle 2 columns
+              childAspectRatio = 5;
+              maxLines = 1;
+            }
+
             final itemCount =
                 project.features.length > 6 ? 6 : project.features.length;
 
@@ -462,19 +483,21 @@ class ProductionAppCard extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
-                childAspectRatio:
-                    isMobile ? 8 : 4, // Wider aspect ratio for mobile
+                childAspectRatio: childAspectRatio,
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
               ),
               itemCount: itemCount,
               itemBuilder: (context, index) {
-                if (index >= project.features.length)
+                if (index >= project.features.length) {
                   return const SizedBox.shrink();
+                }
 
                 return Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isMobile ? 10 : 8,
+                    vertical: isMobile ? 6 : 4,
+                  ),
                   decoration: BoxDecoration(
                     color: color.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(6),
@@ -490,7 +513,9 @@ class ProductionAppCard extends StatelessWidget {
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: color,
                             fontWeight: FontWeight.w500,
+                            fontSize: isMobile ? 12 : 11,
                           ),
+                          maxLines: maxLines,
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),

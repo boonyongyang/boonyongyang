@@ -69,6 +69,7 @@ class ProjectModel {
           'BLoC/Cubit',
           'Firebase',
           'Analytics APIs',
+          'Mobile Attribution',
           'Clean Architecture'
         ],
         iconName: 'trending_up',
@@ -82,7 +83,7 @@ class ProjectModel {
         description:
             'Modern cashback shopping application connecting users with retailers to earn rewards on purchases. Features merchant integration, real-time cashback tracking, and streamlined checkout experience.',
         achievements: [
-          'Built complete shopping platform with cashback system',
+          'Assisted in building the complete shopping platform with cashback system',
           'Integrated Affiliate APIs for Shopee MY',
           'Developed user-friendly shopping discovery interface',
           'Created robust backend infrastructure for transaction processing',
@@ -101,7 +102,7 @@ class ProjectModel {
           'BLoC/Cubit',
           'Firebase',
           'REST APIs',
-          'Local Storage'
+          'Clean Architecture',
         ],
         iconName: 'shopping_bag',
         colorName: 'blue',
@@ -120,46 +121,6 @@ class ProjectModel {
   /// 3. Focus on technical achievements and learning outcomes
   static List<ProjectModel> getPersonalProjects() {
     return [
-      const ProjectModel(
-        title: 'PocketFi - Personal Finance App',
-        subtitle: 'Personal Project • Comprehensive Finance Management',
-        description:
-            'Full-featured personal finance application with expense tracking, receipt scanning, budget management, debt tracking, and collaborative wallet sharing. Built with advanced Flutter architecture patterns.',
-        achievements: [
-          'Comprehensive finance management with 10+ core features',
-          'Implemented receipt scanning with text highlighting technology',
-          'Built collaborative wallet sharing for joint expense management',
-          'Created visual savings tracking with virtual piggy bank interface',
-          'Designed modular architecture with Riverpod 2.0 state management',
-        ],
-        features: [
-          'Receipt Scanning & OCR',
-          'Expense & Income Tracking',
-          'Budget Management & Alerts',
-          'Debt Tracking & Payoff Progress',
-          'Collaborative Wallet Sharing',
-          'Visual Savings Goals',
-          'Bill Management & Notifications',
-          'Spending Trend Analytics',
-          'Category-based Breakdowns',
-          'Transaction Bookmarking',
-          'Firebase Integration',
-          'Clean Architecture Pattern',
-        ],
-        technologies: [
-          'Flutter',
-          'Riverpod 2.0',
-          'Firebase Suite',
-          'OCR Technology',
-          'Clean Architecture',
-          'Crashlytics'
-        ],
-        iconName: 'account_balance_wallet',
-        colorName: 'green',
-        status: 'Open Source Project',
-        metrics: 'Personal project • Full feature set • GitHub available',
-        githubUrl: 'https://github.com/boonyongyang/pocketfi',
-      ),
       const ProjectModel(
         title: 'Flutter BLoC Starter Kit',
         subtitle: 'Architecture Template • Production-Ready Foundation',
@@ -202,6 +163,81 @@ class ProjectModel {
         metrics:
             'Architecture showcase • Developer template • GitHub available',
         githubUrl: 'https://github.com/boonyongyang/flutter-bloc-starter',
+      ),
+      const ProjectModel(
+        title: 'Offline Movie Explorer',
+        subtitle: 'Personal Project • Offline-First Movie Catalog',
+        description:
+            'A Flutter app showcasing a modern, offline-first movie catalog experience using TMDb API. Demonstrates best practices in Flutter app architecture, state management, offline caching, and dependency injection.',
+        achievements: [
+          'Implemented offline-first architecture with Hive for local caching',
+          'Integrated TMDb API for movie data and sharing functionality',
+          'Developed parallax effect for movie detail pages',
+          'Built modular, feature-first architecture inspired by Clean Architecture',
+          'Created seamless pull-to-refresh with haptic feedback',
+        ],
+        features: [
+          'Offline-First Experience',
+          'Movie List Screen with Favorites',
+          'Movie Detail Screen with Sharing',
+          'Shimmer Loading Indicators',
+          'Pull-to-Refresh with Haptic Feedback',
+          'Parallax Effect on Detail Pages',
+        ],
+        technologies: [
+          'Flutter',
+          'Hive',
+          'Dio',
+          'GetIt',
+          'Freezed',
+          'GoRouter',
+          'Connectivity Plus',
+        ],
+        iconName: 'movie',
+        colorName: 'red',
+        status: 'Open Source Project',
+        metrics: 'Offline-first • Immersive UI • GitHub available',
+        githubUrl: 'https://github.com/boonyongyang/offline_movie_explorer',
+      ),
+      const ProjectModel(
+        title: 'PocketFi - Personal Finance App',
+        subtitle: 'Personal Project • Comprehensive Finance Management',
+        description:
+            'Full-featured personal finance application with expense tracking, receipt scanning, budget management, debt tracking, and collaborative wallet sharing. Built with advanced Flutter architecture patterns.',
+        achievements: [
+          'Comprehensive finance management with 10+ core features',
+          'Implemented receipt scanning with text highlighting technology',
+          'Built collaborative wallet sharing for joint expense management',
+          'Created visual savings tracking with virtual piggy bank interface',
+          'Designed modular architecture with Riverpod 2.0 state management',
+        ],
+        features: [
+          'Receipt Scanning & OCR',
+          'Expense & Income Tracking',
+          'Budget Management & Alerts',
+          'Debt Tracking & Payoff Progress',
+          'Collaborative Wallet Sharing',
+          'Visual Savings Goals',
+          'Bill Management & Notifications',
+          'Spending Trend Analytics',
+          'Category-based Breakdowns',
+          'Transaction Bookmarking',
+          'Firebase Integration',
+          'Clean Architecture Pattern',
+        ],
+        technologies: [
+          'Flutter',
+          'Riverpod 2.0',
+          'Firebase Suite',
+          'OCR Technology',
+          'Clean Architecture',
+          'Crashlytics'
+        ],
+        iconName: 'account_balance_wallet',
+        colorName: 'green',
+        status: 'Open Source Project',
+        metrics: 'Personal project • Full feature set • GitHub available',
+        githubUrl: 'https://github.com/boonyongyang/pocketfi',
       ),
     ];
   }

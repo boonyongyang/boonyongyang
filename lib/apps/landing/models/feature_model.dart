@@ -24,7 +24,9 @@ class FeatureModel {
         items: [
           'Feature-first folder structure',
           'Repository & service abstraction',
-          'Built-in dependency injection',
+          'State management with BLoC/Cubit',
+          'Modular and reusable components',
+          'Layered architecture with clear separation of concerns',
         ],
       ),
       const FeatureModel(
@@ -36,6 +38,8 @@ class FeatureModel {
           'Efficient widget trees',
           'Memory & resource optimization',
           'Performance profiling with DevTools',
+          'Image & asset optimization',
+          'Smooth animations and transitions',
         ],
       ),
       const FeatureModel(
@@ -46,10 +50,10 @@ class FeatureModel {
         colorName: 'orange',
         items: [
           'Unit, widget, and integration tests',
-          'Secure token management & API key protection',
-          'Mobile security best practices implementation',
-          'Continuous integration with Codemagic',
-          'Automated deployment (Fastlane)',
+          'Mobile security best practices, secure token management & API key protection',
+          'CICD with Codemagic and Fastlane',
+          'Code signing & app distribution',
+          'User data protection and privacy compliance',
         ],
       ),
       const FeatureModel(
@@ -58,9 +62,11 @@ class FeatureModel {
         description: 'Connects easily with modern APIs and cloud services.',
         colorName: 'purple',
         items: [
-          'Firebase (Auth, Firestore, Analytics, etc.)',
-          'RESTful & GraphQL APIs',
+          'Entire Firebase suite (Analytics, Messaging, Remote Config, Crashlytics, etc.)',
           'Push notifications & real-time updates',
+          'Deeplinking & Notification routing for smart navigation',
+          'Force App update management',
+          'Dynamic content delivery',
         ],
       ),
     ];

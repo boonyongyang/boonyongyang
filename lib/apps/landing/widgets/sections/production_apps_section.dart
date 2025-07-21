@@ -40,7 +40,7 @@ class ProductionAppsSection extends StatelessWidget {
                     horizontal: isMobile ? 0 : 32,
                   ),
                   child: Text(
-                    'Live iOS & Android apps currently serving thousands of users',
+                    'Live iOS & Android apps currently serving tens of thousands of users',
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: theme.colorScheme.onSurface.withOpacity(0.7),
                       fontSize: isMobile ? 16 : null,
