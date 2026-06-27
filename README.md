@@ -82,8 +82,7 @@
 
 <div align="center">
 
-<img height="165" src="https://github-readme-stats.vercel.app/api?username=boonyongyang&show_icons=true&theme=ayu-mirage&hide_border=true&count_private=true&card_width=340" alt="stats" />
-<img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=boonyongyang&layout=compact&theme=ayu-mirage&hide_border=true&langs_count=8" alt="top langs" />
+<img height="160" src="https://github-readme-stats.vercel.app/api?username=boonyongyang&show_icons=true&theme=ayu-mirage&hide_border=true&count_private=true&card_width=340" alt="stats" />&nbsp;<img height="160" src="https://github-readme-stats.vercel.app/api/top-langs/?username=boonyongyang&layout=compact&theme=ayu-mirage&hide_border=true&langs_count=8" alt="top langs" />
 
 <br/>
 
@@ -91,7 +90,7 @@
 
 <br/>
 
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=boonyongyang&theme=tokyo-night&hide_border=true" alt="activity graph" />
+<img width="96%" src="https://github-readme-activity-graph.vercel.app/graph?username=boonyongyang&bg_color=0d1117&color=a9b1d6&line=e94560&point=ffb454&area=true&hide_border=true&height=220" alt="activity graph" />
 
 </div>
 
