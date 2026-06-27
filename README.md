@@ -82,7 +82,7 @@
 
 <div align="center">
 
-<img height="165" src="https://github-readme-stats.vercel.app/api?username=boonyongyang&show_icons=true&theme=ayu-mirage&hide_border=true&include_all_commits=true&count_private=true&card_width=340" alt="stats" />
+<img height="165" src="https://github-readme-stats.vercel.app/api?username=boonyongyang&show_icons=true&theme=ayu-mirage&hide_border=true&count_private=true&card_width=340" alt="stats" />
 <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=boonyongyang&layout=compact&theme=ayu-mirage&hide_border=true&langs_count=8" alt="top langs" />
 
 <br/>
