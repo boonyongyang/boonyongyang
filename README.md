@@ -6,11 +6,7 @@
   <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&duration=2800&pause=800&color=E94560&center=true&vCenter=true&width=680&lines=Flutter+dev+%C2%B7+mobile+%C2%B7+full-stack+%F0%9F%9A%80;building+agentic+systems+and+automation;KL-based+%C2%B7+ships+things" alt="typing banner" />
 </a>
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/donut-dark.gif">
-  <source media="(prefers-color-scheme: light)" srcset="assets/donut-light.gif">
-  <img src="assets/donut-dark.gif" width="380" alt="spinning donut" />
-</picture>
+<img src="https://raw.githubusercontent.com/boonyongyang/boonyongyang/main/assets/matrix.svg" width="100%" alt="matrix rain" />
 
 <p>
   <img src="https://komarev.com/ghpvc/?username=boonyongyang&label=Profile+views&color=e94560&style=flat" alt="profile views" />
@@ -22,7 +18,6 @@
 ---
 
 <img src="https://raw.githubusercontent.com/boonyongyang/boonyongyang/main/assets/runner.svg" width="100%" alt="runner" />
-<img src="https://raw.githubusercontent.com/boonyongyang/boonyongyang/main/assets/matrix.svg" width="100%" alt="matrix rain" />
 
 ### About
 
