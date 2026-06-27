@@ -80,26 +80,12 @@
 
 ### GitHub Stats
 
-<table>
-<tr>
-<td valign="top">
+<div align="center">
 
 <img src="https://github-readme-stats.vercel.app/api?username=boonyongyang&show_icons=true&theme=ayu-mirage&hide_border=true&include_all_commits=true&count_private=true" alt="stats" />
-
 <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=boonyongyang&layout=compact&theme=ayu-mirage&hide_border=true&langs_count=8" alt="top langs" />
 
-</td>
-<td valign="middle" align="center">
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/donut-dark.gif">
-  <source media="(prefers-color-scheme: light)" srcset="assets/donut-light.gif">
-  <img src="assets/donut-dark.gif" width="300" alt="spinning donut" />
-</picture>
-
-</td>
-</tr>
-</table>
+</div>
 
 <div align="center">
 
