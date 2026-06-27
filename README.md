@@ -22,6 +22,7 @@
 ---
 
 <img src="https://raw.githubusercontent.com/boonyongyang/boonyongyang/main/assets/runner.svg" width="100%" alt="runner" />
+<img src="https://raw.githubusercontent.com/boonyongyang/boonyongyang/main/assets/matrix.svg" width="100%" alt="matrix rain" />
 
 ### About
 
@@ -41,12 +42,6 @@
 | 🧱 [flutter_bloc_starter_kit](https://github.com/boonyongyang/flutter_bloc_starter_kit) | Production-ready Flutter BLoC architecture starter |
 | 📱 [pocketfi](https://github.com/boonyongyang/pocketfi) | Mobile app, launched publicly |
 | 🎞 [offline_movie_explorer](https://github.com/boonyongyang/offline_movie_explorer) | Offline-first Flutter movie explorer |
-
----
-
-<div align="center">
-  <img src="https://readme-jokes.vercel.app/api?bgColor=%230d1117&borderColor=%23e94560&qColor=%23e94560&aColor=%23ffb454&codeColor=%2339bae6" alt="dev joke" />
-</div>
 
 ---
 
