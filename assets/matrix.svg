@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 80" width="100%">
+<defs><style>
+.t{font-family:monospace;font-size:13px}
+.c0{animation:r 2.0s -0.3s linear infinite}
+.c1{animation:r 1.7s -0.8s linear infinite}
+.c2{animation:r 2.3s -1.4s linear infinite}
+.c3{animation:r 1.9s -0.6s linear infinite}
+.c4{animation:r 2.1s -1.1s linear infinite}
+.c5{animation:r 1.6s -0.2s linear infinite}
+.c6{animation:r 2.4s -0.9s linear infinite}
+.c7{animation:r 1.8s -1.6s linear infinite}
+.c8{animation:r 2.2s -0.4s linear infinite}
+.c9{animation:r 1.5s -1.0s linear infinite}
+.c10{animation:r 2.0s -1.8s linear infinite}
+.c11{animation:r 1.7s -0.1s linear infinite}
+@keyframes r{from{transform:translateY(-70px)}to{transform:translateY(90px)}}
+</style></defs>
+<g class="c0"><text class="t" x="40"  y="10" fill="#e94560" opacity="1">0</text><text class="t" x="40"  y="24" fill="#e94560" opacity=".75">1</text><text class="t" x="40"  y="38" fill="#e94560" opacity=".5">A</text><text class="t" x="40"  y="52" fill="#e94560" opacity=".3">7</text><text class="t" x="40"  y="66" fill="#e94560" opacity=".1">F</text></g>
+<g class="c1"><text class="t" x="120" y="10" fill="#ffb454" opacity="1">1</text><text class="t" x="120" y="24" fill="#ffb454" opacity=".75">B</text><text class="t" x="120" y="38" fill="#ffb454" opacity=".5">0</text><text class="t" x="120" y="52" fill="#ffb454" opacity=".3">E</text><text class="t" x="120" y="66" fill="#ffb454" opacity=".1">9</text></g>
+<g class="c2"><text class="t" x="200" y="10" fill="#39bae6" opacity="1">F</text><text class="t" x="200" y="24" fill="#39bae6" opacity=".75">3</text><text class="t" x="200" y="38" fill="#39bae6" opacity=".5">D</text><text class="t" x="200" y="52" fill="#39bae6" opacity=".3">2</text><text class="t" x="200" y="66" fill="#39bae6" opacity=".1">C</text></g>
+<g class="c3"><text class="t" x="280" y="10" fill="#e94560" opacity="1">8</text><text class="t" x="280" y="24" fill="#e94560" opacity=".75">A</text><text class="t" x="280" y="38" fill="#e94560" opacity=".5">{</text><text class="t" x="280" y="52" fill="#e94560" opacity=".3">}</text><text class="t" x="280" y="66" fill="#e94560" opacity=".1">1</text></g>
+<g class="c4"><text class="t" x="360" y="10" fill="#ffb454" opacity="1">&lt;</text><text class="t" x="360" y="24" fill="#ffb454" opacity=".75">/</text><text class="t" x="360" y="38" fill="#ffb454" opacity=".5">&gt;</text><text class="t" x="360" y="52" fill="#ffb454" opacity=".3">5</text><text class="t" x="360" y="66" fill="#ffb454" opacity=".1">E</text></g>
+<g class="c5"><text class="t" x="440" y="10" fill="#39bae6" opacity="1">~</text><text class="t" x="440" y="24" fill="#39bae6" opacity=".75">*</text><text class="t" x="440" y="38" fill="#39bae6" opacity=".5">#</text><text class="t" x="440" y="52" fill="#39bae6" opacity=".3">6</text><text class="t" x="440" y="66" fill="#39bae6" opacity=".1">D</text></g>
+<g class="c6"><text class="t" x="520" y="10" fill="#e94560" opacity="1">4</text><text class="t" x="520" y="24" fill="#e94560" opacity=".75">\</text><text class="t" x="520" y="38" fill="#e94560" opacity=".5">|</text><text class="t" x="520" y="52" fill="#e94560" opacity=".3">7</text><text class="t" x="520" y="66" fill="#e94560" opacity=".1">9</text></g>
+<g class="c7"><text class="t" x="600" y="10" fill="#ffb454" opacity="1">B</text><text class="t" x="600" y="24" fill="#ffb454" opacity=".75">8</text><text class="t" x="600" y="38" fill="#ffb454" opacity=".5">C</text><text class="t" x="600" y="52" fill="#ffb454" opacity=".3">A</text><text class="t" x="600" y="66" fill="#ffb454" opacity=".1">2</text></g>
+<g class="c8"><text class="t" x="680" y="10" fill="#39bae6" opacity="1">E</text><text class="t" x="680" y="24" fill="#39bae6" opacity=".75">0</text><text class="t" x="680" y="38" fill="#39bae6" opacity=".5">F</text><text class="t" x="680" y="52" fill="#39bae6" opacity=".3">3</text><text class="t" x="680" y="66" fill="#39bae6" opacity=".1">1</text></g>
+<g class="c9"><text class="t" x="760" y="10" fill="#e94560" opacity="1">9</text><text class="t" x="760" y="24" fill="#e94560" opacity=".75">6</text><text class="t" x="760" y="38" fill="#e94560" opacity=".5">5</text><text class="t" x="760" y="52" fill="#e94560" opacity=".3">4</text><text class="t" x="760" y="66" fill="#e94560" opacity=".1">2</text></g>
+<g class="c10"><text class="t" x="840" y="10" fill="#ffb454" opacity="1">D</text><text class="t" x="840" y="24" fill="#ffb454" opacity=".75">C</text><text class="t" x="840" y="38" fill="#ffb454" opacity=".5">B</text><text class="t" x="840" y="52" fill="#ffb454" opacity=".3">A</text><text class="t" x="840" y="66" fill="#ffb454" opacity=".1">0</text></g>
+</svg>
