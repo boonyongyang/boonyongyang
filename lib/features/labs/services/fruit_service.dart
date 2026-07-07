@@ -1,84 +1,69 @@
 import 'package:dio/dio.dart';
-import 'package:dio_intercept_to_curl/dio_intercept_to_curl.dart';
 import 'package:flutter/foundation.dart';
-import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import '../../../core/errors/app_exceptions.dart';
 import '../model/fruit_model.dart';
+import '../repository/fruit_repository.dart';
 
-class FruitService {
+class FruitService implements FruitRepository {
   static const String _baseUrl = 'https://www.fruityvice.com/api/fruit';
   static const String _corsProxy = 'https://corsproxy.io';
-  late final Dio _dio;
+  final Dio _dio;
 
-  FruitService() {
-    _initializeDio();
-  }
+  FruitService({required Dio dio}) : _dio = dio;
 
-  /// Initializes Dio with interceptors for logging and debugging
-  void _initializeDio() {
-    _dio = Dio();
-    _dio.interceptors.addAll([
-      DioInterceptToCurl(),
-      PrettyDioLogger(
-        requestHeader: true,
-        requestBody: true,
-        responseBody: true,
-        responseHeader: false,
-        error: true,
-        compact: true,
-        maxWidth: 120,
-      ),
-    ]);
-    debugPrint('FruitService: Dio initialized with interceptors');
-  }
+  String _constructUrl(String endpoint) => '$_corsProxy/$_baseUrl/$endpoint';
 
-  /// Constructs the full URL for API requests, using a CORS proxy if needed
-  String _constructUrl(String endpoint) {
-    final url = '$_corsProxy/$_baseUrl/$endpoint';
-    debugPrint('FruitService: Constructed URL: $url');
-    return url;
-  }
-
-  /// Fetches all fruits from the Fruityvice API
+  @override
   Future<List<Fruit>> fetchAllFruits() async {
-    return _fetchData<List<Fruit>>(
-      endpoint: 'all',
-      parser: (data) {
-        final List<dynamic> jsonData = data;
-        return jsonData.map((fruitJson) => Fruit.fromJson(fruitJson)).toList();
-      },
-    );
+    final data = await _fetchData(endpoint: 'all');
+    final fruits = _asJsonList(data);
+    return fruits.map(Fruit.fromJson).toList();
   }
 
-  /// Fetches a specific fruit by its ID
+  @override
   Future<Fruit> fetchFruitById(int id) async {
-    return _fetchData<Fruit>(
-      endpoint: id.toString(),
-      parser: (data) => Fruit.fromJson(data),
-    );
+    final data = await _fetchData(endpoint: id.toString());
+    return Fruit.fromJson(_asJsonMap(data));
   }
 
-  /// Generic method to fetch data from the API
-  Future<T> _fetchData<T>({
-    required String endpoint,
-    required T Function(dynamic data) parser,
-  }) async {
+  Future<Object?> _fetchData({required String endpoint}) async {
     try {
       final url = _constructUrl(endpoint);
-      debugPrint('FruitService: Fetching data from $url');
-
       final response = await _dio.get(url);
-      debugPrint('FruitService: Response status code: ${response.statusCode}');
 
       if (response.statusCode == 200) {
-        debugPrint('FruitService: Response data: ${response.data}');
-        return parser(response.data);
-      } else {
-        debugPrint('FruitService: Error response data: ${response.data}');
-        throw Exception('Failed to fetch data: ${response.statusCode}');
+        return response.data;
       }
+
+      throw NetworkException(
+        'Unexpected status: ${response.statusCode}',
+        statusCode: response.statusCode,
+      );
+    } on DioException catch (e) {
+      throw NetworkException.fromDioException(e);
+    } on AppException {
+      rethrow;
     } catch (e) {
-      debugPrint('FruitService: Exception caught: $e');
-      throw Exception('Error fetching data: $e');
+      debugPrint('FruitService: Unexpected error: $e');
+      throw DataParsingException('Failed to parse fruit data', cause: e);
     }
+  }
+
+  List<Map<String, Object?>> _asJsonList(Object? data) {
+    if (data is! List) {
+      throw DataParsingException('Expected fruit list response', cause: data);
+    }
+
+    return data.map(_asJsonMap).toList();
+  }
+
+  Map<String, Object?> _asJsonMap(Object? data) {
+    if (data is Map<String, Object?>) {
+      return data;
+    }
+    if (data is Map) {
+      return data.cast<String, Object?>();
+    }
+    throw DataParsingException('Expected fruit object response', cause: data);
   }
 }

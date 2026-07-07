@@ -1,70 +1,87 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import '../../../shared/widgets/top_nav_bar.dart';
+import '../cubit/snake_game_cubit.dart';
 import '../model/snake_game.dart';
 
-class SnakeGameView extends StatefulWidget {
+class SnakeGameView extends StatelessWidget {
   const SnakeGameView({super.key});
 
   @override
-  State<SnakeGameView> createState() => _SnakeGameViewState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => SnakeGameCubit(),
+      child: const _SnakeGameBody(),
+    );
+  }
 }
 
-class _SnakeGameViewState extends State<SnakeGameView>
+class _SnakeGameBody extends StatefulWidget {
+  const _SnakeGameBody();
+
+  @override
+  State<_SnakeGameBody> createState() => _SnakeGameBodyState();
+}
+
+class _SnakeGameBodyState extends State<_SnakeGameBody>
     with SingleTickerProviderStateMixin {
-  late SnakeGame game;
   late AnimationController _animationController;
   final FocusNode _focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    game = SnakeGame();
     _focusNode.requestFocus();
-
-    // Setup animation controller for continuous updates
     _animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 50), // 20 FPS
+      duration: const Duration(milliseconds: 50),
     );
     _animationController.repeat();
   }
 
   @override
   void dispose() {
-    game.dispose();
     _focusNode.dispose();
     _animationController.dispose();
     super.dispose();
   }
 
-  void _handleKeyEvent(RawKeyEvent event) {
-    if (event is! RawKeyDownEvent) return;
+  KeyEventResult _handleKeyEvent(KeyEvent event) {
+    if (event is! KeyDownEvent) {
+      return KeyEventResult.ignored;
+    }
+
+    final cubit = context.read<SnakeGameCubit>();
 
     switch (event.logicalKey) {
       case LogicalKeyboardKey.keyW:
       case LogicalKeyboardKey.arrowUp:
-        game.changeDirection(Direction.up);
+        cubit.changeDirection(Direction.up);
         break;
       case LogicalKeyboardKey.keyS:
       case LogicalKeyboardKey.arrowDown:
-        game.changeDirection(Direction.down);
+        cubit.changeDirection(Direction.down);
         break;
       case LogicalKeyboardKey.keyA:
       case LogicalKeyboardKey.arrowLeft:
-        game.changeDirection(Direction.left);
+        cubit.changeDirection(Direction.left);
         break;
       case LogicalKeyboardKey.keyD:
       case LogicalKeyboardKey.arrowRight:
-        game.changeDirection(Direction.right);
+        cubit.changeDirection(Direction.right);
         break;
       case LogicalKeyboardKey.keyR:
-        if (game.gameState == GameState.gameOver) {
-          game.restart();
+        if (cubit.state.isGameOver) {
+          cubit.restart();
         }
         break;
+      default:
+        return KeyEventResult.ignored;
     }
+
+    return KeyEventResult.handled;
   }
 
   @override
@@ -72,23 +89,17 @@ class _SnakeGameViewState extends State<SnakeGameView>
     final screenSize = MediaQuery.of(context).size;
     final isPortrait = screenSize.height > screenSize.width;
 
-    // Calculate game board size based on screen dimensions
     final gameBoardSize = isPortrait
-        ? screenSize.width * 0.9 // 90% of screen width in portrait
-        : (screenSize.height * 0.7).clamp(
-            // 70% of screen height in landscape
-            300.0, // minimum size
-            screenSize.width * 0.5, // maximum 50% of screen width
-          );
+        ? screenSize.width * 0.9
+        : (screenSize.height * 0.7).clamp(300.0, screenSize.width * 0.5);
 
-    // Calculate cell size
     final cellSize = gameBoardSize / SnakeGame.gridSize;
 
     return Scaffold(
       appBar: const TopNavBar(title: 'Snake Battle'),
-      body: RawKeyboardListener(
+      body: KeyboardListener(
         focusNode: _focusNode,
-        onKey: _handleKeyEvent,
+        onKeyEvent: _handleKeyEvent,
         autofocus: true,
         child: GestureDetector(
           onTap: () => _focusNode.requestFocus(),
@@ -134,158 +145,159 @@ class _SnakeGameViewState extends State<SnakeGameView>
     final buttonSize = isPortrait ? 50.0 : 60.0;
     final iconSize = isPortrait ? 24.0 : 32.0;
     final spacing = isPortrait ? 12.0 : 20.0;
+    final cubit = context.read<SnakeGameCubit>();
+    final game = cubit.game;
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        // Score and High Score
-        StreamBuilder<int>(
-          stream: game.scoreStream,
-          builder: (context, snapshot) {
-            final textStyle =
-                Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontSize: isPortrait ? 20 : 24,
-                    );
-            return Wrap(
+    return BlocBuilder<SnakeGameCubit, SnakeGameState>(
+      builder: (context, state) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Score and High Score
+            Wrap(
               spacing: spacing * 2,
               children: [
-                Text('Score: ${game.score}', style: textStyle),
-                Text('High Score: ${SnakeGame.highScore}', style: textStyle),
+                Text(
+                  'Score: ${state.score}',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontSize: isPortrait ? 20 : 24,
+                      ),
+                ),
+                Text(
+                  'High Score: ${state.highScore}',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontSize: isPortrait ? 20 : 24,
+                      ),
+                ),
               ],
-            );
-          },
-        ),
-        SizedBox(height: spacing),
+            ),
+            SizedBox(height: spacing),
 
-        // AI Speed Indicator
-        if (game.isAiActive)
-          StreamBuilder<double>(
-            stream: game.aiSpeedStream,
-            builder: (context, snapshot) {
-              return Text(
-                'AI Speed: ${(game.aiSpeed).toStringAsFixed(1)}x',
+            // AI Speed Indicator
+            if (game.isAiActive)
+              Text(
+                'AI Speed: ${state.aiSpeed.toStringAsFixed(1)}x',
                 style: TextStyle(
                   color: Colors.purple,
                   fontWeight: FontWeight.bold,
                   fontSize: isPortrait ? 16 : 18,
                 ),
-              );
-            },
-          ),
-        SizedBox(height: spacing),
-
-        // Game Board
-        AnimatedBuilder(
-          animation: _animationController,
-          builder: (context, child) {
-            return Container(
-              width: gameBoardSize,
-              height: gameBoardSize,
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8),
               ),
-              child: CustomPaint(
-                painter: SnakeGamePainter(
-                  game: game,
-                  gridSize: SnakeGame.gridSize,
-                ),
-              ),
-            );
-          },
-        ),
-        SizedBox(height: spacing),
+            SizedBox(height: spacing),
 
-        // Direction Pad
-        if (game.gameState == GameState.playing)
-          Container(
-            padding: EdgeInsets.all(spacing / 2),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.withOpacity(0.3)),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Column(
-              children: [
-                // Up button
-                SizedBox(
-                  width: buttonSize,
-                  height: buttonSize,
-                  child: ElevatedButton(
-                    onPressed: () => game.changeDirection(Direction.up),
-                    style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.zero,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: Icon(Icons.keyboard_arrow_up, size: iconSize),
+            // Game Board
+            AnimatedBuilder(
+              animation: _animationController,
+              builder: (context, child) {
+                return Container(
+                  width: gameBoardSize,
+                  height: gameBoardSize,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8),
                   ),
+                  child: CustomPaint(
+                    painter: SnakeGamePainter(
+                      game: game,
+                      gridSize: SnakeGame.gridSize,
+                    ),
+                  ),
+                );
+              },
+            ),
+            SizedBox(height: spacing),
+
+            // Direction Pad
+            if (!state.isGameOver)
+              Container(
+                padding: EdgeInsets.all(spacing / 2),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey.withOpacity(0.3)),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                SizedBox(height: spacing / 2),
-                // Left, Down, Right buttons in a row
-                Row(
-                  mainAxisSize: MainAxisSize.min,
+                child: Column(
                   children: [
                     SizedBox(
                       width: buttonSize,
                       height: buttonSize,
                       child: ElevatedButton(
-                        onPressed: () => game.changeDirection(Direction.left),
+                        onPressed: () => cubit.changeDirection(Direction.up),
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.zero,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        child: Icon(Icons.keyboard_arrow_left, size: iconSize),
+                        child: Icon(Icons.keyboard_arrow_up, size: iconSize),
                       ),
                     ),
-                    SizedBox(width: spacing / 2),
-                    SizedBox(
-                      width: buttonSize,
-                      height: buttonSize,
-                      child: ElevatedButton(
-                        onPressed: () => game.changeDirection(Direction.down),
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                    SizedBox(height: spacing / 2),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: buttonSize,
+                          height: buttonSize,
+                          child: ElevatedButton(
+                            onPressed: () =>
+                                cubit.changeDirection(Direction.left),
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child:
+                                Icon(Icons.keyboard_arrow_left, size: iconSize),
                           ),
                         ),
-                        child: Icon(Icons.keyboard_arrow_down, size: iconSize),
-                      ),
-                    ),
-                    SizedBox(width: spacing / 2),
-                    SizedBox(
-                      width: buttonSize,
-                      height: buttonSize,
-                      child: ElevatedButton(
-                        onPressed: () => game.changeDirection(Direction.right),
-                        style: ElevatedButton.styleFrom(
-                          padding: EdgeInsets.zero,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                        SizedBox(width: spacing / 2),
+                        SizedBox(
+                          width: buttonSize,
+                          height: buttonSize,
+                          child: ElevatedButton(
+                            onPressed: () =>
+                                cubit.changeDirection(Direction.down),
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child:
+                                Icon(Icons.keyboard_arrow_down, size: iconSize),
                           ),
                         ),
-                        child: Icon(Icons.keyboard_arrow_right, size: iconSize),
-                      ),
+                        SizedBox(width: spacing / 2),
+                        SizedBox(
+                          width: buttonSize,
+                          height: buttonSize,
+                          child: ElevatedButton(
+                            onPressed: () =>
+                                cubit.changeDirection(Direction.right),
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.zero,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: Icon(Icons.keyboard_arrow_right,
+                                size: iconSize),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-          ),
-        SizedBox(height: spacing),
+              ),
+            SizedBox(height: spacing),
 
-        // Game Over Message
-        StreamBuilder<GameState>(
-          stream: game.gameStateStream,
-          builder: (context, snapshot) {
-            if (snapshot.data == GameState.gameOver) {
-              return Column(
+            // Game Over Message
+            if (state.isGameOver)
+              Column(
                 children: [
                   Text(
-                    'Game Over! Score: ${game.score}',
+                    'Game Over! Score: ${state.score}',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                           color: Colors.red,
                           fontSize: isPortrait ? 20 : 24,
@@ -293,67 +305,65 @@ class _SnakeGameViewState extends State<SnakeGameView>
                   ),
                   SizedBox(height: spacing / 2),
                   ElevatedButton(
-                    onPressed: game.restart,
+                    onPressed: cubit.restart,
                     child: const Text('Play Again'),
                   ),
                 ],
-              );
-            }
-            return const SizedBox.shrink();
-          },
-        ),
-        SizedBox(height: spacing),
+              ),
+            SizedBox(height: spacing),
 
-        // Legend and Controls
-        Container(
-          padding: EdgeInsets.all(spacing),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey.withOpacity(0.3)),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Column(
-            children: [
-              Text(
-                'Controls:',
-                style: TextStyle(
-                  fontSize: isPortrait ? 16 : 18,
-                  fontWeight: FontWeight.bold,
-                ),
+            // Legend and Controls
+            Container(
+              padding: EdgeInsets.all(spacing),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.withOpacity(0.3)),
+                borderRadius: BorderRadius.circular(8),
               ),
-              SizedBox(height: spacing / 2),
-              Text(
-                'W A S D or Arrow Keys - Move Snake\n'
-                'R - Restart when game over',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: isPortrait ? 14 : 16),
-              ),
-              SizedBox(height: spacing),
-              Wrap(
-                spacing: spacing,
-                runSpacing: spacing / 2,
-                alignment: WrapAlignment.center,
+              child: Column(
                 children: [
-                  _LegendItem(
-                    color: Colors.green,
-                    label: 'Player Snake',
-                    fontSize: isPortrait ? 12 : 14,
+                  Text(
+                    'Controls:',
+                    style: TextStyle(
+                      fontSize: isPortrait ? 16 : 18,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  _LegendItem(
-                    color: Colors.purple,
-                    label: 'AI Snake',
-                    fontSize: isPortrait ? 12 : 14,
+                  SizedBox(height: spacing / 2),
+                  Text(
+                    'W A S D or Arrow Keys - Move Snake\n'
+                    'R - Restart when game over',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: isPortrait ? 14 : 16),
                   ),
-                  _LegendItem(
-                    color: Colors.red,
-                    label: 'Food',
-                    fontSize: isPortrait ? 12 : 14,
+                  SizedBox(height: spacing),
+                  Wrap(
+                    spacing: spacing,
+                    runSpacing: spacing / 2,
+                    alignment: WrapAlignment.center,
+                    children: [
+                      _LegendItem(
+                        color: Colors.green,
+                        label: 'Player Snake',
+                        fontSize: isPortrait ? 12 : 14,
+                      ),
+                      _LegendItem(
+                        color: Colors.purple,
+                        label: 'AI Snake',
+                        fontSize: isPortrait ? 12 : 14,
+                      ),
+                      _LegendItem(
+                        color: Colors.red,
+                        label: 'Food',
+                        fontSize: isPortrait ? 12 : 14,
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
-        ),
-      ],
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -1,147 +1,108 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import '../../../core/di/service_locator.dart';
+import '../../../features/labs/repository/fruit_repository.dart';
+import '../cubit/fruits_cubit.dart';
 import '../model/fruit_model.dart';
-import '../services/fruit_service.dart';
 import 'fruit_detail_page.dart';
 
-class FruitsPage extends StatefulWidget {
+class FruitsPage extends StatelessWidget {
   const FruitsPage({super.key});
 
   @override
-  State<FruitsPage> createState() => _FruitsPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => FruitsCubit(
+        repository: getIt<FruitRepository>(),
+      )..fetchFruits(),
+      child: const _FruitsView(),
+    );
+  }
 }
 
-class _FruitsPageState extends State<FruitsPage> {
-  final FruitService _fruitService = FruitService();
-  List<Fruit>? _fruits;
-  bool _isLoading = true;
-  String? _errorMessage;
-
-  @override
-  void initState() {
-    super.initState();
-    debugPrint('FruitsPage: initState called');
-    _fetchFruits();
-  }
-
-  Future<void> _fetchFruits() async {
-    debugPrint('FruitsPage: _fetchFruits called');
-    try {
-      setState(() {
-        _isLoading = true;
-        _errorMessage = null;
-      });
-
-      debugPrint('FruitsPage: Calling fruitService.fetchAllFruits()');
-      final fruits = await _fruitService.fetchAllFruits();
-      debugPrint('FruitsPage: Retrieved ${fruits.length} fruits');
-
-      setState(() {
-        _fruits = fruits;
-        _isLoading = false;
-      });
-      debugPrint('FruitsPage: Updated state with fruits data');
-    } catch (e) {
-      debugPrint('FruitsPage: Error fetching fruits: $e');
-      setState(() {
-        _errorMessage = e.toString();
-        _isLoading = false;
-      });
-      debugPrint('FruitsPage: Updated state with error message');
-    }
-  }
+class _FruitsView extends StatelessWidget {
+  const _FruitsView();
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('FruitsPage: build method called');
     return Scaffold(
       appBar: AppBar(
         title: const Text('Fruits'),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: _fetchFruits,
+            onPressed: () => context.read<FruitsCubit>().fetchFruits(),
             tooltip: 'Refresh',
           ),
         ],
       ),
-      body: _buildBody(),
-    );
-  }
-
-  Widget _buildBody() {
-    debugPrint(
-        'FruitsPage: _buildBody called, isLoading: $_isLoading, hasError: ${_errorMessage != null}');
-    if (_isLoading) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    }
-
-    if (_errorMessage != null) {
-      debugPrint('FruitsPage: Showing error message: $_errorMessage');
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.error_outline, size: 48, color: Colors.red),
-            const Gap(16),
-            SelectableText(
-              'Error loading fruits',
-              style: Theme.of(context).textTheme.titleLarge,
+      body: BlocBuilder<FruitsCubit, FruitsState>(
+        builder: (context, state) => switch (state) {
+          FruitsInitial() || FruitsLoading() => const Center(
+              child: CircularProgressIndicator(),
             ),
-            const Gap(8),
-            SelectableText(_errorMessage!),
-            const Gap(16),
-            ElevatedButton(
-              onPressed: _fetchFruits,
-              child: const Text('Try Again'),
+          FruitsError(:final message) => Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                  const Gap(16),
+                  SelectableText(
+                    'Error loading fruits',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const Gap(8),
+                  SelectableText(message),
+                  const Gap(16),
+                  ElevatedButton(
+                    onPressed: () => context.read<FruitsCubit>().fetchFruits(),
+                    child: const Text('Try Again'),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      );
-    }
-
-    if (_fruits == null || _fruits!.isEmpty) {
-      debugPrint('FruitsPage: No fruits found');
-      return const Center(
-        child: Text('No fruits found'),
-      );
-    }
-
-    debugPrint('FruitsPage: Building GridView with ${_fruits!.length} fruits');
-    return RefreshIndicator(
-      onRefresh: _fetchFruits,
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final crossAxisCount = (constraints.maxWidth / 200).floor();
-          return GridView.builder(
-            padding: const EdgeInsets.all(16),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              childAspectRatio: 0.8,
-            ),
-            itemCount: _fruits!.length,
-            itemBuilder: (context, index) {
-              final fruit = _fruits![index];
-              return _buildFruitCard(fruit);
-            },
-          );
+          FruitsLoaded(:final fruits) => fruits.isEmpty
+              ? const Center(child: Text('No fruits found'))
+              : RefreshIndicator(
+                  onRefresh: () => context.read<FruitsCubit>().fetchFruits(),
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final crossAxisCount =
+                          (constraints.maxWidth / 200).floor();
+                      return GridView.builder(
+                        padding: const EdgeInsets.all(16),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: crossAxisCount,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16,
+                          childAspectRatio: 0.8,
+                        ),
+                        itemCount: fruits.length,
+                        itemBuilder: (context, index) =>
+                            _FruitCard(fruit: fruits[index]),
+                      );
+                    },
+                  ),
+                ),
         },
       ),
     );
   }
+}
 
-  Widget _buildFruitCard(Fruit fruit) {
-    // Generate a color based on the fruit ID for the avatar
+class _FruitCard extends StatelessWidget {
+  final Fruit fruit;
+
+  const _FruitCard({required this.fruit});
+
+  @override
+  Widget build(BuildContext context) {
     final color = Colors.primaries[fruit.id % Colors.primaries.length];
 
     return Card(
       child: InkWell(
         onTap: () {
-          debugPrint('FruitsPage: Fruit card tapped: ${fruit.name}');
           Navigator.push(
             context,
             MaterialPageRoute(
