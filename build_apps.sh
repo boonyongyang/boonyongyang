@@ -26,6 +26,10 @@ print_error() {
 # Function to build landing page
 build_landing() {
     print_status "Building landing page..."
+    APP_URL="${APP_URL:-https://app.boonyongyang.dev}"
+    SITE_URL="${SITE_URL:-https://boonyongyang.dev}"
+    GITHUB_URL="${GITHUB_URL:-https://github.com/boonyongyang}"
+    LINKEDIN_URL="${LINKEDIN_URL:-https://linkedin.com/in/boonyongyang}"
     
     # Create landing page build with optimizations
     flutter build web \
@@ -33,9 +37,9 @@ build_landing() {
         --output=build/landing \
         --web-renderer=html \
         --dart-define=APP_MODE=landing \
-        --dart-define=APP_URL=https://app.yourdomain.com \
-        --dart-define=GITHUB_URL=https://github.com/boonyongyang \
-        --dart-define=LINKEDIN_URL=https://linkedin.com/in/boonyongyang \
+        --dart-define=APP_URL="$APP_URL" \
+        --dart-define=GITHUB_URL="$GITHUB_URL" \
+        --dart-define=LINKEDIN_URL="$LINKEDIN_URL" \
         --tree-shake-icons \
         --release
     
@@ -48,7 +52,7 @@ build_landing() {
     # Add robots.txt for SEO
     echo "User-agent: *
 Allow: /
-Sitemap: https://yourdomain.com/sitemap.xml" > build/landing/robots.txt
+Sitemap: $SITE_URL/sitemap.xml" > build/landing/robots.txt
     
     print_status "Landing page built successfully in build/landing"
 }

@@ -3,9 +3,9 @@
     "short_name": "boonyongyang",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#f8f5ef",
+    "theme_color": "#2563eb",
+    "description": "Boon Yong Yang portfolio and Flutter reference app.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

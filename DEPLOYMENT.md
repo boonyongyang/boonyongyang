@@ -1,125 +1,121 @@
-# Deployment Configuration
+# Deployment Guide
 
-This document explains how to deploy the separated apps to different domains/subdomains.
+This project builds two separate Flutter Web outputs:
 
-## Architecture Overview
-
-- **Landing Page**: Lightweight portfolio landing page for main domain (e.g., `yourdomain.com`)
-- **Main App**: Full-featured interactive app for subdomain (e.g., `app.yourdomain.com`)
+| Surface | Entry point | Output | Intended host |
+|---|---|---|---|
+| Revamped portfolio landing | `lib/main_landing.dart` | `build/landing/` | `boonyongyang.dev` |
+| Old/main interactive app | `lib/main_app.dart` | `build/app/` | `app.boonyongyang.dev` |
 
 ## Build Commands
 
-### Build Landing Page Only
+Build the landing site:
+
 ```bash
+make build_landing
+```
+
+Build the app surface:
+
+```bash
+make build_app
+```
+
+Build both:
+
+```bash
+make build_all
+```
+
+`make build_all` calls `./build_apps.sh all`, which writes:
+
+```text
+build/
+├── landing/
+└── app/
+```
+
+## Configurable Build Values
+
+`build_apps.sh` uses production defaults but can be overridden per deploy:
+
+```bash
+SITE_URL=https://boonyongyang.dev \
+APP_URL=https://app.boonyongyang.dev \
+GITHUB_URL=https://github.com/boonyongyang \
+LINKEDIN_URL=https://linkedin.com/in/boonyongyang \
 ./build_apps.sh landing
 ```
 
-### Build Main App Only
-```bash
-./build_apps.sh app
-```
+Defaults:
 
-### Build Both Apps
-```bash
-./build_apps.sh all
-```
+| Variable | Default |
+|---|---|
+| `SITE_URL` | `https://boonyongyang.dev` |
+| `APP_URL` | `https://app.boonyongyang.dev` |
+| `GITHUB_URL` | `https://github.com/boonyongyang` |
+| `LINKEDIN_URL` | `https://linkedin.com/in/boonyongyang` |
 
-## Deployment Structure
+## Static Hosting
 
-```
-build/
-├── landing/          # Deploy to main domain
-│   ├── index.html
-│   ├── main.dart.js
-│   └── assets/
-└── app/             # Deploy to app subdomain
-    ├── index.html
-    ├── main.dart.js
-    └── assets/
-```
+Deploy `build/landing/` to the main portfolio domain and `build/app/` to the app subdomain.
 
-## Deployment Examples
+For any single-page-app host, configure rewrites so all routes fall back to `/index.html`.
 
-### Static Hosting (Netlify, Vercel, etc.)
+## Firebase Hosting
 
-1. **Landing Page**: Deploy `build/landing/` to main domain
-2. **Main App**: Deploy `build/app/` to subdomain
+The current `firebase.json` serves `build/landing`, so `make deploy_web` deploys the revamped portfolio landing by default.
 
-### Nginx Configuration
-
-```nginx
-# Main domain (landing page)
-server {
-    listen 80;
-    server_name yourdomain.com;
-    root /var/www/landing;
-    
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-}
-
-# App subdomain (main app)
-server {
-    listen 80;
-    server_name app.yourdomain.com;
-    root /var/www/app;
-    
-    location / {
-        try_files $uri $uri/ /index.html;
-    }
-}
-```
-
-### Firebase Hosting
+For a dual-site Firebase deployment that also publishes the old/main interactive app to `app.boonyongyang.dev`, replace `firebase.json` with multi-site hosting after targets are configured:
 
 ```json
 {
   "hosting": [
     {
-      "site": "yourdomain-landing",
+      "target": "landing",
       "public": "build/landing",
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [{ "source": "**", "destination": "/index.html" }]
     },
     {
-      "site": "yourdomain-app",
+      "target": "app",
       "public": "build/app",
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
+      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+      "rewrites": [{ "source": "**", "destination": "/index.html" }]
     }
   ]
 }
 ```
 
-## Development
+Only switch to multi-site hosting after Firebase targets are configured locally with `firebase target:apply hosting ...`; otherwise the current landing-only Firebase deploy is safer.
 
-### Run Landing Page
+## Pre-Deploy Checklist
+
+Run:
+
 ```bash
-flutter run -d chrome --target=lib/main_landing.dart
+make analyze
+make test
+make build_all
+git diff --check
 ```
 
-### Run Main App
+Then check:
+
+- `build/landing/index.html` loads the landing site.
+- `build/landing/robots.txt` contains the correct `SITE_URL`.
+- `build/app/index.html` loads the old/main interactive app.
+- No generated `build/` or `.firebase/` artifacts are staged.
+- `docs/ROADMAP.md` has current deployment-readiness status.
+
+Deploy the landing site:
+
 ```bash
-flutter run -d chrome --target=lib/main_app.dart
+make deploy_web
 ```
 
-## Environment Variables
+Deploy a preview channel:
 
-You can customize the build using environment variables:
-
-- `APP_MODE`: Set to 'landing' or 'main_app'
-- `BASE_URL`: Base URL for the app
-- `API_URL`: API endpoint URL
-
-## Hot Reload Fix
-
-The hot reload issue you mentioned earlier is now resolved because the apps are completely separated. Each app maintains its own state and routing configuration.
+```bash
+make deploy_web_channel CHANNEL=preview-name
+```

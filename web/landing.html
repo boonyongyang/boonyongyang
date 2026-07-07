@@ -44,9 +44,9 @@
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: white;
+      background: #f8f5ef;
+      font-family: Inter, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
+      color: #171717;
       overflow-x: hidden;
     }
     
@@ -62,8 +62,8 @@
     .spinner {
       width: 40px;
       height: 40px;
-      border: 4px solid rgba(255, 255, 255, 0.3);
-      border-left: 4px solid white;
+      border: 1px solid #d8d3c7;
+      border-left: 1px solid #2563eb;
       border-radius: 50%;
       animation: spin 1s linear infinite;
       margin: 0 auto 20px;
@@ -77,7 +77,7 @@
     .loading-text {
       font-size: 16px;
       font-weight: 500;
-      opacity: 0.9;
+      color: #525252;
     }
 
     /* Hide loading when Flutter app loads */
@@ -86,26 +86,34 @@
     }
   </style>
 
-  <script>
-    var serviceWorkerVersion = null;
-  </script>
-  <script src="flutter.js" defer></script>
 </head>
 <body>
   <div class="loading" id="loading">
     <div class="spinner"></div>
-    <p class="loading-text">Loading Portfolio...</p>
+    <p class="loading-text">Loading portfolio</p>
   </div>
 
+  <script src="flutter.js"></script>
   <script>
-    window.addEventListener('load', function(ev) {
-      _flutter.loader.loadEntrypoint({
-        serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
-        },
+    _flutter.buildConfig = {
+      builds: [
+        {
+          compileTarget: 'dart2js',
+          renderer: 'html',
+          mainJsPath: 'main.dart.js',
+        }
+      ]
+    };
+
+    window.addEventListener('load', function() {
+      _flutter.loader.load({
+        serviceWorkerSettings: null,
         onEntrypointLoaded: function(engineInitializer) {
           engineInitializer.initializeEngine().then(function(appRunner) {
-            document.getElementById('loading').classList.add('hidden');
+            var loading = document.getElementById('loading');
+            if (loading) {
+              loading.classList.add('hidden');
+            }
             appRunner.runApp();
           });
         }
