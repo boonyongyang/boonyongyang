@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../config/quick_config.dart';
 
 class UrlLauncherService {
   static void launchApp(BuildContext context) {
     // Navigate to the main app
-    // In production, this would be a different subdomain
-    const appUrl = String.fromEnvironment('APP_URL',
-        defaultValue: 'https://app.yourdomain.com');
+    // APP_URL can override QuickConfig.appUrl for build-time environment.
+    const appUrl =
+        String.fromEnvironment('APP_URL', defaultValue: QuickConfig.appUrl);
 
     if (appUrl.startsWith('http')) {
       // Production: redirect to subdomain
@@ -18,7 +19,7 @@ class UrlLauncherService {
         builder: (context) => AlertDialog(
           title: const Text('Launching App'),
           content: const Text(
-            'In production, this would redirect to app.yourdomain.com\n\n'
+            'In production, this would redirect to app.boonyongyang.dev\n\n'
             'For development, run:\nflutter run -d chrome --target=lib/main_app.dart',
           ),
           actions: [
@@ -33,21 +34,25 @@ class UrlLauncherService {
   }
 
   static Future<void> launchGitHub() async {
-    final uri = Uri.parse('https://github.com/boonyongyang');
+    final uri = Uri.parse(QuickConfig.githubUrl);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     }
   }
 
   static Future<void> launchLinkedIn() async {
-    final uri = Uri.parse('https://linkedin.com/in/boonyongyang');
+    final uri = Uri.parse(QuickConfig.linkedinUrl);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     }
   }
 
   static Future<void> launchEmail() async {
-    final uri = Uri.parse('mailto:boonyongyang@gmail.com?subject=Hello');
+    final uri = Uri(
+      scheme: 'mailto',
+      path: QuickConfig.email,
+      queryParameters: {'subject': QuickConfig.emailSubject},
+    );
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri);
     }

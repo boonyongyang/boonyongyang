@@ -1,4 +1,4 @@
-import '../quick_config.dart';
+import '../config/quick_config.dart';
 
 class WorkExperienceModel {
   final String jobTitle;
@@ -27,15 +27,12 @@ class WorkExperienceModel {
         duration: QuickConfig.workDuration,
         companyIconName: 'phone_android',
         description:
-            'Initiated end-to-end mobile development for two production applications from architecture to App Store deployment. '
-            'Established foundational technical architecture, implemented robust CI/CD pipelines, and delivered scalable and maintainable codebases. ',
+            'Led mobile implementation across two shipped Flutter products, from architecture and CI/CD through store release and production iteration.',
         keyImplementations: [
-          'Architected and built ${QuickConfig.mainAppName} from 0 to ${QuickConfig.currentMetrics['totalDownloads']} downloads',
-          'Designed clean architecture with BLoC pattern for scalable codebase',
-          'Implemented CI/CD pipeline with automated testing and deployment',
-          'Built comprehensive affiliate marketing system with real-time analytics',
-          'Integrated Firebase suite for analytics, crashlytics, and notifications',
-          'Delivered Cha Ching cashback platform with payment gateway integration',
+          'Built ${QuickConfig.mainAppName} from first implementation to ${QuickConfig.currentMetrics['totalDownloads']} downloads',
+          'Designed BLoC architecture around practical product delivery',
+          'Implemented CI/CD, analytics, crash reporting, and release workflows',
+          'Delivered affiliate and cashback flows with real user traffic',
         ],
         technologies: QuickConfig.primaryTechnologies.map((tech) {
           switch (tech) {
@@ -61,9 +58,8 @@ class WorkExperienceModel {
           '${QuickConfig.currentMetrics['productionApps']} apps successfully launched to production',
           '${QuickConfig.currentMetrics['totalDownloads']} combined downloads across platforms',
           '${QuickConfig.currentMetrics['averageRating']} average rating on app stores',
-          'Zero critical production bugs in 18+ months',
-          'Reduced app crash rate to <0.1%',
-          'Improved app performance by 40%',
+          'Maintained production feedback loops across analytics and crash reporting',
+          'Improved release confidence with automated checks and clearer ownership',
         ],
       );
 }

@@ -1,6 +1,5 @@
 /// Technical Skills model for organized skill management
 ///
-/// 🎯 Quick Update Guide:
 /// - Add new skills to the appropriate category
 /// - Update proficiency levels as you grow
 /// - Modify the featured technologies list for highlights

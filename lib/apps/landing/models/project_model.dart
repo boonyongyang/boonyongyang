@@ -1,6 +1,5 @@
 /// Project model for landing page portfolio projects
 ///
-/// 🎯 Quick Update Guide:
 /// - Add new projects to getProductionApps() or getPersonalProjects()
 /// - Update existing project details by modifying the project objects
 /// - Use consistent iconName and colorName from landing_page_utils.dart
@@ -34,7 +33,7 @@ class ProjectModel {
     required this.colorName,
   });
 
-  /// 🏭 PRODUCTION APPLICATIONS
+  /// Production applications.
   /// These are live apps serving real users in production
   ///
   /// To add a new production app:
@@ -47,13 +46,11 @@ class ProjectModel {
         title: 'Involve Asia Mobile App',
         subtitle: 'iOS & Android • Affiliate Marketing Platform',
         description:
-            'Comprehensive affiliate marketing mobile application enabling users to scale earnings by promoting 500+ global brands. Features advanced analytics, link management, and seamless commission tracking.',
+            'Affiliate marketing app for creating links, tracking performance, discovering brands, and managing commission workflows at production scale.',
         achievements: [
-          'Successfully launched on App Store & Google Play in 3.5 months',
-          'Built from scratch using Flutter with BLoC architecture',
-          'Achieved 4.2★ rating with 50K+ downloads',
-          '500+ global brand partnerships integrated',
-          'Advanced affiliate link analytics and performance tracking',
+          'Launched on App Store and Google Play in 3.5 months',
+          'Built from scratch with Flutter and BLoC architecture',
+          'Reached 50K+ downloads with a 4.2 star rating',
         ],
         features: [
           'Generate and manage multiple affiliate links',
@@ -81,12 +78,11 @@ class ProjectModel {
         title: 'Cha Ching - Shop & Get Cashback',
         subtitle: 'iOS & Android • Cashback Shopping Platform',
         description:
-            'Modern cashback shopping application connecting users with retailers to earn rewards on purchases. Features merchant integration, real-time cashback tracking, and streamlined checkout experience.',
+            'Cashback shopping app connecting users to retailers, affiliate offers, transaction tracking, and a cleaner purchase handoff.',
         achievements: [
-          'Assisted in building the complete shopping platform with cashback system',
-          'Integrated Affiliate APIs for Shopee MY',
-          'Developed user-friendly shopping discovery interface',
-          'Created robust backend infrastructure for transaction processing',
+          'Helped build the shopping platform and cashback flow',
+          'Integrated affiliate APIs for Shopee MY',
+          'Shipped shopping discovery, profile, and transaction surfaces',
         ],
         features: [
           'Merchant Discovery & Search',
@@ -112,8 +108,8 @@ class ProjectModel {
     ];
   }
 
-  /// 🚀 PERSONAL & OPEN SOURCE PROJECTS
-  /// These showcase technical skills and architectural expertise
+  /// Personal and open-source projects.
+  /// These provide compact references for technical decisions and patterns.
   ///
   /// To add a new personal project:
   /// 1. Add a new ProjectModel object to the list below
@@ -125,7 +121,7 @@ class ProjectModel {
         title: 'Flutter BLoC Starter Kit',
         subtitle: 'Architecture Template • Production-Ready Foundation',
         description:
-            'Comprehensive Flutter starter template demonstrating clean architecture, BLoC patterns, and production-ready development practices. A showcase of how I approach building scalable Flutter applications from scratch.',
+            'Reference starter for Flutter architecture decisions I use in real product work: feature boundaries, dependency injection, routing, storage, and tests.',
         achievements: [
           'Designed 2-layer clean architecture for optimal balance of simplicity and scalability',
           'Implemented comprehensive dependency injection with GetIt service locator',
@@ -165,45 +161,42 @@ class ProjectModel {
         githubUrl: 'https://github.com/boonyongyang/flutter-bloc-starter',
       ),
       const ProjectModel(
-        title: 'Offline Movie Explorer',
-        subtitle: 'Personal Project • Offline-First Movie Catalog',
+        title: 'FPV Overlay Toolbox',
+        subtitle: 'Flutter Desktop • Video Overlay Utility',
         description:
-            'A Flutter app showcasing a modern, offline-first movie catalog experience using TMDb API. Demonstrates best practices in Flutter app architecture, state management, offline caching, and dependency injection.',
+            'Desktop utility for turning FPV flight footage plus telemetry into finished overlay videos with queue-driven rendering, diagnostics, packaging, and a headless CLI.',
         achievements: [
-          'Implemented offline-first architecture with Hive for local caching',
-          'Integrated TMDb API for movie data and sharing functionality',
-          'Developed parallax effect for movie detail pages',
-          'Built modular, feature-first architecture inspired by Clean Architecture',
-          'Created seamless pull-to-refresh with haptic feedback',
+          'Built a real desktop workflow for macOS and Windows overlay rendering',
+          'Added queue persistence, diagnostics, and DJI split-recording recovery',
+          'Packaged release builds plus a headless CLI for batch processing',
         ],
         features: [
-          'Offline-First Experience',
-          'Movie List Screen with Favorites',
-          'Movie Detail Screen with Sharing',
-          'Shimmer Loading Indicators',
-          'Pull-to-Refresh with Haptic Feedback',
-          'Parallax Effect on Detail Pages',
+          'SRT and OSD overlay rendering',
+          'Batch folder scanning and telemetry matching',
+          'Persistent render queue',
+          'Local FFmpeg and Python diagnostics',
+          'macOS app update workflow',
+          'Headless fpv-overlay CLI',
         ],
         technologies: [
           'Flutter',
-          'Hive',
-          'Dio',
-          'GetIt',
-          'Freezed',
-          'GoRouter',
-          'Connectivity Plus',
+          'Desktop',
+          'FFmpeg',
+          'CLI',
+          'Release Automation',
+          'Local Persistence',
         ],
-        iconName: 'movie',
+        iconName: 'video_settings',
         colorName: 'red',
-        status: 'Open Source Project',
-        metrics: 'Offline-first • Immersive UI • GitHub available',
-        githubUrl: 'https://github.com/boonyongyang/offline_movie_explorer',
+        status: 'Released Utility',
+        metrics: 'Desktop app • CLI • GitHub releases',
+        githubUrl: 'https://github.com/boonyongyang/fpv-overlay-app',
       ),
       const ProjectModel(
         title: 'PocketFi - Personal Finance App',
         subtitle: 'Personal Project • Comprehensive Finance Management',
         description:
-            'Full-featured personal finance application with expense tracking, receipt scanning, budget management, debt tracking, and collaborative wallet sharing. Built with advanced Flutter architecture patterns.',
+            'Personal finance app concept covering budgets, receipt scanning, shared wallets, debt tracking, and savings workflows.',
         achievements: [
           'Comprehensive finance management with 10+ core features',
           'Implemented receipt scanning with text highlighting technology',

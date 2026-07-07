@@ -1,4 +1,4 @@
-import '../quick_config.dart';
+import '../config/quick_config.dart';
 
 class PersonalInfoModel {
   final String name;

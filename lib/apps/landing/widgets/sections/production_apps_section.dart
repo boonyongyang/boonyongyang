@@ -1,92 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import '../../utils/responsive_utils.dart';
-import '../components/production_app_card.dart';
+
 import '../../models/project_model.dart';
+import '../components/landing_design_system.dart';
+import '../components/production_app_card.dart';
 
 class ProductionAppsSection extends StatelessWidget {
   const ProductionAppsSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isMobile = ResponsiveUtils.isMobile(context);
+    final tokens = context.landingTokens;
+    final productionApps = ProjectModel.getProductionApps();
 
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: ResponsiveUtils.getHorizontalPadding(context),
-        vertical: ResponsiveUtils.getVerticalPadding(context),
-      ),
-      decoration: BoxDecoration(
-        color: theme.colorScheme.surface.withOpacity(0.3),
-      ),
+    return LandingSection(
+      eyebrow: 'Selected Work',
+      title: 'Production apps with real release pressure.',
+      body:
+          'A tighter view of shipped mobile products: the role, the product work, and the operational result.',
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(
-            child: Column(
-              children: [
-                Text(
-                  'Production Applications',
-                  style: theme.textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    fontSize: isMobile ? 24 : null,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const Gap(8),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: isMobile ? 0 : 32,
-                  ),
-                  child: Text(
-                    'Live iOS & Android apps currently serving tens of thousands of users',
-                    style: theme.textTheme.bodyLarge?.copyWith(
-                      color: theme.colorScheme.onSurface.withOpacity(0.7),
-                      fontSize: isMobile ? 16 : null,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ],
+          for (var index = 0; index < productionApps.length; index++) ...[
+            ProductionAppCard(
+              project: productionApps[index],
+              isReversed: index.isOdd,
             ),
-          ),
-          const Gap(48),
-          _buildProductionApps(context),
+            if (index != productionApps.length - 1) Gap(tokens.spaceLg),
+          ],
         ],
       ),
     );
-  }
-
-  Widget _buildProductionApps(BuildContext context) {
-    final productionApps = ProjectModel.getProductionApps();
-    final isMobile = ResponsiveUtils.isMobile(context);
-
-    if (isMobile) {
-      return Column(
-        children: productionApps
-            .map((app) => Padding(
-                  padding: const EdgeInsets.only(bottom: 32),
-                  child: ProductionAppCard(project: app),
-                ))
-            .toList(),
-      );
-    } else {
-      return Column(
-        children: productionApps.asMap().entries.map((entry) {
-          final index = entry.key;
-          final app = entry.value;
-          final isEven = index % 2 == 0;
-
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 32),
-            child: ProductionAppCard(
-              project: app,
-              isReversed: !isEven, // Alternate layout
-            ),
-          );
-        }).toList(),
-      );
-    }
   }
 }

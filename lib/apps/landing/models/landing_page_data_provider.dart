@@ -5,8 +5,7 @@ import 'social_link_model.dart';
 import 'project_model.dart';
 import 'technical_skills_model.dart';
 
-/// Centralized data provider for all landing page content
-/// This makes it extremely easy to update any information by changing it in one place
+/// Centralized data provider for landing page content.
 class LandingPageDataProvider {
   // Personal Information
   static PersonalInfoModel get personalInfo => PersonalInfoModel.current;
@@ -42,28 +41,28 @@ class LandingPageDataProvider {
 
   // Section Titles and Metadata
   static const Map<String, String> sectionTitles = {
-    'hero': 'Hero Section',
-    'workExperience': 'Work Experience',
-    'productionApps': 'Production Applications',
-    'personalProjects': 'Passion Projects',
-    'features': 'Technical Excellence',
-    'footer': 'Contact & Social',
+    'hero': 'Introduction',
+    'workExperience': 'Current Work',
+    'productionApps': 'Selected Work',
+    'personalProjects': 'Project Index',
+    'features': 'Capabilities',
+    'footer': 'Contact',
   };
 
   static const Map<String, String> sectionSubtitles = {
     'features':
-        'Production-ready features and technical capabilities that power scalable applications',
+        'Grouped by how the work gets shipped: UI, architecture, integrations, release systems, and workflow.',
     'productionApps':
-        'Live applications serving real users in production environments',
+        'Production apps with release pressure, product constraints, and real usage.',
     'personalProjects':
-        'Open-source projects showcasing technical expertise and architectural patterns',
+        'Compact references for architecture patterns and app experiments.',
   };
 
   // App Configuration
   static const Map<String, dynamic> appConfig = {
     'appName': 'Boon Yong Yang Portfolio',
     'version': '1.0.0',
-    'lastUpdated': '2025-06-27',
+    'lastUpdated': '2026-05-09',
     'builtWith': 'Flutter',
   };
 
