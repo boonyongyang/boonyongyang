@@ -67,10 +67,10 @@ class CustomBouncingScrollPhysics extends BouncingScrollPhysics {
   final double dampingFactor;
 
   const CustomBouncingScrollPhysics({
-    ScrollPhysics? parent,
+    super.parent,
     this.customFrictionFactor = 0.2,
     this.dampingFactor = 0.9,
-  }) : super(parent: parent);
+  });
 
   @override
   CustomBouncingScrollPhysics applyTo(ScrollPhysics? ancestor) {

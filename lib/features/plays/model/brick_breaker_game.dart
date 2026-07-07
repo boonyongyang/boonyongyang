@@ -830,8 +830,9 @@ class BrickBreakerGame {
     if (!_ballsController.isClosed) _ballsController.add(List.from(balls));
     if (!_paddleController.isClosed) _paddleController.add(paddle);
     if (!_bricksController.isClosed) _bricksController.add(List.from(bricks));
-    if (!_powerUpsController.isClosed)
+    if (!_powerUpsController.isClosed) {
       _powerUpsController.add(List.from(powerUps));
+    }
     if (!_gameStateController.isClosed) _gameStateController.add(_gameState);
   }
 

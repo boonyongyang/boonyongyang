@@ -36,7 +36,8 @@ void main() {
 
     test('different Fruits are !=', () {
       final a = Fruit.fromJson(json);
-      final b = Fruit.fromJson({...json, 'id': 99});
+      final otherJson = Map<String, Object?>.from(json)..['id'] = 99;
+      final b = Fruit.fromJson(otherJson);
       expect(a, isNot(equals(b)));
     });
 

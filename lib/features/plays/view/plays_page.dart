@@ -33,14 +33,14 @@ class PlaysPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
               ),
-              SizedBox(height: AppSpacing.sm),
+              const SizedBox(height: AppSpacing.sm),
               Text(
                 'Choose a game to play',
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: AppColors.ghostBlue,
                     ),
               ),
-              SizedBox(height: AppSpacing.lg),
+              const SizedBox(height: AppSpacing.lg),
               LayoutBuilder(
                 builder: (context, constraints) {
                   final itemWidth = (constraints.maxWidth -
@@ -97,7 +97,7 @@ class PlaysPage extends StatelessWidget {
                         height: itemHeight,
                         onTap: () {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               content: Text(
                                 'More games coming soon!',
                                 style:
@@ -163,7 +163,7 @@ class _GameCard extends StatelessWidget {
             padding: EdgeInsets.all(isMobile ? AppSpacing.md : AppSpacing.lg),
             decoration: BoxDecoration(
               borderRadius: AppBorders.roundedMedium,
-              gradient: LinearGradient(
+              gradient: const LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
@@ -187,7 +187,7 @@ class _GameCard extends StatelessWidget {
                   size: isMobile ? 40 : 48,
                   color: color,
                 ),
-                SizedBox(height: AppSpacing.md),
+                const SizedBox(height: AppSpacing.md),
                 Text(
                   title,
                   style: theme.textTheme.titleLarge?.copyWith(
@@ -198,7 +198,7 @@ class _GameCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                 ),
-                SizedBox(height: AppSpacing.sm),
+                const SizedBox(height: AppSpacing.sm),
                 Text(
                   description,
                   style: theme.textTheme.bodyMedium?.copyWith(

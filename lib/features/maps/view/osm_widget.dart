@@ -184,17 +184,17 @@ class SimpleOSMState extends State<SimpleOSM>
         );
       },
       onMapMoved: (c) {
-        print(c.center);
+        debugPrint('${c.center}');
       },
       onLocationChanged: (p0) {
-        print(p0);
+        debugPrint('$p0');
       },
       onGeoPointClicked: (p0) {
         // show snackbar
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              "Latitude: ${p0.latitude}, Longitude: ${p0.longitude}",
+              'Latitude: ${p0.latitude}, Longitude: ${p0.longitude}',
             ),
           ),
         );

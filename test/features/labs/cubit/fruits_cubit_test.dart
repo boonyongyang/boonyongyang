@@ -15,7 +15,7 @@ void main() {
     mockRepository = MockFruitRepository();
   });
 
-  final testFruits = [
+  const testFruits = [
     Fruit(
       name: 'Apple',
       id: 1,

@@ -105,7 +105,7 @@ class _TopNavBarState extends State<TopNavBar> {
               ] else ...[
                 Theme(
                   data: theme.copyWith(
-                    popupMenuTheme: PopupMenuThemeData(
+                    popupMenuTheme: const PopupMenuThemeData(
                       color: ColorPalette.darkSurface,
                       surfaceTintColor: Colors.transparent,
                     ),

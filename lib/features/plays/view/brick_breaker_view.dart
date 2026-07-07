@@ -432,13 +432,12 @@ class _BrickBreakerViewState extends State<BrickBreakerView>
                                       // Power-ups View with drag scrolling
                                       GestureDetector(
                                         onHorizontalDragUpdate: (details) {
-                                          final ScrollController? controller =
+                                          final controller =
                                               PrimaryScrollController.of(
                                                   context);
-                                          if (controller != null &&
-                                              controller.position
-                                                      .maxScrollExtent >
-                                                  0) {
+                                          if (controller
+                                                  .position.maxScrollExtent >
+                                              0) {
                                             controller.position.moveTo(
                                               controller.offset -
                                                   details.delta.dx,

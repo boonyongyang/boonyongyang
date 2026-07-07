@@ -36,10 +36,10 @@ class AnimatedHeroSection extends StatelessWidget {
         ),
 
         // Elegant shapes layer with RepaintBoundary
-        RepaintBoundary(
+        const RepaintBoundary(
           child: Stack(
             children: [
-              const ParallaxContainer(
+              ParallaxContainer(
                 multiplier: 1.2,
                 position: EdgeInsets.only(left: -50, top: 100),
                 child: ElegantShape(
@@ -49,7 +49,7 @@ class AnimatedHeroSection extends StatelessWidget {
                   delay: Duration(milliseconds: 300),
                 ),
               ),
-              const ParallaxContainer(
+              ParallaxContainer(
                 multiplier: 0.8,
                 position: EdgeInsets.only(right: -20, bottom: 100),
                 child: ElegantShape(
@@ -60,7 +60,7 @@ class AnimatedHeroSection extends StatelessWidget {
                   enableGlow: true,
                 ),
               ),
-              const ParallaxContainer(
+              ParallaxContainer(
                 multiplier: 1.5,
                 position: EdgeInsets.only(left: 50, bottom: 50),
                 child: ElegantShape(
@@ -70,7 +70,7 @@ class AnimatedHeroSection extends StatelessWidget {
                   delay: Duration(milliseconds: 400),
                 ),
               ),
-              const ParallaxContainer(
+              ParallaxContainer(
                 multiplier: 0.6,
                 position: EdgeInsets.only(right: 100, top: 80),
                 child: ElegantShape(
@@ -80,7 +80,7 @@ class AnimatedHeroSection extends StatelessWidget {
                   delay: Duration(milliseconds: 600),
                 ),
               ),
-              const ParallaxContainer(
+              ParallaxContainer(
                 multiplier: 1.0,
                 position: EdgeInsets.only(left: 150, top: 50),
                 child: ElegantShape(
@@ -128,7 +128,6 @@ class AnimatedHeroSection extends StatelessWidget {
                       },
                       child: GestureDetector(
                         onTap: () {
-                          print('Badge tapped');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
