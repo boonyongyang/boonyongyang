@@ -1,16 +1,13 @@
-/// Package imports
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-/// Chart import
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-import '../../../data.dart';
+import '../data/sample_stock_data.dart';
+import '../model/chart_data.dart';
 import '../../../shared/widgets/custom_button.dart';
 
-/// Local imports
 import 'stock_item.dart';
-import 'chart_data.dart';
 
 ///Renders default Candle series chart
 class CandleChart extends StatefulWidget {

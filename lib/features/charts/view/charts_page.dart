@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../../shared/widgets/top_nav_bar.dart';
-import 'candle_chart.dart';
 import 'stock_item.dart';
 
 class ChartsPage extends StatelessWidget {
@@ -20,23 +20,20 @@ class ChartsPage extends StatelessWidget {
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => CandleChart(
-                          stock: StockItem(
-                            name: 'AAPL',
-                            symbol: 'AAPL',
-                            price: 100,
-                            change: 2.5,
-                            volume: 1000000,
-                            date: DateTime.now(),
-                            open: 98.5,
-                            high: 101.2,
-                            low: 98.0,
-                            close: 100.0,
-                            changePercentage: 2.5,
-                          ),
-                        ),
+                    context.push(
+                      '/charts/candle',
+                      extra: StockItem(
+                        name: 'AAPL',
+                        symbol: 'AAPL',
+                        price: 100,
+                        change: 2.5,
+                        volume: 1000000,
+                        date: DateTime.now(),
+                        open: 98.5,
+                        high: 101.2,
+                        low: 98.0,
+                        close: 100.0,
+                        changePercentage: 2.5,
                       ),
                     );
                   },
@@ -45,23 +42,20 @@ class ChartsPage extends StatelessWidget {
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => CandleChart(
-                          stock: StockItem(
-                            name: 'GOOGL',
-                            symbol: 'GOOGL',
-                            price: 150,
-                            change: -1.2,
-                            volume: 500000,
-                            date: DateTime.now(),
-                            open: 152.0,
-                            high: 153.5,
-                            low: 149.0,
-                            close: 150.0,
-                            changePercentage: -1.2,
-                          ),
-                        ),
+                    context.push(
+                      '/charts/candle',
+                      extra: StockItem(
+                        name: 'GOOGL',
+                        symbol: 'GOOGL',
+                        price: 150,
+                        change: -1.2,
+                        volume: 500000,
+                        date: DateTime.now(),
+                        open: 152.0,
+                        high: 153.5,
+                        low: 149.0,
+                        close: 150.0,
+                        changePercentage: -1.2,
                       ),
                     );
                   },

@@ -5,6 +5,8 @@ import 'page_transitions.dart';
 import '../theme/color_palette.dart';
 
 import '../../features/about/view/about_page.dart';
+import '../../features/charts/model/stock_item.dart';
+import '../../features/charts/view/candle_chart.dart';
 import '../../features/charts/view/charts_page.dart';
 import '../../features/home/view/home_page.dart';
 import '../../features/labs/view/labs_page.dart';
@@ -24,6 +26,7 @@ class AppRouter {
     'home': (path: '/', name: 'home'),
     'maps': (path: '/maps', name: 'maps'),
     'charts': (path: '/charts', name: 'charts'),
+    'candleChart': (path: '/charts/candle', name: 'candleChart'),
     'labs': (path: '/labs', name: 'labs'),
     'plays': (path: '/plays', name: 'plays'),
     'connect4': (path: '/plays/connect4', name: 'connect4'),
@@ -72,6 +75,37 @@ class AppRouter {
               restorationId: state.pageKey.value,
               key: state.pageKey,
             ),
+            routes: [
+              GoRoute(
+                path: 'candle',
+                name: routes['candleChart']!.name,
+                pageBuilder: (context, state) {
+                  final stock = state.extra as StockItem?;
+                  return buildPageWithTransition(
+                    child: CandleChart(
+                      stock: stock ??
+                          StockItem(
+                            name: 'AAPL',
+                            symbol: 'AAPL',
+                            price: 100,
+                            change: 0,
+                            volume: 0,
+                            date: DateTime.now(),
+                            open: 100,
+                            high: 100,
+                            low: 100,
+                            close: 100,
+                            changePercentage: 0,
+                          ),
+                    ),
+                    name: state.name,
+                    arguments: state.extra,
+                    restorationId: state.pageKey.value,
+                    key: state.pageKey,
+                  );
+                },
+              ),
+            ],
           ),
           GoRoute(
             path: routes['labs']!.path,

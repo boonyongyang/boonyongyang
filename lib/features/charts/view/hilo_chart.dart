@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-import '../../../data.dart';
-import 'chart_data.dart';
+import '../data/sample_stock_data.dart';
+import '../model/chart_data.dart';
 import 'stock_item.dart';
 
 class HiloChart extends StatefulWidget {

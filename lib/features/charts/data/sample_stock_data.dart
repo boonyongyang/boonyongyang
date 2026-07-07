@@ -1,10 +1,5 @@
-import 'features/charts/view/chart_data.dart';
-import 'features/charts/view/stock_item.dart';
-
-final kPrompt = [
-  // 'Generate an overview of the stock ${stock.name} (${stock.symbol}). '
-  // 'Do not include prices. Provide a summary with bullet points that is simple to read for beginners.',
-];
+import '../model/chart_data.dart';
+import '../model/stock_item.dart';
 
 // TODO: each stock need to have 'data' field for ticker data
 final kStocks = [
