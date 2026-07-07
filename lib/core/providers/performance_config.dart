@@ -1,6 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart';
 
+/// Adaptive performance configuration that adjusts rendering settings
+/// based on platform and user preferences.
+///
+/// Registered as a lazy singleton via [GetIt]. Consumers can listen for
+/// changes and conditionally enable expensive effects like blur, parallax,
+/// and high frame-rate animations.
 class PerformanceConfig extends ChangeNotifier {
   bool _reduceAnimations = false;
   bool _enableParallax = true;
