@@ -1,6 +1,5 @@
-import 'dart:convert';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:gap/gap.dart';
 import 'fake_location_loading_widget.dart';
 
@@ -21,16 +20,14 @@ class IPAddressWidgetState extends State<IPAddressWidget> {
   }
 
   Future<void> _fetchIPAddress() async {
-    final response =
-        await http.get(Uri.parse('https://api.ipify.org?format=json'));
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      if (mounted) {
+    try {
+      final response = await Dio().get('https://api.ipify.org?format=json');
+      if (response.statusCode == 200 && mounted) {
         setState(() {
-          _ipAddress = data['ip'];
+          _ipAddress = (response.data as Map<String, dynamic>)['ip'] as String;
         });
       }
-    } else {
+    } catch (_) {
       if (mounted) {
         setState(() {
           _ipAddress = 'Failed to fetch IP';

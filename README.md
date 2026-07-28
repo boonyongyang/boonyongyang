@@ -16,13 +16,13 @@ This project contains two separate Flutter applications:
 - Portfolio landing page with a repo-local design system
 - Three theme presets: Studio Light, Midnight Zinc, and Signal Amber
 - Case-study layout for production apps and compact project index
-- Deploy to the main portfolio domain (`boonyongyang.dev`)
+- Deploy to the main portfolio domain (`boonyongyang.com`)
 
 ### Main App (`lib/apps/main_app/`)
 - Full-featured interactive application
 - Games, maps, charts, and experiments
 - Complete routing and state management
-- Deploy to the app subdomain (`app.boonyongyang.dev`)
+- Deploy independently to `boonyongyang-app.web.app`, with `app.boonyongyang.com` reserved as its custom domain
 
 ## Getting Started
 
@@ -89,8 +89,8 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 ### Quick Deploy Structure
 ```
 build/
-├── landing/    # → boonyongyang.dev
-└── app/        # → app.boonyongyang.dev
+├── landing/    # → boonyongyang.com / boonyongyang.web.app
+└── app/        # → boonyongyang-app.web.app / future app.boonyongyang.com
 ```
 
 ## Features
@@ -101,6 +101,8 @@ build/
 - Current-work timeline and production app case-study panels
 - Compact project index with GitHub links
 - Capability rows grouped by product delivery workflow
+- Shared Versions selector for the Flutter portfolio, interactive app, and
+  Next.js + Three.js portfolio
 
 ### Main App
 - Interactive games (Connect 4, Tic-tac-toe, Snake, Brick Breaker)
@@ -108,6 +110,7 @@ build/
 - Data visualizations and charts
 - Experimental features and labs
 - Responsive design for all devices
+- Compact Versions selector in the application header
 
 ## Technology Stack
 

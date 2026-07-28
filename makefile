@@ -1,4 +1,4 @@
-.PHONY: help get run_landing_web run_app_web run_landing_sim_active run_app_sim_active analyze test format format_check build_landing build_app build_all deploy_web deploy_web_channel clean
+.PHONY: help get run_landing_web run_app_web run_landing_sim_active run_app_sim_active analyze test format format_check build_landing build_app build_all deploy_landing deploy_app deploy_web deploy_web_channel clean
 
 help:
 	@echo "Available commands:"
@@ -14,7 +14,9 @@ help:
 	@echo "  make build_landing          Build revamped landing web app"
 	@echo "  make build_app              Build old/main web app"
 	@echo "  make build_all              Build both web apps"
-	@echo "  make deploy_web             Build revamped landing and deploy to Firebase"
+	@echo "  make deploy_landing         Deploy only the Flutter landing site"
+	@echo "  make deploy_app             Deploy only the Flutter interactive app"
+	@echo "  make deploy_web             Alias for deploy_landing"
 	@echo "  make deploy_web_channel     Deploy preview channel; pass CHANNEL=name"
 
 get:
@@ -63,9 +65,15 @@ build_app:
 build_all:
 	./build_apps.sh all
 
-deploy_web:
+deploy_landing:
 	./build_apps.sh landing
-	firebase deploy
+	firebase deploy --only hosting:boonyongyang --project boonyongyang
+
+deploy_app:
+	./build_apps.sh app
+	firebase deploy --only hosting:boonyongyang-app --project boonyongyang
+
+deploy_web: deploy_landing
 
 deploy_web_channel:
 	@if [ -z "$(CHANNEL)" ]; then \
@@ -73,7 +81,7 @@ deploy_web_channel:
 		exit 1; \
 	fi
 	./build_apps.sh landing
-	firebase hosting:channel:deploy $(CHANNEL)
+	firebase hosting:channel:deploy $(CHANNEL) --site boonyongyang --project boonyongyang
 
 clean:
 	flutter clean

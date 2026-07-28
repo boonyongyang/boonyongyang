@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/theme/color_palette.dart';
 import '../../core/constants/animation_constants.dart';
+import 'portfolio_version_menu.dart';
 
 class TopNavBar extends StatefulWidget implements PreferredSizeWidget {
   final String title;
@@ -101,8 +102,21 @@ class _TopNavBarState extends State<TopNavBar> {
                     }).toList(),
                   ),
                 ),
-                const Spacer(),
+                const Gap(8),
+                PortfolioVersionMenu(
+                  currentSurface: PortfolioSurface.flutterInteractive,
+                  compact: true,
+                  foregroundColor: theme.iconTheme.color,
+                  borderColor: theme.dividerColor.withOpacity(0.12),
+                  backgroundColor: theme.colorScheme.surface.withOpacity(0.05),
+                ),
+                const Gap(12),
               ] else ...[
+                PortfolioVersionMenu(
+                  currentSurface: PortfolioSurface.flutterInteractive,
+                  compact: true,
+                  foregroundColor: theme.iconTheme.color,
+                ),
                 Theme(
                   data: theme.copyWith(
                     popupMenuTheme: const PopupMenuThemeData(

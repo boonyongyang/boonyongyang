@@ -32,6 +32,20 @@ void main() {
     expect(find.text('Amber'), findsOneWidget);
   });
 
+  testWidgets('versions menu exposes every independently hosted surface',
+      (tester) async {
+    await tester.pumpWidget(const LandingApp());
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Versions'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Flutter portfolio'), findsOneWidget);
+    expect(find.text('Flutter interactive app'), findsOneWidget);
+    expect(find.text('Next.js + Three.js portfolio'), findsOneWidget);
+    expect(find.text('Current'), findsOneWidget);
+  });
+
   testWidgets('production app proof stays inline on the landing page',
       (tester) async {
     await tester.pumpWidget(const LandingApp());

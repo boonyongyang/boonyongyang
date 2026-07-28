@@ -34,7 +34,7 @@ class QuickConfig {
   static const String githubUrl = 'https://github.com/boonyongyang';
   static const String linkedinUrl =
       'https://www.linkedin.com/in/boon-yong-yang-64096b1aa/';
-  static const String appUrl = 'https://app.boonyongyang.dev';
+  static const String appUrl = 'https://boonyongyang-app.web.app';
 
   // Main production app reference
   static const String mainAppName = 'Involve Asia Mobile App';

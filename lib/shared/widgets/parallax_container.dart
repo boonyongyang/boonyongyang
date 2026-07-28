@@ -32,7 +32,7 @@ class _ParallaxContainerState extends State<ParallaxContainer> {
     if (!_shouldOptimize) {
       final box = context.findRenderObject() as RenderBox;
       final center = box.size.center(box.localToGlobal(Offset.zero));
-      
+
       setState(() {
         _position = (mousePosition - center) * 0.01 * widget.multiplier;
       });

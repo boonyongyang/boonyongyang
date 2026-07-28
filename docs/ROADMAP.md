@@ -8,7 +8,9 @@ This is the working task list for the portfolio revamp and the dual-app command 
 - Default run target: Flutter Web.
 - Secondary target: active iOS Simulator only when iOS behavior needs checking.
 - Current implementation state: design-system revamp is implemented; command docs, build outputs, and Firebase landing deployment config are aligned.
-- Deployment state: locally ready; live Firebase deploy has not been run from this handoff.
+- Deployment state: Flutter landing, Flutter interactive app, and isolated
+  Next.js + Three.js portfolio each have separate live Firebase Hosting sites.
+  Custom `app` and `3d` subdomains remain pending DNS configuration.
 
 ## Phase 0 — Command Surface And Handoff
 
@@ -125,7 +127,9 @@ Status: in progress
 - [ ] Add per-project case-study detail pages only if the landing page becomes too dense.
 - [ ] Add lightweight analytics only if there is a clear privacy-safe use.
 - [ ] Consider ForUI/shadcn package migration after Flutter/Dart SDK upgrade.
-- [ ] Configure Firebase multi-site hosting if the old/main app should go live at `app.boonyongyang.dev`.
+- [x] Configure separate Firebase Hosting site IDs for the Flutter landing and interactive app.
+- [x] Add a cross-surface Versions selector linking every deployed surface.
+- [ ] Connect `app.boonyongyang.com` and `3d.boonyongyang.com` after their DNS records are added.
 
 Verification:
 

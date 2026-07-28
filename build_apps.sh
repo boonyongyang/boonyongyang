@@ -26,8 +26,9 @@ print_error() {
 # Function to build landing page
 build_landing() {
     print_status "Building landing page..."
-    APP_URL="${APP_URL:-https://app.boonyongyang.dev}"
-    SITE_URL="${SITE_URL:-https://boonyongyang.dev}"
+    APP_URL="${APP_URL:-https://boonyongyang-app.web.app}"
+    SITE_URL="${SITE_URL:-https://boonyongyang.com}"
+    PORTFOLIO_3D_URL="${PORTFOLIO_3D_URL:-https://boonyongyang-3d.web.app}"
     GITHUB_URL="${GITHUB_URL:-https://github.com/boonyongyang}"
     LINKEDIN_URL="${LINKEDIN_URL:-https://linkedin.com/in/boonyongyang}"
     
@@ -38,6 +39,8 @@ build_landing() {
         --web-renderer=html \
         --dart-define=APP_MODE=landing \
         --dart-define=APP_URL="$APP_URL" \
+        --dart-define=SITE_URL="$SITE_URL" \
+        --dart-define=PORTFOLIO_3D_URL="$PORTFOLIO_3D_URL" \
         --dart-define=GITHUB_URL="$GITHUB_URL" \
         --dart-define=LINKEDIN_URL="$LINKEDIN_URL" \
         --tree-shake-icons \
@@ -60,6 +63,9 @@ Sitemap: $SITE_URL/sitemap.xml" > build/landing/robots.txt
 # Function to build main app
 build_main_app() {
     print_status "Building main app..."
+    APP_URL="${APP_URL:-https://boonyongyang-app.web.app}"
+    SITE_URL="${SITE_URL:-https://boonyongyang.com}"
+    PORTFOLIO_3D_URL="${PORTFOLIO_3D_URL:-https://boonyongyang-3d.web.app}"
     
     # Create main app build
     flutter build web \
@@ -67,6 +73,9 @@ build_main_app() {
         --output=build/app \
         --web-renderer=html \
         --dart-define=APP_MODE=main_app \
+        --dart-define=APP_URL="$APP_URL" \
+        --dart-define=SITE_URL="$SITE_URL" \
+        --dart-define=PORTFOLIO_3D_URL="$PORTFOLIO_3D_URL" \
         --release
     
     print_status "Main app built successfully in build/app"

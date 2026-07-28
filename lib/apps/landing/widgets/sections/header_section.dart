@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:boonyongyang/shared/widgets/portfolio_version_menu.dart';
 
 import '../../config/quick_config.dart';
 import '../../services/url_launcher_service.dart';
@@ -68,6 +69,13 @@ class HeaderSection extends StatelessWidget {
                   ),
                   const Gap(10),
                 ],
+                PortfolioVersionMenu(
+                  currentSurface: PortfolioSurface.flutterPortfolio,
+                  compact: isMobile,
+                  foregroundColor: tokens.textMuted,
+                  borderColor: tokens.border,
+                ),
+                const Gap(8),
                 _ThemeMenu(
                   activePreset: activePreset,
                   onThemeChanged: onThemeChanged,

@@ -506,7 +506,7 @@ make deploy_web_channel CHANNEL=preview-name
 
 **Firebase config** (`firebase.json`): Serves the revamped landing site from `build/landing` with SPA rewrites (`**` → `/index.html`).
 
-The old/main interactive app builds to `build/app`. Deploy it to `app.boonyongyang.dev` only after Firebase multi-site hosting targets are configured. See `DEPLOYMENT.md` for the target setup shape and pre-deploy checklist.
+The old/main interactive app builds to `build/app` and deploys independently to the `boonyongyang-app` Firebase Hosting site. See `DEPLOYMENT.md` for the non-destructive site mapping and custom-domain plan.
 
 ### Web HTML Files
 

@@ -19,7 +19,7 @@ class UrlLauncherService {
         builder: (context) => AlertDialog(
           title: const Text('Launching App'),
           content: const Text(
-            'In production, this would redirect to app.boonyongyang.dev\n\n'
+            'In production, this opens the separately hosted Flutter app.\n\n'
             'For development, run:\nflutter run -d chrome --target=lib/main_app.dart',
           ),
           actions: [

@@ -33,6 +33,9 @@ migrate_working_dir/
 /build/
 .firebase/
 
+# Standalone repositories hosted inside this workspace are versioned separately.
+/portfolio-3d-next/
+
 # Symbolication related
 app.*.symbols
 
