@@ -4,7 +4,9 @@ Last updated: 2026-07-28
 
 ## Deployment State
 
-Status: three isolated web surfaces are available; custom app and 3D subdomains remain pending DNS setup.
+Status: all three isolated web surfaces were redeployed and publicly verified on
+2026-07-28; only the optional custom app and 3D subdomains remain pending DNS
+setup.
 
 - Revamped portfolio landing builds to `build/landing/`.
 - Flutter interactive app builds to `build/app/`.
@@ -19,6 +21,8 @@ Status: three isolated web surfaces are available; custom app and 3D subdomains 
 - `app.boonyongyang.com` and `3d.boonyongyang.com` do not have DNS records yet.
 - The Flutter landing, Flutter interactive app, and Next.js + Three.js headers
   expose the same Versions selector and identify the current surface.
+- Private release repositories now preserve both codebases, and their clean
+  Linux CI pipelines pass.
 - Generated `.firebase/` cache files are ignored.
 
 ## Primary Commands
@@ -53,7 +57,14 @@ make deploy_app
   browser tests passed with 12 intentional project-specific skips.
 - `git diff --check`
 - Production smoke checks for all three `.web.app` origins
-- Deployed landing-bundle check for the Flutter app and 3D portfolio links
+- Fresh deployed-bundle checks found the complete three-link selector contract
+  on every surface.
+- Firebase Hosting released 41 landing files, 40 interactive-app files, and 51
+  isolated 3D files.
+- Flutter GitHub Actions run `30327046546` passed analysis, 50 tests, formatting,
+  and both release web builds.
+- The 3D release-closure pull-request run `30327836021` passed its quality and
+  45-test browser jobs with retained evidence; PR #1 was merged.
 
 ## Next Phase
 
