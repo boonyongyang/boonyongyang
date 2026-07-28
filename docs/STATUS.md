@@ -61,15 +61,17 @@ make deploy_app
   fallback.
 - `git diff --check`
 - Production smoke checks for all three `.web.app` origins
-- Fresh local release-bundle checks found all three 3D theme labels in both
-  Flutter outputs; the deployed-bundle check is part of the current release
-  gate.
-- Firebase Hosting released 41 landing files, 40 interactive-app files, and 51
+- Fresh deployed-bundle checks found all three 3D theme labels and canonical
+  theme paths on both Flutter surfaces.
+- Firebase Hosting released 41 landing files, 40 interactive-app files, and 78
   isolated 3D files.
-- Flutter GitHub Actions run `30327046546` passed analysis, 50 tests, formatting,
-  and both release web builds.
-- The 3D release-closure pull-request run `30327836021` passed its quality and
-  45-test browser jobs with retained evidence; PR #1 was merged.
+- Flutter GitHub Actions run `30329836705` passed analysis, 51 tests,
+  formatting, and both release web builds.
+- 3D GitHub Actions run `30329836775` passed quality gates and the complete
+  Chromium verification job with retained evidence.
+- All three theme routes returned HTTP 200 after deployment. A focused public
+  Playwright run passed the selector and three-theme contract on desktop,
+  tablet, and mobile: 6 tests passed.
 
 ## Next Phase
 
