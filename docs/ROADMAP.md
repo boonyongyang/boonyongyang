@@ -129,6 +129,8 @@ Status: in progress
 - [ ] Consider ForUI/shadcn package migration after Flutter/Dart SDK upgrade.
 - [x] Configure separate Firebase Hosting site IDs for the Flutter landing and interactive app.
 - [x] Add a cross-surface Versions selector linking every deployed surface.
+- [x] Add a separate 3D themes group linking Release Bench, Field Manual, and
+      Store Review Room from both Flutter surfaces.
 - [ ] Connect `app.boonyongyang.com` and `3d.boonyongyang.com` after their DNS records are added.
 
 Verification:

@@ -23,6 +23,10 @@ void main() {
     expect(find.text('Flutter portfolio'), findsOneWidget);
     expect(find.text('Flutter interactive app'), findsOneWidget);
     expect(find.text('Next.js + Three.js portfolio'), findsOneWidget);
+    expect(find.text('3D themes'), findsOneWidget);
+    expect(find.text('Release Bench'), findsOneWidget);
+    expect(find.text('Field Manual'), findsOneWidget);
+    expect(find.text('Store Review Room'), findsOneWidget);
     expect(find.text('Current'), findsOneWidget);
     expect(find.byIcon(Icons.check), findsOneWidget);
   });
@@ -39,6 +43,21 @@ void main() {
     expect(
       PortfolioSurface.nextThree.url,
       'https://boonyongyang-3d.web.app',
+    );
+  });
+
+  test('3D themes use directly shareable canonical URLs', () {
+    expect(
+      PortfolioThreeTheme.releaseBench.url,
+      'https://boonyongyang-3d.web.app/themes/release-bench/',
+    );
+    expect(
+      PortfolioThreeTheme.fieldManual.url,
+      'https://boonyongyang-3d.web.app/themes/field-manual/',
+    );
+    expect(
+      PortfolioThreeTheme.reviewRoom.url,
+      'https://boonyongyang-3d.web.app/themes/review-room/',
     );
   });
 }

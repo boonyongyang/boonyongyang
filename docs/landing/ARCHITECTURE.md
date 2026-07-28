@@ -24,6 +24,11 @@ Current principles:
 
 The landing app stores the active preset in `LandingApp` and passes it to `HeaderSection`, where the theme menu can switch presets without adding a package dependency. On web, `LandingThemeStorage` persists the selected preset in `localStorage`; tests and non-web targets use the no-op conditional fallback.
 
+The separate `PortfolioVersionMenu` layers control is cross-surface navigation,
+not part of the landing theme system. It groups the three independently hosted
+portfolio versions first, then the three shareable themes of the Next.js 3D
+version.
+
 ## Component Layer
 
 `lib/apps/landing/widgets/components/landing_design_system.dart` contains the shared primitives used by the sections:

@@ -8,6 +8,12 @@ enum PortfolioSurface {
   nextThree,
 }
 
+enum PortfolioThreeTheme {
+  releaseBench,
+  fieldManual,
+  reviewRoom,
+}
+
 extension PortfolioSurfaceDetails on PortfolioSurface {
   String get label {
     switch (this) {
@@ -41,6 +47,31 @@ extension PortfolioSurfaceDetails on PortfolioSurface {
   }
 }
 
+extension PortfolioThreeThemeDetails on PortfolioThreeTheme {
+  String get label {
+    switch (this) {
+      case PortfolioThreeTheme.releaseBench:
+        return 'Release Bench';
+      case PortfolioThreeTheme.fieldManual:
+        return 'Field Manual';
+      case PortfolioThreeTheme.reviewRoom:
+        return 'Store Review Room';
+    }
+  }
+
+  String get url {
+    final baseUrl = PortfolioSurface.nextThree.url;
+    switch (this) {
+      case PortfolioThreeTheme.releaseBench:
+        return '$baseUrl/themes/release-bench/';
+      case PortfolioThreeTheme.fieldManual:
+        return '$baseUrl/themes/field-manual/';
+      case PortfolioThreeTheme.reviewRoom:
+        return '$baseUrl/themes/review-room/';
+    }
+  }
+}
+
 class PortfolioVersionMenu extends StatelessWidget {
   const PortfolioVersionMenu({
     super.key,
@@ -57,9 +88,9 @@ class PortfolioVersionMenu extends StatelessWidget {
   final Color? borderColor;
   final Color? backgroundColor;
 
-  Future<void> _openSurface(PortfolioSurface surface) async {
+  Future<void> _openDestination(Uri destination) async {
     await launchUrl(
-      Uri.parse(surface.url),
+      destination,
       webOnlyWindowName: '_self',
     );
   }
@@ -69,15 +100,15 @@ class PortfolioVersionMenu extends StatelessWidget {
     final theme = Theme.of(context);
     final color = foregroundColor ?? theme.colorScheme.onSurface;
 
-    return PopupMenuButton<PortfolioSurface>(
-      tooltip: 'Portfolio versions',
-      onSelected: _openSurface,
+    return PopupMenuButton<Uri>(
+      tooltip: 'Portfolio versions and 3D themes',
+      onSelected: _openDestination,
       itemBuilder: (context) {
-        return PortfolioSurface.values.map((surface) {
+        final versionItems = PortfolioSurface.values.map((surface) {
           final isCurrent = surface == currentSurface;
 
-          return PopupMenuItem<PortfolioSurface>(
-            value: surface,
+          return PopupMenuItem<Uri>(
+            value: Uri.parse(surface.url),
             enabled: !isCurrent,
             child: Row(
               children: [
@@ -94,11 +125,47 @@ class PortfolioVersionMenu extends StatelessWidget {
               ],
             ),
           );
-        }).toList();
+        });
+
+        final themeItems = PortfolioThreeTheme.values.map((themePreset) {
+          return PopupMenuItem<Uri>(
+            value: Uri.parse(themePreset.url),
+            child: Row(
+              children: [
+                const SizedBox(width: 18),
+                const Gap(12),
+                Expanded(child: Text(themePreset.label)),
+              ],
+            ),
+          );
+        });
+
+        return [
+          PopupMenuItem<Uri>(
+            enabled: false,
+            height: 32,
+            child: Text(
+              'Portfolio versions',
+              style: theme.textTheme.labelSmall,
+            ),
+          ),
+          ...versionItems,
+          const PopupMenuDivider(),
+          PopupMenuItem<Uri>(
+            enabled: false,
+            height: 32,
+            child: Text(
+              '3D themes',
+              style: theme.textTheme.labelSmall,
+            ),
+          ),
+          ...themeItems,
+        ];
       },
       child: Semantics(
         button: true,
-        label: 'Portfolio versions. Current: ${currentSurface.label}',
+        label:
+            'Portfolio versions and 3D themes. Current: ${currentSurface.label}',
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: backgroundColor,

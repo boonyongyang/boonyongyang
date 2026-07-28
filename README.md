@@ -102,7 +102,7 @@ build/
 - Compact project index with GitHub links
 - Capability rows grouped by product delivery workflow
 - Shared Versions selector for the Flutter portfolio, interactive app, and
-  Next.js + Three.js portfolio
+  Next.js + Three.js portfolio, plus direct links to all three 3D themes
 
 ### Main App
 - Interactive games (Connect 4, Tic-tac-toe, Snake, Brick Breaker)
@@ -110,7 +110,8 @@ build/
 - Data visualizations and charts
 - Experimental features and labs
 - Responsive design for all devices
-- Compact Versions selector in the application header
+- Compact Versions selector in the application header, including the three
+  3D theme destinations
 
 ## Technology Stack
 

@@ -28,6 +28,11 @@ Each feature keeps its own `view/` and optional `model/` / `services/` files.
 - `lib/core/` - routing, theme, DI, providers, constants, utilities
 - `lib/shared/` - reusable widgets, mixins, and shared models
 
+`lib/shared/widgets/portfolio_version_menu.dart` owns the header layers control
+used by both Flutter surfaces. Its menu keeps deployed portfolio versions and
+Next.js 3D themes in separate labeled groups and opens only canonical production
+URLs.
+
 ## Data Placement Rule
 
 Feature-specific data should live inside the feature.

@@ -108,10 +108,19 @@ The custom-domain plan is:
 
 The `.web.app` origins remain permanent fallbacks, so adding custom domains does not replace a version.
 
-Every surface exposes the same three-entry Versions selector. Desktop headers
-show the label where space allows, while compact layouts retain the accessible
-layers control. Each selector identifies the current surface and uses the
-canonical production origin for the other two destinations.
+Every surface exposes the same hidden layers control. Its first group contains
+the three independently deployed portfolio versions. Its second group contains
+the three shareable themes within the Next.js + Three.js version:
+
+| 3D theme | Canonical route |
+|---|---|
+| Release Bench | `https://boonyongyang-3d.web.app/themes/release-bench/` |
+| Field Manual | `https://boonyongyang-3d.web.app/themes/field-manual/` |
+| Store Review Room | `https://boonyongyang-3d.web.app/themes/review-room/` |
+
+Desktop headers show the control label where space allows, while compact
+layouts retain the accessible layers icon. The Next.js selector identifies both
+the current application version and the active 3D theme.
 
 ## Pre-Deploy Checklist
 
