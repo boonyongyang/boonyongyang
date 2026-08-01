@@ -71,9 +71,8 @@ make deploy_app
   marker, and contributor attribution; the mobile app retains its platform map
   implementation.
 - Firebase Hosting released 41 landing files and 40 interactive-app files.
-- Flutter GitHub Actions run `30693749188` passed analysis, all tests,
-  formatting, and both release web builds for the deployed route-bootstrap
-  commit.
+- Flutter GitHub Actions run `30694027921` passed analysis, all 67 tests,
+  formatting, and both release web builds for the final deployed commit.
 - The isolated 3D portfolio passed `npm run check` and `npm run verify`: 50
   browser tests passed with 16 intentional project-specific skips, including
   all three themes on desktop, tablet, mobile, reduced motion, and WebGL
