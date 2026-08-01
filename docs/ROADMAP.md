@@ -78,13 +78,13 @@ Acceptance criteria:
 
 ## Phase 3 — Landing Code Hardening
 
-Status: planned
+Status: in progress
 
-- [ ] Add widget coverage for each theme preset.
+- [x] Add widget coverage for each theme preset.
 - [ ] Add a focused test for web theme persistence fallback behavior.
 - [ ] Review `LandingPageDataProvider` for unused legacy model surfaces.
 - [ ] Remove or repurpose stale model fields that no active section reads.
-- [ ] Confirm links launch through `UrlLauncherService` with valid URIs.
+- [x] Confirm links launch through `UrlLauncherService` with valid URIs.
 
 Acceptance criteria:
 
@@ -146,3 +146,27 @@ Acceptance criteria:
 
 - Improvements increase credibility without returning to a decorative showcase feel.
 - No package upgrade blocks the current Flutter SDK unless intentionally planned.
+
+## Phase 6 — Public Release Repair
+
+Status: complete (2026-08-01)
+
+- [x] Preserve and refresh every public interactive-app route.
+- [x] Replace stale or unsupported public metrics with durable product proof.
+- [x] Update Cashiu naming and both mobile-store destinations.
+- [x] Repair the Flutter starter-kit repository link and remove the broken GIF.
+- [x] Respect reduced-motion preferences across decorative and autoplay motion.
+- [x] Use accessible navigation controls and prevent medium-width overflow.
+- [x] Replace the blank web map platform view with rendered OSM tiles and
+      preserve the mobile map implementation.
+- [x] Add regressions for direct routes, public copy, destinations, and motion.
+- [x] Deploy both Flutter Hosting targets and verify live rendered routes.
+
+Verification:
+
+```bash
+flutter analyze --no-fatal-infos
+flutter test --coverage
+dart format --set-exit-if-changed .
+make build_all
+```

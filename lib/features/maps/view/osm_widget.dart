@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import 'package:pointer_interceptor/pointer_interceptor.dart';
@@ -27,6 +29,10 @@ class _OsmWidgetState extends State<OsmWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (kIsWeb) {
+      return const WebOsmMap();
+    }
+
     return OSMFlutter(
       controller: controller,
       osmOption: const OSMOption(
@@ -57,6 +63,179 @@ class _OsmWidgetState extends State<OsmWidget> {
   void dispose() {
     controller.dispose();
     super.dispose();
+  }
+}
+
+class WebOsmMap extends StatefulWidget {
+  final Widget Function(String url)? tileBuilder;
+
+  const WebOsmMap({
+    super.key,
+    this.tileBuilder,
+  });
+
+  @override
+  State<WebOsmMap> createState() => _WebOsmMapState();
+}
+
+class _WebOsmMapState extends State<WebOsmMap> {
+  static const _latitude = 3.1582;
+  static const _longitude = 101.7122;
+  static const _tileSize = 256.0;
+  static const _tileRadius = 3;
+
+  int _zoom = 14;
+  Offset _pan = Offset.zero;
+
+  double _tileX(double longitude, int zoom) {
+    final tiles = math.pow(2, zoom).toDouble();
+    return (longitude + 180) / 360 * tiles;
+  }
+
+  double _tileY(double latitude, int zoom) {
+    final tiles = math.pow(2, zoom).toDouble();
+    final radians = latitude * math.pi / 180;
+    final mercator = math.log(
+      math.tan(radians) + (1 / math.cos(radians)),
+    );
+    return (1 - (mercator / math.pi)) / 2 * tiles;
+  }
+
+  void _changeZoom(int delta) {
+    setState(() {
+      _zoom = (_zoom + delta).clamp(3, 18);
+      _pan = Offset.zero;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final centerX = _tileX(_longitude, _zoom);
+        final centerY = _tileY(_latitude, _zoom);
+        final baseX = centerX.floor();
+        final baseY = centerY.floor();
+        final tileCount = math.pow(2, _zoom).toInt();
+
+        return Semantics(
+          label: 'OpenStreetMap centered on Kuala Lumpur',
+          child: ClipRect(
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onPanUpdate: (details) {
+                      setState(() {
+                        _pan = Offset(
+                          (_pan.dx + details.delta.dx).clamp(-220.0, 220.0),
+                          (_pan.dy + details.delta.dy).clamp(-220.0, 220.0),
+                        );
+                      });
+                    },
+                    child: ColoredBox(
+                      color: const Color(0xFFE8E4DD),
+                      child: Stack(
+                        children: [
+                          for (var y = -_tileRadius; y <= _tileRadius; y++)
+                            for (var x = -_tileRadius; x <= _tileRadius; x++)
+                              Positioned(
+                                left: constraints.maxWidth / 2 +
+                                    ((baseX + x - centerX) * _tileSize) +
+                                    _pan.dx,
+                                top: constraints.maxHeight / 2 +
+                                    ((baseY + y - centerY) * _tileSize) +
+                                    _pan.dy,
+                                width: _tileSize,
+                                height: _tileSize,
+                                child: _buildTile(
+                                  'https://tile.openstreetmap.org/$_zoom/'
+                                  '${(baseX + x) % tileCount}/'
+                                  '${(baseY + y).clamp(0, tileCount - 1)}.png',
+                                ),
+                              ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: (constraints.maxWidth / 2) - 18 + _pan.dx,
+                  top: (constraints.maxHeight / 2) - 36 + _pan.dy,
+                  child: const IgnorePointer(
+                    child: Icon(
+                      Icons.location_on,
+                      color: Color(0xFFE7483D),
+                      size: 36,
+                      semanticLabel: 'Kuala Lumpur marker',
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 12,
+                  right: 12,
+                  child: Material(
+                    elevation: 2,
+                    borderRadius: BorderRadius.circular(12),
+                    clipBehavior: Clip.antiAlias,
+                    child: Column(
+                      children: [
+                        IconButton(
+                          tooltip: 'Zoom in',
+                          onPressed: _zoom == 18 ? null : () => _changeZoom(1),
+                          icon: const Icon(Icons.add),
+                        ),
+                        const Divider(height: 1),
+                        IconButton(
+                          tooltip: 'Zoom out',
+                          onPressed: _zoom == 3 ? null : () => _changeZoom(-1),
+                          icon: const Icon(Icons.remove),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: 8,
+                  bottom: 6,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                      child: Text(
+                        '© OpenStreetMap contributors',
+                        style: TextStyle(color: Colors.black87, fontSize: 11),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildTile(String url) {
+    final tileBuilder = widget.tileBuilder;
+    if (tileBuilder != null) {
+      return tileBuilder(url);
+    }
+
+    return Image.network(
+      url,
+      fit: BoxFit.fill,
+      filterQuality: FilterQuality.medium,
+      excludeFromSemantics: true,
+      errorBuilder: (context, error, stackTrace) => const ColoredBox(
+        color: Color(0xFFD8D3C9),
+      ),
+    );
   }
 }
 

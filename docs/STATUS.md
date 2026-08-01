@@ -1,12 +1,12 @@
 # Current Status
 
-Last updated: 2026-07-28
+Last updated: 2026-08-01
 
 ## Deployment State
 
-Status: all three isolated web surfaces were redeployed and publicly verified on
-2026-07-28; only the optional custom app and 3D subdomains remain pending DNS
-setup.
+Status: all three isolated web surfaces are live. The two Flutter surfaces were
+repaired, redeployed, and browser-verified on 2026-08-01; only the optional
+custom app and 3D subdomains remain pending DNS setup.
 
 - Revamped portfolio landing builds to `build/landing/`.
 - Flutter interactive app builds to `build/app/`.
@@ -26,6 +26,12 @@ setup.
 - Private release repositories now preserve both codebases, and their clean
   Linux CI pipelines pass.
 - Generated `.firebase/` cache files are ignored.
+- Refreshed interactive-app URLs now initialize from the requested browser path
+  instead of silently returning to Home.
+- Public landing proof uses current, durable product facts and canonical Cashiu,
+  Involve Asia, GitHub, and media destinations.
+- Decorative motion respects the reduced-motion preference, and primary
+  navigation uses accessible button semantics and a compact layout below 1024px.
 
 ## Primary Commands
 
@@ -47,26 +53,31 @@ make deploy_landing
 make deploy_app
 ```
 
-## Last Verified Locally On 2026-07-28
+## Last Verified On 2026-08-01
 
-- `flutter test`: 51 tests passed.
+- `flutter test --coverage`: 67 tests passed.
 - `flutter analyze --no-fatal-infos`: no issues found.
-- `dart format --output=none --set-exit-if-changed lib test`: passed.
+- `dart format --set-exit-if-changed .`: 129 files checked with no changes.
 - `make build_all`: both release web bundles built successfully.
-- Desktop and mobile release-bundle screenshots were inspected for both Flutter
-  surfaces, including the compact selector placement.
+- Eleven public GitHub, App Store, Google Play, and Giphy destinations returned
+  HTTP 200.
+- The deployed Flutter landing hero and complete Versions/3D themes menu were
+  visually inspected in the in-app browser.
+- Direct production entry and refresh checks passed for `/maps`,
+  `/charts/candle`, `/plays/connect4`, `/plays/brick-breaker`, and `/about` on
+  the canonical interactive-app origin with zero console errors. Automated
+  routing tests cover all ten non-home public paths.
+- The web map uses native Flutter OSM tiles with pan, zoom, a Kuala Lumpur
+  marker, and contributor attribution; the mobile app retains its platform map
+  implementation.
+- Firebase Hosting released 41 landing files and 40 interactive-app files.
+- Flutter GitHub Actions run `30693749188` passed analysis, all tests,
+  formatting, and both release web builds for the deployed route-bootstrap
+  commit.
 - The isolated 3D portfolio passed `npm run check` and `npm run verify`: 50
   browser tests passed with 16 intentional project-specific skips, including
   all three themes on desktop, tablet, mobile, reduced motion, and WebGL
   fallback.
-- `git diff --check`
-- Production smoke checks for all three `.web.app` origins
-- Fresh deployed-bundle checks found all three 3D theme labels and canonical
-  theme paths on both Flutter surfaces.
-- Firebase Hosting released 41 landing files, 40 interactive-app files, and 78
-  isolated 3D files.
-- Flutter GitHub Actions run `30329836705` passed analysis, 51 tests,
-  formatting, and both release web builds.
 - 3D GitHub Actions run `30329836775` passed quality gates and the complete
   Chromium verification job with retained evidence.
 - All three theme routes returned HTTP 200 after deployment. A focused public
@@ -82,3 +93,5 @@ Use `docs/ROADMAP.md` Phase 5 for product improvements:
 - Connect `app.boonyongyang.com` to the deployed `boonyongyang-app` site.
 - Connect `3d.boonyongyang.com` to the existing `boonyongyang-3d` site.
 - Consider ForUI/shadcn package migration only after a Flutter/Dart SDK upgrade.
+- Refresh GitHub Actions from Node 20-based action runtimes before GitHub stops
+  forcing them onto Node 24.
