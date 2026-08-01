@@ -27,7 +27,20 @@ class _HomePageState extends State<HomePage>
     _controller = AnimationController(
       duration: const Duration(seconds: 20),
       vsync: this,
-    )..repeat();
+    );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final reduceMotion = MediaQuery.disableAnimationsOf(context);
+    if (reduceMotion) {
+      _controller
+        ..stop()
+        ..value = 0;
+    } else if (!_controller.isAnimating) {
+      _controller.repeat();
+    }
   }
 
   @override
@@ -1026,7 +1039,7 @@ class _HomePageState extends State<HomePage>
           ),
           const Gap(16),
           const Text(
-            '© 2025 Flutter Showcase — Built with Flutter for Web',
+            '© 2026 Flutter Showcase • Built with Flutter for Web',
             style: TextStyle(
               color: Colors.white54,
               fontSize: 14,

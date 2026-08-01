@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
 final List<String> gifUrls = [
-  'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExMHRyaDE1YXlxdzBqaTk0dGxneDVnZDR1M2Fya3Q1ODBpMW5icXRyeiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/ZdIzhi10ZlKhU8EpDh/giphy.gif',
   'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExaWUxczgxeThmYXFmdW1vaXUxNzBxdHUzejM4dW43a2xjaGZyMzNybyZlcD12MV9naWZzX3RyZW5kaW5nJmN0PWc/LTByspj8BjoVx9EPJq/giphy.gif',
   'https://media.giphy.com/media/FY8c5SKwiNf1EtZKGs/giphy.gif?cid=790b7611ie1s81y8faqfumoiu170qtu3z38un7klchfr33ro&ep=v1_gifs_trending&rid=giphy.gif&ct=g',
   'https://media.giphy.com/media/l1KVboXQeiaX7FHgI/giphy.gif?cid=790b76114a389p1a0e2mtigvhfnxue3ag49eomf772vmpj92&ep=v1_gifs_search&rid=giphy.gif&ct=g',
@@ -16,13 +15,16 @@ class GifCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final reduceMotion = MediaQuery.disableAnimationsOf(context);
     return CarouselSlider(
       options: CarouselOptions(
         height: 200,
-        autoPlay: true,
+        autoPlay: !reduceMotion,
         enlargeCenterPage: true,
       ),
-      items: gifUrls.map((url) {
+      items: gifUrls.indexed.map((entry) {
+        final index = entry.$1;
+        final url = entry.$2;
         return Builder(
           builder: (BuildContext context) {
             return Container(
@@ -32,7 +34,21 @@ class GifCarousel extends StatelessWidget {
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Image.network(url),
+              child: Image.network(
+                url,
+                fit: BoxFit.cover,
+                semanticLabel: 'Interactive Flutter demo ${index + 1}',
+                errorBuilder: (context, error, stackTrace) => const ColoredBox(
+                  color: Color(0xFF121212),
+                  child: Center(
+                    child: Icon(
+                      Icons.image_not_supported_outlined,
+                      color: Colors.white70,
+                      semanticLabel: 'Demo image unavailable',
+                    ),
+                  ),
+                ),
+              ),
             );
           },
         );

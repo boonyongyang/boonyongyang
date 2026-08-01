@@ -58,7 +58,8 @@ void main() {
     await tester.ensureVisible(find.text('Involve Asia Mobile App'));
     await tester.pumpAndSettle();
 
-    expect(find.text('50K+ downloads'), findsOneWidget);
+    expect(find.text('iOS and Android'), findsWidgets);
+    expect(find.textContaining('50K+'), findsNothing);
     expect(find.text('App Store'), findsWidgets);
     expect(find.text('Google Play'), findsWidgets);
     expect(find.text('Case Study'), findsNothing);

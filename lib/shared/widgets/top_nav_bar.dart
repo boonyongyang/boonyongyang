@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/theme/color_palette.dart';
-import '../../core/constants/animation_constants.dart';
 import 'portfolio_version_menu.dart';
 
 class TopNavBar extends StatefulWidget implements PreferredSizeWidget {
@@ -32,7 +31,7 @@ class _TopNavBarState extends State<TopNavBar> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _isMobile = MediaQuery.of(context).size.width < 768;
+    _isMobile = MediaQuery.of(context).size.width < 1024;
   }
 
   @override
@@ -126,6 +125,7 @@ class _TopNavBarState extends State<TopNavBar> {
                   ),
                   child: PopupMenuButton<String>(
                     icon: const Icon(Icons.menu),
+                    tooltip: 'Open navigation',
                     position: PopupMenuPosition.under,
                     offset: const Offset(0, 8),
                     shape: RoundedRectangleBorder(
@@ -175,7 +175,7 @@ class _TopNavBarState extends State<TopNavBar> {
   }
 }
 
-class _NavButton extends StatefulWidget {
+class _NavButton extends StatelessWidget {
   final IconData icon;
   final String label;
   final bool isActive;
@@ -189,62 +189,31 @@ class _NavButton extends StatefulWidget {
   });
 
   @override
-  State<_NavButton> createState() => _NavButtonState();
-}
-
-class _NavButtonState extends State<_NavButton> {
-  bool _isHovered = false;
-
-  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: MouseRegion(
-        cursor: SystemMouseCursors.click,
-        onEnter: (_) => setState(() => _isHovered = true),
-        onExit: (_) => setState(() => _isHovered = false),
-        child: GestureDetector(
-          onTap: widget.onPressed,
-          child: AnimatedContainer(
-            duration: AnimationConstants.shortDuration,
-            curve: AnimationConstants.softEasing,
+      child: Semantics(
+        selected: isActive,
+        child: TextButton.icon(
+          onPressed: onPressed,
+          icon: Icon(icon, size: 20),
+          label: Text(label),
+          style: TextButton.styleFrom(
+            foregroundColor: isActive
+                ? theme.colorScheme.primary
+                : theme.textTheme.bodyLarge?.color?.withOpacity(0.78),
+            backgroundColor: isActive
+                ? theme.colorScheme.primaryContainer.withOpacity(0.15)
+                : Colors.transparent,
+            minimumSize: const Size(44, 44),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(
-              color: widget.isActive
-                  ? theme.colorScheme.primaryContainer.withOpacity(0.15)
-                  : _isHovered
-                      ? Colors.white.withOpacity(0.05)
-                      : Colors.transparent,
+            shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(
-                  widget.icon,
-                  color: widget.isActive
-                      ? theme.colorScheme.primary
-                      : theme.iconTheme.color?.withOpacity(
-                          _isHovered ? 1 : 0.7,
-                        ),
-                  size: 20,
-                ),
-                const Gap(8),
-                Text(
-                  widget.label,
-                  style: TextStyle(
-                    color: widget.isActive
-                        ? theme.colorScheme.primary
-                        : theme.textTheme.bodyLarge?.color?.withOpacity(
-                            _isHovered ? 1 : 0.7,
-                          ),
-                    fontWeight:
-                        widget.isActive ? FontWeight.bold : FontWeight.normal,
-                  ),
-                ),
-              ],
+            textStyle: TextStyle(
+              fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
             ),
           ),
         ),

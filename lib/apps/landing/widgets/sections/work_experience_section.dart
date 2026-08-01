@@ -93,8 +93,8 @@ class _RoleSummary extends StatelessWidget {
                 label: 'apps delivered',
               ),
               LandingMetricItem(
-                value: QuickConfig.currentMetrics['averageRating']!,
-                label: 'store rating',
+                value: QuickConfig.currentMetrics['advertiserScale']!,
+                label: 'advertiser platform scale',
               ),
             ],
           ),

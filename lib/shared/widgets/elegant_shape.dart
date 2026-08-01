@@ -34,6 +34,7 @@ class _ElegantShapeState extends State<ElegantShape>
   late Animation<double> _rotateAnimation;
   late Animation<double> _scaleAnimation;
   late List<Color> _colors;
+  bool _startScheduled = false;
 
   @override
   void initState() {
@@ -76,9 +77,22 @@ class _ElegantShapeState extends State<ElegantShape>
       parent: _controller,
       curve: const Interval(0.0, 1.0, curve: AnimationConstants.softEasing),
     ));
+  }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (MediaQuery.disableAnimationsOf(context)) {
+      _controller.value = 1;
+      return;
+    }
+    if (_controller.isCompleted || _controller.isAnimating || _startScheduled) {
+      return;
+    }
+    _startScheduled = true;
     Future.delayed(widget.delay, () {
-      if (mounted) {
+      _startScheduled = false;
+      if (mounted && !MediaQuery.disableAnimationsOf(context)) {
         _controller.forward();
       }
     });

@@ -27,9 +27,9 @@ class WorkExperienceModel {
         duration: QuickConfig.workDuration,
         companyIconName: 'phone_android',
         description:
-            'Led mobile implementation across two shipped Flutter products, from architecture and CI/CD through store release and production iteration.',
+            'Worked across two shipped Flutter products, from architecture and CI/CD through store release and production iteration.',
         keyImplementations: [
-          'Built ${QuickConfig.mainAppName} from first implementation to ${QuickConfig.currentMetrics['totalDownloads']} downloads',
+          'Built core ${QuickConfig.mainAppName} flows through the initial mobile release',
           'Designed BLoC architecture around practical product delivery',
           'Implemented CI/CD, analytics, crash reporting, and release workflows',
           'Delivered affiliate and cashback flows with real user traffic',
@@ -56,8 +56,8 @@ class WorkExperienceModel {
           ]),
         achievements: [
           '${QuickConfig.currentMetrics['productionApps']} apps successfully launched to production',
-          '${QuickConfig.currentMetrics['totalDownloads']} combined downloads across platforms',
-          '${QuickConfig.currentMetrics['averageRating']} average rating on app stores',
+          'Released on ${QuickConfig.currentMetrics['storeCoverage']}',
+          'Contributed to an affiliate platform serving ${QuickConfig.currentMetrics['advertiserScale']} advertisers',
           'Maintained production feedback loops across analytics and crash reporting',
           'Improved release confidence with automated checks and clearer ownership',
         ],

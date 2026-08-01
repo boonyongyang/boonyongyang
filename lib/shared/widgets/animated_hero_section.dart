@@ -22,6 +22,12 @@ class AnimatedHeroSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final reduceMotion = MediaQuery.disableAnimationsOf(context);
+    final entranceDuration =
+        reduceMotion ? Duration.zero : AnimationConstants.longDuration;
+    final detailDuration =
+        reduceMotion ? Duration.zero : AnimationConstants.mediumDuration;
+
     return Stack(
       children: [
         // Background gradient
@@ -99,7 +105,7 @@ class AnimatedHeroSection extends StatelessWidget {
           child: Center(
             child: TweenAnimationBuilder<double>(
               tween: Tween(begin: 30, end: 0),
-              duration: AnimationConstants.longDuration,
+              duration: entranceDuration,
               curve: AnimationConstants.customEasing,
               builder: (context, value, child) {
                 return Transform.translate(
@@ -115,7 +121,7 @@ class AnimatedHeroSection extends StatelessWidget {
                   children: [
                     TweenAnimationBuilder<double>(
                       tween: Tween(begin: 0.0, end: 1.0),
-                      duration: AnimationConstants.mediumDuration,
+                      duration: detailDuration,
                       curve: AnimationConstants.softEasing,
                       builder: (context, value, child) {
                         return Transform.scale(
@@ -201,7 +207,7 @@ class AnimatedHeroSection extends StatelessWidget {
                     // Animated description
                     TweenAnimationBuilder<double>(
                       tween: Tween(begin: 0.0, end: 1.0),
-                      duration: AnimationConstants.longDuration,
+                      duration: entranceDuration,
                       curve: AnimationConstants.softEasing,
                       builder: (context, value, child) {
                         return Opacity(
@@ -219,7 +225,7 @@ class AnimatedHeroSection extends StatelessWidget {
                           description,
                           style:
                               Theme.of(context).textTheme.titleLarge?.copyWith(
-                                    color: ColorPalette.textTertiary,
+                                    color: Colors.white.withOpacity(0.82),
                                     height: 1.5,
                                   ),
                           textAlign: TextAlign.center,
@@ -235,19 +241,21 @@ class AnimatedHeroSection extends StatelessWidget {
 
         // Enhanced gradient overlays
         Positioned.fill(
-          child: RepaintBoundary(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Colors.black.withOpacity(0.8),
-                    Colors.transparent,
-                    Colors.transparent,
-                    Colors.black.withOpacity(0.8),
-                  ],
-                  stops: const [0.0, 0.2, 0.8, 1.0],
+          child: IgnorePointer(
+            child: RepaintBoundary(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.black.withOpacity(0.8),
+                      Colors.transparent,
+                      Colors.transparent,
+                      Colors.black.withOpacity(0.8),
+                    ],
+                    stops: const [0.0, 0.2, 0.8, 1.0],
+                  ),
                 ),
               ),
             ),

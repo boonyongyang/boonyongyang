@@ -54,20 +54,28 @@ class _ParallaxContainerState extends State<ParallaxContainer> {
 
   @override
   Widget build(BuildContext context) {
+    final reduceMotion = MediaQuery.disableAnimationsOf(context);
     return Positioned(
       left: widget.position.left,
       top: widget.position.top,
       right: widget.position.right,
       bottom: widget.position.bottom,
       child: MouseRegion(
-        onHover: _onHover,
-        onExit: (_) => setState(() => _position = _defaultPosition),
+        onHover: reduceMotion ? null : _onHover,
+        onExit: reduceMotion
+            ? null
+            : (_) => setState(() => _position = _defaultPosition),
         child: RepaintBoundary(
           child: AnimatedContainer(
-            duration: const Duration(milliseconds: 100),
+            duration: reduceMotion
+                ? Duration.zero
+                : const Duration(milliseconds: 100),
             curve: Curves.easeOutCubic,
             transform: Matrix4.identity()
-              ..translate(_position.dx, _position.dy),
+              ..translate(
+                reduceMotion ? 0.0 : _position.dx,
+                reduceMotion ? 0.0 : _position.dy,
+              ),
             transformAlignment: Alignment.center,
             child: widget.child,
           ),

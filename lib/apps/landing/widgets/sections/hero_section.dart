@@ -106,8 +106,8 @@ class HeroSection extends StatelessWidget {
                           label: 'production apps shipped',
                         ),
                         LandingMetricItem(
-                          value: QuickConfig.currentMetrics['totalDownloads']!,
-                          label: 'combined downloads',
+                          value: QuickConfig.currentMetrics['storeCoverage']!,
+                          label: 'store coverage',
                         ),
                         LandingMetricItem(
                           value: QuickConfig.currentMetrics['yearsExperience']!,

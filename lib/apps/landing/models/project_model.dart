@@ -14,7 +14,7 @@ class ProjectModel {
   final String? githubUrl; // GitHub repository URL (optional)
   final String? liveUrl; // Live app/demo URL (optional)
   final String status; // Current status (e.g., "Live in Production")
-  final String metrics; // Key metrics (e.g., "50K+ downloads")
+  final String metrics; // Durable project proof or verified platform scale
   final String iconName; // Icon identifier (see landing_page_utils.dart)
   final String colorName; // Color identifier (see landing_page_utils.dart)
 
@@ -48,9 +48,9 @@ class ProjectModel {
         description:
             'Affiliate marketing app for creating links, tracking performance, discovering brands, and managing commission workflows at production scale.',
         achievements: [
-          'Launched on App Store and Google Play in 3.5 months',
-          'Built from scratch with Flutter and BLoC architecture',
-          'Reached 50K+ downloads with a 4.2 star rating',
+          'Worked through a compressed first-release timeline',
+          'Established Flutter and BLoC foundations for core product flows',
+          'Shipped offer discovery, reporting, analytics, and withdrawal flows',
         ],
         features: [
           'Generate and manage multiple affiliate links',
@@ -72,13 +72,13 @@ class ProjectModel {
         iconName: 'trending_up',
         colorName: 'orange',
         status: 'Live in Production',
-        metrics: '50K+ downloads • 4.2★ rating • 500+ brands',
+        metrics: 'iOS and Android • Platform serving 500+ advertisers',
       ),
       const ProjectModel(
-        title: 'Cha Ching - Shop & Get Cashback',
+        title: 'Cashiu: Everyday cashback',
         subtitle: 'iOS & Android • Cashback Shopping Platform',
         description:
-            'Cashback shopping app connecting users to retailers, affiliate offers, transaction tracking, and a cleaner purchase handoff.',
+            'Cashback shopping app first launched as Cha Ching and now listed in Malaysia as Cashiu, carrying the same account, wallet, and purchase history into the current name.',
         achievements: [
           'Helped build the shopping platform and cashback flow',
           'Integrated affiliate APIs for Shopee MY',
@@ -102,8 +102,8 @@ class ProjectModel {
         ],
         iconName: 'shopping_bag',
         colorName: 'blue',
-        status: 'Recently Launched',
-        metrics: 'New product • Finding market fit',
+        status: 'Listed in Malaysia',
+        metrics: 'iOS and Android • First launched as Cha Ching',
       ),
     ];
   }
@@ -158,7 +158,7 @@ class ProjectModel {
         status: 'Open Source Template',
         metrics:
             'Architecture showcase • Developer template • GitHub available',
-        githubUrl: 'https://github.com/boonyongyang/flutter-bloc-starter',
+        githubUrl: 'https://github.com/boonyongyang/flutter_bloc_starter_kit',
       ),
       const ProjectModel(
         title: 'FPV Overlay Toolbox',

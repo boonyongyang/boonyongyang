@@ -21,12 +21,11 @@ class QuickConfig {
   // Current work
   static const String currentCompany = 'IA';
   static const String currentPosition = 'Mobile Engineer (Flutter)';
-  static const String workDuration =
-      'June 2023 – Present (2 years and counting)'; // Update as needed
+  static const String workDuration = 'June 2023 to Present';
 
   // Proof points
   static const String achievementBanner =
-      '2 production apps shipped / 50K+ downloads / 4+ years Flutter';
+      '2 shipped mobile products • Both mobile stores • 4+ years with Flutter';
   static const String professionalSummary =
       'I build Flutter apps from early product shape to store release: architecture, UI, CI/CD, analytics, and the unglamorous details that keep production apps maintainable.';
 
@@ -39,10 +38,10 @@ class QuickConfig {
   // Main production app reference
   static const String mainAppName = 'Involve Asia Mobile App';
   static const String mainAppMetrics =
-      '50K+ downloads • 4.2★ rating • 500+ brands';
+      'iOS and Android • Platform serving 500+ advertisers';
 
   // Footer
-  static const String copyrightYear = '2025';
+  static const String copyrightYear = '2026';
   static const String contactSubtitle =
       'Available for focused Flutter product work, architecture cleanup, and release-ready mobile delivery.';
 
@@ -57,7 +56,7 @@ class QuickConfig {
 
   static const List<String> currentProjects = [
     'Involve Asia Mobile App',
-    'Cha Ching - Shop & Get Cashback',
+    'Cashiu: Everyday cashback',
   ];
 
   // Experience timeline
@@ -187,19 +186,19 @@ class QuickConfig {
           'https://play.google.com/store/apps/details?id=asia.involve.app&hl=en',
     ),
     QuickStoreLinks(
-      matchTitleContains: 'cha ching',
+      matchTitleContains: 'cashiu',
       appStoreUrl:
-          'https://apps.apple.com/us/app/cha-ching-shop-get-cashback/id6745090543',
+          'https://apps.apple.com/my/app/cashiu-everyday-cashback/id6745090543',
       playStoreUrl:
-          'https://play.google.com/store/apps/details?id=com.cmv.chaching&hl=en',
+          'https://play.google.com/store/apps/details?id=com.cmv.chaching&hl=en&gl=MY',
     ),
   ];
 
   // Current metrics
   static const Map<String, String> currentMetrics = {
     'totalApps': '2',
-    'totalDownloads': '50K+',
-    'averageRating': '4.2★',
+    'storeCoverage': 'iOS + Android',
+    'advertiserScale': '500+',
     'yearsExperience': '4+',
     'productionApps': '2',
   };
