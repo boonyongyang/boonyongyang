@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +23,16 @@ import '../providers/navigation_state.dart';
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();
 
+  static String get _initialLocation {
+    if (!kIsWeb) {
+      return WidgetsBinding.instance.platformDispatcher.defaultRouteName;
+    }
+
+    final uri = Uri.base;
+    final path = uri.path.isEmpty ? routes['home']!.path : uri.path;
+    return uri.hasQuery ? '$path?${uri.query}' : path;
+  }
+
   static final Map<String, ({String path, String name})> routes = {
     'home': (path: '/', name: 'home'),
     'maps': (path: '/maps', name: 'maps'),
@@ -38,6 +49,7 @@ class AppRouter {
 
   static RouterConfig<Object> get config => GoRouter(
         navigatorKey: _rootNavigatorKey,
+        initialLocation: _initialLocation,
         restorationScopeId: 'app_router',
         observers: [_NavigationObserver()],
         debugLogDiagnostics: true, // This helps with debugging route issues
