@@ -1,4 +1,4 @@
-.PHONY: help get run_landing_web run_app_web run_landing_sim_active run_app_sim_active analyze test format format_check build_landing build_app build_all deploy_landing deploy_app deploy_web deploy_web_channel clean
+.PHONY: help get run_landing_web run_app_web run_landing_sim_active run_app_sim_active analyze test format format_check build_landing build_app build_all visual_get visual_install_browser visual_test visual_update deploy_landing deploy_app deploy_web deploy_web_channel clean
 
 help:
 	@echo "Available commands:"
@@ -14,6 +14,10 @@ help:
 	@echo "  make build_landing          Build revamped landing web app"
 	@echo "  make build_app              Build old/main web app"
 	@echo "  make build_all              Build both web apps"
+	@echo "  make visual_get             Install locked visual-test dependencies"
+	@echo "  make visual_install_browser Install the pinned Playwright Chromium"
+	@echo "  make visual_test            Build and compare Flutter layout screenshots"
+	@echo "  make visual_update          Review and replace Flutter screenshot baselines"
 	@echo "  make deploy_landing         Deploy only the Flutter landing site"
 	@echo "  make deploy_app             Deploy only the Flutter interactive app"
 	@echo "  make deploy_web             Alias for deploy_landing"
@@ -64,6 +68,18 @@ build_app:
 
 build_all:
 	./build_apps.sh all
+
+visual_get:
+	npm --prefix visual-tests ci
+
+visual_install_browser:
+	visual-tests/node_modules/.bin/playwright install chromium
+
+visual_test: build_all
+	npm --prefix visual-tests run test
+
+visual_update: build_all
+	npm --prefix visual-tests run update
 
 deploy_landing:
 	./build_apps.sh landing

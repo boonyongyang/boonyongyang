@@ -38,6 +38,16 @@ Run the old/main interactive app:
 make run_app_web
 ```
 
+Compare the production web layouts against the reviewed desktop and mobile
+baselines:
+
+```bash
+make visual_test
+```
+
+When a visual change is intentional, inspect the new output first and then run
+`make visual_update` to replace the committed baselines.
+
 The default local target is Flutter Web. Use simulator commands only when you specifically need iOS behavior:
 ```bash
 # Revamped landing

@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: subosito/flutter-action@v2
         with:
@@ -35,7 +35,13 @@ jobs:
     needs: analyze-and-test
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: visual-tests/package-lock.json
 
       - uses: subosito/flutter-action@v2
         with:
@@ -45,5 +51,20 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Build deployment web outputs
-        run: make build_all
+      - name: Install visual regression dependencies
+        run: make visual_get
+
+      - name: Install pinned Chromium
+        run: make visual_install_browser
+
+      - name: Build and compare deployment layouts
+        run: make visual_test
+
+      - name: Retain visual regression evidence
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: flutter-layout-regression-evidence
+          path: visual-tests/verification/
+          if-no-files-found: warn
+          retention-days: 7

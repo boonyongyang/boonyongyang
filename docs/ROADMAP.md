@@ -170,3 +170,27 @@ flutter test --coverage
 dart format --set-exit-if-changed .
 make build_all
 ```
+
+## Phase 7 — Automated Layout Regression
+
+Status: in progress
+
+- [x] Add browser-level pixel baselines for both deployed Flutter surfaces.
+- [x] Compare the landing hero in Studio Light, Midnight Zinc, and Signal Amber.
+- [x] Compare the hidden Versions selector on desktop and mobile.
+- [x] Compare representative interactive-app routes at desktop and mobile widths.
+- [x] Run structural overflow and viewport-containment assertions before pixels.
+- [x] Add one review/update command and one fail-on-diff command.
+- [x] Run the visual suite on every push and pull request and retain diff artifacts.
+- [ ] Record clean local and Linux CI evidence for the committed baseline set.
+
+Verification:
+
+```bash
+make visual_get
+make visual_install_browser
+make visual_test
+```
+
+Use `make visual_update` only after intentionally reviewing a layout change.
+Never update baselines merely to make a failure disappear.

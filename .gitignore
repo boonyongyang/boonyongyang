@@ -32,6 +32,9 @@ migrate_working_dir/
 .pub/
 /build/
 .firebase/
+/visual-tests/verification/
+/visual-tests/node_modules/
+/coverage/
 
 # Standalone repositories hosted inside this workspace are versioned separately.
 /portfolio-3d-next/
