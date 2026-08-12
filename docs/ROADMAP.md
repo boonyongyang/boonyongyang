@@ -78,7 +78,7 @@ Acceptance criteria:
 
 ## Phase 3 — Landing Code Hardening
 
-Status: in progress
+Status: complete
 
 - [x] Add widget coverage for each theme preset.
 - [ ] Add a focused test for web theme persistence fallback behavior.
@@ -182,7 +182,11 @@ Status: in progress
 - [x] Run structural overflow and viewport-containment assertions before pixels.
 - [x] Add one review/update command and one fail-on-diff command.
 - [x] Run the visual suite on every push and pull request and retain diff artifacts.
-- [ ] Record clean local and Linux CI evidence for the committed baseline set.
+- [x] Record clean local and Linux CI evidence for the committed baseline set.
+
+Evidence (2026-08-12): local Flutter analysis, 67 tests, formatting, both web
+builds, and all 12 desktop/mobile visual comparisons passed. GitHub Actions run
+`31580959158` passed both jobs on Ubuntu and retained the comparison evidence.
 
 Verification:
 
