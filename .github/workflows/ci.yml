@@ -65,6 +65,8 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: flutter-layout-regression-evidence
-          path: visual-tests/verification/
+          path: |
+            visual-tests/verification/
+            visual-tests/tests/__screenshots__/*-linux/
           if-no-files-found: warn
           retention-days: 7

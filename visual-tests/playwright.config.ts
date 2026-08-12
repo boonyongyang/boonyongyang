@@ -8,7 +8,7 @@ export default defineConfig({
   forbidOnly: Boolean(process.env.CI),
   retries: 0,
   reporter: [['list'], ['json', { outputFile: 'verification/results.json' }]],
-  snapshotPathTemplate: '{testDir}/__screenshots__/{projectName}/{arg}{ext}',
+  snapshotPathTemplate: '{testDir}/__screenshots__/{projectName}-{snapshotSuffix}/{arg}{ext}',
   expect: {
     timeout: 15_000,
     toHaveScreenshot: {

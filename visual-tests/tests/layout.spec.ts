@@ -28,6 +28,10 @@ async function activate(locator: ReturnType<Page['locator']>) {
 test.describe('Flutter deployment layout baselines', () => {
   test.describe.configure({ retries: 0 });
 
+  test.beforeEach(async ({}, testInfo) => {
+    testInfo.snapshotSuffix = process.platform;
+  });
+
   for (const preset of [
     { label: 'Studio Light', snapshot: 'landing-studio-light.png', storage: null },
     { label: 'Midnight Zinc', snapshot: 'landing-midnight-zinc.png', storage: 'midnightZinc' },
