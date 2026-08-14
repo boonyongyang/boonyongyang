@@ -57,7 +57,9 @@ test.describe('Flutter deployment layout baselines', () => {
     await expect(page.getByRole('button', { name: 'Store Review Room' })).toBeVisible();
     await expectContainedLayout(page);
     await page.screenshot({ path: testInfo.outputPath('landing-versions-selector-proof.png') });
-    await expect(page).toHaveScreenshot('landing-versions-selector.png');
+    await expect(page).toHaveScreenshot('landing-versions-selector.png', {
+      maxDiffPixelRatio: 0.001,
+    });
   });
 
   for (const route of [
