@@ -1,11 +1,11 @@
 # Current Status
 
-Last updated: 2026-08-01
+Last updated: 2026-08-15
 
 ## Deployment State
 
-Status: all three isolated web surfaces are live. The two Flutter surfaces were
-repaired, redeployed, and browser-verified on 2026-08-01; only the optional
+Status: all four isolated portfolio surfaces are live. V4, V3, and both Flutter
+surfaces were deployed and publicly verified on 2026-08-15; only the optional
 custom app and 3D subdomains remain pending DNS setup.
 
 - Revamped portfolio landing builds to `build/landing/`.
@@ -15,14 +15,16 @@ custom app and 3D subdomains remain pending DNS setup.
   `https://boonyongyang-app.web.app`.
 - Next.js + Three.js portfolio is served independently by
   `boonyongyang-3d` at `https://boonyongyang-3d.web.app`.
+- V4 Release Dossier is served independently by `boonyongyang-v4` at
+  `https://boonyongyang-v4.web.app`.
 - The previous `boonyongyang-portfolio-3d.web.app` URL redirects permanently to
   the shorter canonical URL.
 - `boonyongyang.com` currently redirects to the Flutter landing origin.
 - `app.boonyongyang.com` and `3d.boonyongyang.com` do not have DNS records yet.
-- The Flutter landing, Flutter interactive app, and Next.js + Three.js headers
-  expose the same hidden layers control. It separates the three deployed
-  portfolio versions from the Release Bench, Field Manual, and Store Review
-  Room themes within the 3D portfolio.
+- The Flutter landing, Flutter interactive app, Next.js + Three.js portfolio,
+  and V4 Release Dossier expose the same hidden layers control. It separates
+  the four deployed portfolio versions from the Release Bench, Field Manual,
+  and Store Review Room themes within the 3D portfolio.
 - Private release repositories now preserve both codebases, and their clean
   Linux CI pipelines pass.
 - Generated `.firebase/` cache files are ignored.
@@ -53,7 +55,24 @@ make deploy_landing
 make deploy_app
 ```
 
-## Last Verified On 2026-08-01
+## Last Verified On 2026-08-15
+
+- The Flutter landing, Flutter interactive app, Next.js + Three.js portfolio,
+  all three 3D theme routes, and V4 returned HTTP 200 after deployment.
+- The public V4 build serves self-hosted Archivo and IBM Plex Mono WOFF2 assets
+  with HTTP 200, a seven-day asset cache policy, and a revalidating homepage.
+- Public release files on all four surfaces contain the canonical
+  `https://boonyongyang-v4.web.app` version destination.
+- V4 GitHub Actions run `31830424404` passed the source, production audit,
+  build, and complete Chromium verification jobs with reviewed desktop,
+  tablet, mobile, and full-page baselines.
+- V3 GitHub Actions run `31830721418` passed the quality and complete Chromium
+  jobs after its reviewed desktop and mobile four-version selector baselines
+  were recorded.
+- Flutter GitHub Actions run `31822466481` passed analysis, 67 tests,
+  formatting, release builds, and all 12 desktop/mobile visual comparisons.
+
+Earlier release-repair evidence remains valid:
 
 - `flutter test --coverage`: 67 tests passed.
 - `flutter analyze --no-fatal-infos`: no issues found.
