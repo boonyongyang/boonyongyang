@@ -13,6 +13,8 @@ analyzer:
   exclude:
     # This is an independent Next.js repository with its own tooling.
     - portfolio-3d-next/**
+    # This is an independent static V4 repository with Node-based tooling.
+    - portfolio-v4-casebook/**
 
 linter:
   # The lint rules applied to this project can be customized in the

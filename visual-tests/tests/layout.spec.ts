@@ -48,13 +48,15 @@ test.describe('Flutter deployment layout baselines', () => {
     });
   }
 
-  test('landing expanded versions selector', async ({ page }) => {
+  test('landing expanded versions selector', async ({ page }, testInfo) => {
     await page.addInitScript(() => localStorage.clear());
     await waitForFlutter(page, landingURL);
     await activate(page.getByRole('button', { name: /Portfolio versions and 3D themes/ }));
     await expect(page.getByRole('button', { name: 'Portfolio versions' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'V4 Release Dossier' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Store Review Room' })).toBeVisible();
     await expectContainedLayout(page);
+    await page.screenshot({ path: testInfo.outputPath('landing-versions-selector-proof.png') });
     await expect(page).toHaveScreenshot('landing-versions-selector.png');
   });
 

@@ -7,6 +7,7 @@ This project builds two separate Flutter Web outputs:
 | Revamped Flutter portfolio | `lib/main_landing.dart` | `build/landing/` | `boonyongyang.com` and `boonyongyang.web.app` |
 | Flutter interactive app | `lib/main_app.dart` | `build/app/` | `boonyongyang-app.web.app`; future `app.boonyongyang.com` |
 | Next.js + Three.js portfolio | isolated repository | `portfolio-3d-next/out/` | `boonyongyang-3d.web.app`; future `3d.boonyongyang.com` |
+| V4 Release Dossier | isolated repository | `portfolio-v4-casebook/dist/` | `boonyongyang-v4.web.app` |
 
 ## Build Commands
 
@@ -44,6 +45,7 @@ build/
 SITE_URL=https://boonyongyang.com \
 APP_URL=https://boonyongyang-app.web.app \
 PORTFOLIO_3D_URL=https://boonyongyang-3d.web.app \
+PORTFOLIO_V4_URL=https://boonyongyang-v4.web.app \
 GITHUB_URL=https://github.com/boonyongyang \
 LINKEDIN_URL=https://linkedin.com/in/boonyongyang \
 ./build_apps.sh landing
@@ -56,6 +58,7 @@ Defaults:
 | `SITE_URL` | `https://boonyongyang.com` |
 | `APP_URL` | `https://boonyongyang-app.web.app` |
 | `PORTFOLIO_3D_URL` | `https://boonyongyang-3d.web.app` |
+| `PORTFOLIO_V4_URL` | `https://boonyongyang-v4.web.app` |
 | `GITHUB_URL` | `https://github.com/boonyongyang` |
 | `LINKEDIN_URL` | `https://linkedin.com/in/boonyongyang` |
 
@@ -90,12 +93,17 @@ The parent `firebase.json` declares two isolated Firebase Hosting sites:
 
 The 3D portfolio keeps its own `firebase.json` inside `portfolio-3d-next/` and deploys only to `boonyongyang-3d`. The previous `boonyongyang-portfolio-3d` site redirects to the shorter canonical URL. The parent repository ignores that standalone repository so Flutter analysis and Git staging cannot absorb it accidentally.
 
+V4 keeps a second isolated repository and owns only the `boonyongyang-v4`
+Hosting site. Its static output, tests, CI, and deployment configuration live in
+`portfolio-v4-casebook/`.
+
 Explicit production commands:
 
 ```bash
 make deploy_landing
 make deploy_app
 cd portfolio-3d-next && npm run deploy:firebase
+cd portfolio-v4-casebook && npm run deploy
 ```
 
 The custom-domain plan is:
@@ -109,7 +117,7 @@ The custom-domain plan is:
 The `.web.app` origins remain permanent fallbacks, so adding custom domains does not replace a version.
 
 Every surface exposes the same hidden layers control. Its first group contains
-the three independently deployed portfolio versions. Its second group contains
+the four independently deployed portfolio versions. Its second group contains
 the three shareable themes within the Next.js + Three.js version:
 
 | 3D theme | Canonical route |

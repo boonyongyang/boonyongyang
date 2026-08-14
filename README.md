@@ -111,8 +111,8 @@ build/
 - Current-work timeline and production app case-study panels
 - Compact project index with GitHub links
 - Capability rows grouped by product delivery workflow
-- Shared Versions selector for the Flutter portfolio, interactive app, and
-  Next.js + Three.js portfolio, plus direct links to all three 3D themes
+- Shared Versions selector for both Flutter surfaces, the Next.js + Three.js
+  portfolio, and V4 Release Dossier, plus direct links to all three 3D themes
 
 ### Main App
 - Interactive games (Connect 4, Tic-tac-toe, Snake, Brick Breaker)

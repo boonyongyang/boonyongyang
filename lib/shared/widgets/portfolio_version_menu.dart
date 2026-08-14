@@ -6,6 +6,7 @@ enum PortfolioSurface {
   flutterPortfolio,
   flutterInteractive,
   nextThree,
+  releaseDossier,
 }
 
 enum PortfolioThreeTheme {
@@ -23,6 +24,8 @@ extension PortfolioSurfaceDetails on PortfolioSurface {
         return 'Flutter interactive app';
       case PortfolioSurface.nextThree:
         return 'Next.js + Three.js portfolio';
+      case PortfolioSurface.releaseDossier:
+        return 'V4 Release Dossier';
     }
   }
 
@@ -42,6 +45,11 @@ extension PortfolioSurfaceDetails on PortfolioSurface {
         return const String.fromEnvironment(
           'PORTFOLIO_3D_URL',
           defaultValue: 'https://boonyongyang-3d.web.app',
+        );
+      case PortfolioSurface.releaseDossier:
+        return const String.fromEnvironment(
+          'PORTFOLIO_V4_URL',
+          defaultValue: 'https://boonyongyang-v4.web.app',
         );
     }
   }

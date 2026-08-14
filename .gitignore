@@ -38,6 +38,7 @@ migrate_working_dir/
 
 # Standalone repositories hosted inside this workspace are versioned separately.
 /portfolio-3d-next/
+/portfolio-v4-casebook/
 
 # Symbolication related
 app.*.symbols

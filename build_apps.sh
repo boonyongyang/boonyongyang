@@ -29,6 +29,7 @@ build_landing() {
     APP_URL="${APP_URL:-https://boonyongyang-app.web.app}"
     SITE_URL="${SITE_URL:-https://boonyongyang.com}"
     PORTFOLIO_3D_URL="${PORTFOLIO_3D_URL:-https://boonyongyang-3d.web.app}"
+    PORTFOLIO_V4_URL="${PORTFOLIO_V4_URL:-https://boonyongyang-v4.web.app}"
     GITHUB_URL="${GITHUB_URL:-https://github.com/boonyongyang}"
     LINKEDIN_URL="${LINKEDIN_URL:-https://linkedin.com/in/boonyongyang}"
     
@@ -41,6 +42,7 @@ build_landing() {
         --dart-define=APP_URL="$APP_URL" \
         --dart-define=SITE_URL="$SITE_URL" \
         --dart-define=PORTFOLIO_3D_URL="$PORTFOLIO_3D_URL" \
+        --dart-define=PORTFOLIO_V4_URL="$PORTFOLIO_V4_URL" \
         --dart-define=GITHUB_URL="$GITHUB_URL" \
         --dart-define=LINKEDIN_URL="$LINKEDIN_URL" \
         --tree-shake-icons \
@@ -66,6 +68,7 @@ build_main_app() {
     APP_URL="${APP_URL:-https://boonyongyang-app.web.app}"
     SITE_URL="${SITE_URL:-https://boonyongyang.com}"
     PORTFOLIO_3D_URL="${PORTFOLIO_3D_URL:-https://boonyongyang-3d.web.app}"
+    PORTFOLIO_V4_URL="${PORTFOLIO_V4_URL:-https://boonyongyang-v4.web.app}"
     
     # Create main app build
     flutter build web \
@@ -76,6 +79,7 @@ build_main_app() {
         --dart-define=APP_URL="$APP_URL" \
         --dart-define=SITE_URL="$SITE_URL" \
         --dart-define=PORTFOLIO_3D_URL="$PORTFOLIO_3D_URL" \
+        --dart-define=PORTFOLIO_V4_URL="$PORTFOLIO_V4_URL" \
         --release
     
     print_status "Main app built successfully in build/app"
