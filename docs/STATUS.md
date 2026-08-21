@@ -36,6 +36,8 @@ the optional custom app and 3D subdomains remain pending DNS setup.
   its source aspect ratio across phone, tablet, laptop, and wide desktop widths.
 - Decorative motion respects the reduced-motion preference, and primary
   navigation uses accessible button semantics and a compact layout below 1024px.
+- The reduced-motion interactive-home hero uses a deterministic decorative
+  palette, so layout regressions are not invalidated by random color state.
 
 ## Primary Commands
 

@@ -6,6 +6,27 @@ import '../../features/labs/view/theme_showcase_page.dart';
 import 'elegant_shape.dart';
 import 'parallax_container.dart';
 
+const _indigoShapeGradient = <Color>[
+  Color(0x266366F1),
+  Color(0x006366F1),
+];
+const _pinkShapeGradient = <Color>[
+  Color(0x26EC4899),
+  Color(0x00EC4899),
+];
+const _purpleShapeGradient = <Color>[
+  Color(0x268B5CF6),
+  Color(0x008B5CF6),
+];
+const _cyanShapeGradient = <Color>[
+  Color(0x2606B6D4),
+  Color(0x0006B6D4),
+];
+const _amberShapeGradient = <Color>[
+  Color(0x26F59E0B),
+  Color(0x00F59E0B),
+];
+
 class AnimatedHeroSection extends StatelessWidget {
   final String badge;
   final String title1;
@@ -53,6 +74,8 @@ class AnimatedHeroSection extends StatelessWidget {
                   height: 140,
                   rotate: 12,
                   delay: Duration(milliseconds: 300),
+                  gradientColors: _indigoShapeGradient,
+                  useRandomColors: false,
                 ),
               ),
               ParallaxContainer(
@@ -64,6 +87,8 @@ class AnimatedHeroSection extends StatelessWidget {
                   rotate: -15,
                   delay: Duration(milliseconds: 500),
                   enableGlow: true,
+                  gradientColors: _pinkShapeGradient,
+                  useRandomColors: false,
                 ),
               ),
               ParallaxContainer(
@@ -74,6 +99,8 @@ class AnimatedHeroSection extends StatelessWidget {
                   height: 80,
                   rotate: -8,
                   delay: Duration(milliseconds: 400),
+                  gradientColors: _purpleShapeGradient,
+                  useRandomColors: false,
                 ),
               ),
               ParallaxContainer(
@@ -84,6 +111,8 @@ class AnimatedHeroSection extends StatelessWidget {
                   height: 60,
                   rotate: 20,
                   delay: Duration(milliseconds: 600),
+                  gradientColors: _cyanShapeGradient,
+                  useRandomColors: false,
                 ),
               ),
               ParallaxContainer(
@@ -94,6 +123,8 @@ class AnimatedHeroSection extends StatelessWidget {
                   height: 40,
                   rotate: -25,
                   delay: Duration(milliseconds: 700),
+                  gradientColors: _amberShapeGradient,
+                  useRandomColors: false,
                 ),
               ),
             ],

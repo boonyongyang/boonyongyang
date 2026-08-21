@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 import '../../core/constants/animation_constants.dart';
 import '../../core/theme/random_colors.dart';
 
+const _defaultShapeGradient = <Color>[
+  Color(0x266366F1),
+  Color(0x006366F1),
+];
+
 class ElegantShape extends StatefulWidget {
   final double width;
   final double height;
@@ -39,7 +44,10 @@ class _ElegantShapeState extends State<ElegantShape>
   @override
   void initState() {
     super.initState();
-    _colors = widget.gradientColors ?? RandomColors.getRandomGradient();
+    _colors = widget.gradientColors ??
+        (widget.useRandomColors
+            ? RandomColors.getRandomGradient()
+            : _defaultShapeGradient);
 
     _controller = AnimationController(
       duration: AnimationConstants.extraLongDuration,
