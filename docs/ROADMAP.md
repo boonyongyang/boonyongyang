@@ -180,7 +180,7 @@ make build_all
 
 ## Phase 7 — Automated Layout Regression
 
-Status: in progress
+Status: complete
 
 - [x] Add browser-level pixel baselines for both deployed Flutter surfaces.
 - [x] Compare the landing hero in Studio Light, Midnight Zinc, and Signal Amber.
@@ -191,9 +191,13 @@ Status: in progress
 - [x] Run the visual suite on every push and pull request and retain diff artifacts.
 - [x] Record clean local and Linux CI evidence for the committed baseline set.
 
-Evidence (2026-08-12): local Flutter analysis, 67 tests, formatting, both web
-builds, and all 12 desktop/mobile visual comparisons passed. GitHub Actions run
-`31580959158` passed both jobs on Ubuntu and retained the comparison evidence.
+Evidence (2026-08-21): local Flutter analysis, all 72 tests, formatting, both
+web builds, and all 15 desktop/mobile visual comparisons passed with 1
+intentional duplicate matrix skip. The added product-evidence matrix covered
+320, 390, 768, 1024, 1440, and 1920 pixel widths. GitHub Actions run
+`32477214371` passed both Ubuntu jobs and retained the reviewed Linux evidence.
+The focused public run then passed the same product screenshot and width-matrix
+checks against `https://boonyongyang.web.app`.
 
 Verification:
 

@@ -1,12 +1,12 @@
 # Current Status
 
-Last updated: 2026-08-15
+Last updated: 2026-08-21
 
 ## Deployment State
 
-Status: all four isolated portfolio surfaces are live. V4, V3, and both Flutter
-surfaces were deployed and publicly verified on 2026-08-15; only the optional
-custom app and 3D subdomains remain pending DNS setup.
+Status: all four isolated portfolio surfaces are live. The Flutter landing was
+refreshed and all four versions were publicly reverified on 2026-08-21; only
+the optional custom app and 3D subdomains remain pending DNS setup.
 
 - Revamped portfolio landing builds to `build/landing/`.
 - Flutter interactive app builds to `build/app/`.
@@ -32,6 +32,8 @@ custom app and 3D subdomains remain pending DNS setup.
   instead of silently returning to Home.
 - Public landing proof uses current, durable product facts and canonical Cashiu,
   Involve Asia, GitHub, and media destinations.
+- Both production case studies include approved App Store evidence rendered at
+  its source aspect ratio across phone, tablet, laptop, and wide desktop widths.
 - Decorative motion respects the reduced-motion preference, and primary
   navigation uses accessible button semantics and a compact layout below 1024px.
 
@@ -55,22 +57,24 @@ make deploy_landing
 make deploy_app
 ```
 
-## Last Verified On 2026-08-15
+## Last Verified On 2026-08-21
 
-- The Flutter landing, Flutter interactive app, Next.js + Three.js portfolio,
-  all three 3D theme routes, and V4 returned HTTP 200 after deployment.
-- The public V4 build serves self-hosted Archivo and IBM Plex Mono WOFF2 assets
-  with HTTP 200, a seven-day asset cache policy, and a revalidating homepage.
-- Public release files on all four surfaces contain the canonical
-  `https://boonyongyang-v4.web.app` version destination.
-- V4 GitHub Actions run `31830424404` passed the source, production audit,
-  build, and complete Chromium verification jobs with reviewed desktop,
-  tablet, mobile, and full-page baselines.
-- V3 GitHub Actions run `31830721418` passed the quality and complete Chromium
-  jobs after its reviewed desktop and mobile four-version selector baselines
-  were recorded.
-- Flutter GitHub Actions run `31822466481` passed analysis, 67 tests,
-  formatting, release builds, and all 12 desktop/mobile visual comparisons.
+- Firebase Hosting released 45 landing files. The landing, interactive app,
+  Next.js + Three.js portfolio, all three 3D theme routes, V4, and all four new
+  product-image URLs returned HTTP 200.
+- The focused public browser pass matched the reviewed desktop/mobile evidence
+  screenshots and contained all four product images at 320, 390, 768, 1024,
+  1440, and 1920 pixel widths: 3 checks passed with 1 intentional duplicate
+  project skip.
+- Flutter GitHub Actions run `32477214371` passed analysis, all 72 tests,
+  formatting, both production builds, and all 15 Linux layout comparisons with
+  1 intentional duplicate matrix skip.
+- V4 commit `18db24c` remains deployed. GitHub Actions run `31852110551`
+  passed, and the fresh local release pass completed with 34 browser checks and
+  5 intentional project-specific skips.
+- V3 commit `0ffaf38` remains deployed. GitHub Actions run `31830721418`
+  passed; fresh local quality, static-build, link, metadata, and hosting gates
+  passed with 63 browser checks and 21 intentional viewport/project skips.
 
 Earlier release-repair evidence remains valid:
 
@@ -106,10 +110,8 @@ Earlier release-repair evidence remains valid:
 
 Use `docs/ROADMAP.md` Phase 5 for product improvements:
 
-- Add real project screenshots or product imagery.
 - Keep production app proof inline unless a later content pass justifies dedicated case-study routes.
 - Connect `app.boonyongyang.com` to the deployed `boonyongyang-app` site.
 - Connect `3d.boonyongyang.com` to the existing `boonyongyang-3d` site.
 - Consider ForUI/shadcn package migration only after a Flutter/Dart SDK upgrade.
-- Refresh GitHub Actions from Node 20-based action runtimes before GitHub stops
-  forcing them onto Node 24.
+- Add privacy-safe analytics only when there is a concrete measurement goal.
