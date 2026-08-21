@@ -65,7 +65,10 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/portfolio/products/
+    - assets/portfolio/products/involve-asia-01.webp
+    - assets/portfolio/products/involve-asia-02.webp
+    - assets/portfolio/products/cashiu-01.webp
+    - assets/portfolio/products/cashiu-02.webp
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see
