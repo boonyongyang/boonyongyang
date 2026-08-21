@@ -14,7 +14,6 @@ class QuickConfig {
   static const String headerSubtitle = 'Flutter engineer';
   static const String workStatus =
       'Available for Work'; // Available for Work, Currently Employed, etc.
-  static const String statusType = 'available'; // available, busy, unavailable
   static const String email = 'boonyongyang@gmail.com';
   static const String emailSubject = 'Hello';
 
@@ -24,8 +23,6 @@ class QuickConfig {
   static const String workDuration = 'June 2023 to Present';
 
   // Proof points
-  static const String achievementBanner =
-      '2 shipped mobile products • Both mobile stores • 4+ years with Flutter';
   static const String professionalSummary =
       'I build Flutter apps from early product shape to store release: architecture, UI, CI/CD, analytics, and the unglamorous details that keep production apps maintainable.';
 
@@ -35,35 +32,15 @@ class QuickConfig {
       'https://www.linkedin.com/in/boon-yong-yang-64096b1aa/';
   static const String appUrl = 'https://boonyongyang-app.web.app';
 
-  // Main production app reference
-  static const String mainAppName = 'Involve Asia Mobile App';
-  static const String mainAppMetrics =
-      'iOS and Android • Platform serving 500+ advertisers';
-
   // Footer
   static const String copyrightYear = '2026';
   static const String contactSubtitle =
       'Available for focused Flutter product work, architecture cleanup, and release-ready mobile delivery.';
 
-  // Technical stack
-  static const List<String> primaryTechnologies = [
-    'Flutter',
-    'BLoC/Cubit',
-    'Firebase',
-    'Clean Architecture',
-    'CI/CD',
-  ];
-
-  static const List<String> currentProjects = [
-    'Involve Asia Mobile App',
-    'Cashiu: Everyday cashback',
-  ];
-
   // Experience timeline
   static const List<QuickExperienceImplementation> experienceImplementations = [
     QuickExperienceImplementation(
       title: 'Architecture and delivery',
-      iconName: 'architecture',
       description:
           'Set up practical app foundations that could move quickly without turning brittle.',
       details: [
@@ -71,18 +48,9 @@ class QuickConfig {
         'Kept clean architecture pragmatic instead of ceremony-heavy',
         'Built foundations that continued to support production growth',
       ],
-      technologies: [
-        'Flutter',
-        'BLoC/Cubit',
-        'Clean Architecture',
-        'App Store',
-        'Google Play',
-      ],
-      showStoreLinks: true,
     ),
     QuickExperienceImplementation(
       title: 'Core app infrastructure',
-      iconName: 'build',
       description:
           'Built the everyday systems behind stable mobile product work.',
       details: [
@@ -90,18 +58,9 @@ class QuickConfig {
         'Built API layers with typed models and predictable errors',
         'Handled navigation, deep links, caching, and offline resilience',
       ],
-      technologies: [
-        'BLoC',
-        'Repository Pattern',
-        'GetIt DI',
-        'GoRouter',
-        'Hive',
-        'Dio'
-      ],
     ),
     QuickExperienceImplementation(
       title: 'Release and quality',
-      iconName: 'sync',
       description:
           'Kept releases repeatable with testing, automation, and production feedback loops.',
       details: [
@@ -109,31 +68,15 @@ class QuickConfig {
         'Used unit, widget, and integration tests where risk justified it',
         'Profiled slow paths with Dart DevTools and production signals',
       ],
-      technologies: [
-        'Fastlane',
-        'Codemagic',
-        'Shorebird',
-        'Testing',
-        'Dart DevTools'
-      ],
     ),
     QuickExperienceImplementation(
       title: 'Product integrations',
-      iconName: 'integration_instructions',
       description:
           'Connected mobile product surfaces to the services that make them useful.',
       details: [
         'Integrated Firebase, analytics, attribution, and notification services',
         'Built app flows around affiliate, cashback, and media workflows',
         'Worked across Vue and Laravel surfaces when mobile needed backend support',
-      ],
-      technologies: [
-        'Firebase',
-        'Rive',
-        'Lottie',
-        'AWS S3',
-        'Vue.js',
-        'Laravel'
       ],
     ),
   ];
@@ -142,36 +85,26 @@ class QuickConfig {
   static const List<QuickSkillCategory> skillCategories = [
     QuickSkillCategory(
       title: 'Mobile product',
-      iconName: 'phone_android',
-      colorName: 'blue',
       level: 'Expert',
       skills: ['Flutter', 'Dart', 'iOS', 'Android', 'BLoC', 'Firebase'],
     ),
     QuickSkillCategory(
       title: 'Product UI',
-      iconName: 'web',
-      colorName: 'cyan',
       level: 'Advanced',
       skills: ['Responsive UI', 'Vue.js', 'TypeScript', 'Design systems'],
     ),
     QuickSkillCategory(
       title: 'Integrations',
-      iconName: 'storage',
-      colorName: 'purple',
       level: 'Advanced',
       skills: ['REST APIs', 'Laravel', 'MySQL', 'Affiliate APIs'],
     ),
     QuickSkillCategory(
       title: 'Release systems',
-      iconName: 'cloud_queue',
-      colorName: 'green',
       level: 'Intermediate',
       skills: ['Fastlane', 'Codemagic', 'Shorebird', 'CI/CD', 'Sentry'],
     ),
     QuickSkillCategory(
       title: 'Workflow',
-      iconName: 'build',
-      colorName: 'orange',
       level: 'Advanced',
       skills: ['Figma', 'Git', 'Postman', 'Dart DevTools', 'Analytics'],
     ),
@@ -217,9 +150,8 @@ class QuickConfig {
 }
 
 /// Connected models:
-/// - PersonalInfoModel uses name, role, status, email, and summary copy.
-/// - WorkExperienceModel uses company, position, duration, and metrics.
-/// - SocialLinkModel uses GitHub, LinkedIn, and email links.
+/// - PersonalInfoModel uses name, role, availability, and summary copy.
+/// - WorkExperienceModel uses company, position, duration, and role summary.
 /// - FooterInfoModel uses copyright and contact copy.
 ///
 /// Typical update path:

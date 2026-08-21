@@ -1,4 +1,5 @@
 import 'package:boonyongyang/apps/landing/landing_app.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -64,5 +65,26 @@ void main() {
     expect(find.text('App Store'), findsWidgets);
     expect(find.text('Google Play'), findsWidgets);
     expect(find.text('Case Study'), findsNothing);
+  });
+
+  testWidgets('production app proof renders real images without cropping',
+      (tester) async {
+    await tester.pumpWidget(const LandingApp());
+    await tester.pumpAndSettle();
+
+    expect(find.text('Real product screens'), findsNWidgets(2));
+
+    final productImages = tester.widgetList<Image>(find.byType(Image)).toList();
+    expect(productImages, hasLength(4));
+    expect(productImages.every((image) => image.fit == BoxFit.contain), isTrue);
+    expect(
+      productImages.map((image) => image.semanticLabel),
+      containsAll([
+        'Involve Asia mobile overview showing affiliate offers and deeplink performance',
+        'Involve Asia brand discovery screen with affiliate offers',
+        'Cashiu shopping screen showing merchants and cashback offers',
+        'Cashiu referral rewards screen with sharing options',
+      ]),
+    );
   });
 }

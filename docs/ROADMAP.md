@@ -82,9 +82,9 @@ Acceptance criteria:
 Status: complete
 
 - [x] Add widget coverage for each theme preset.
-- [ ] Add a focused test for web theme persistence fallback behavior.
-- [ ] Review `LandingPageDataProvider` for unused legacy model surfaces.
-- [ ] Remove or repurpose stale model fields that no active section reads.
+- [x] Add a focused test for web theme persistence fallback behavior.
+- [x] Review `LandingPageDataProvider` for unused legacy model surfaces.
+- [x] Remove or repurpose stale model fields that no active section reads.
 - [x] Confirm links launch through `UrlLauncherService` with valid URIs.
 
 Acceptance criteria:
@@ -92,6 +92,10 @@ Acceptance criteria:
 - Landing tests cover page render, theme switching, and core content assertions.
 - No active landing section depends on legacy card/chip assumptions.
 - Analyzer adds no new warning/error-level issues from landing code.
+
+Evidence (2026-08-21): restricted-storage reads and writes are covered by a
+pure fallback guard; unused feature, technical-skill, utility, and model fields
+were removed; all 72 Flutter tests passed; and analysis reported no issues.
 
 ## Phase 4 — Deployment Readiness
 
@@ -124,7 +128,7 @@ Acceptance criteria:
 
 Status: in progress
 
-- [ ] Add visible project screenshots or product imagery where available.
+- [x] Add visible project screenshots or product imagery where available.
 - [ ] Add per-project case-study detail pages only if the landing page becomes too dense.
 - [ ] Add lightweight analytics only if there is a clear privacy-safe use.
 - [ ] Consider ForUI/shadcn package migration after Flutter/Dart SDK upgrade.

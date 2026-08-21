@@ -2,31 +2,22 @@
 
 import 'dart:html' as html;
 
+import 'landing_theme_storage_guard.dart';
 import '../theme/landing_theme.dart';
 
 class LandingThemeStorage {
   static const _key = 'landing_theme_preset';
 
   static LandingThemePreset? loadPreset() {
-    try {
-      final value = html.window.localStorage[_key];
-      for (final preset in LandingThemePreset.values) {
-        if (preset.name == value) {
-          return preset;
-        }
-      }
-    } catch (_) {
-      return null;
-    }
-
-    return null;
+    return LandingThemeStorageGuard.loadPreset(
+      () => html.window.localStorage[_key],
+    );
   }
 
   static void savePreset(LandingThemePreset preset) {
-    try {
-      html.window.localStorage[_key] = preset.name;
-    } catch (_) {
-      // Storage can be unavailable in private browsing or restricted contexts.
-    }
+    LandingThemeStorageGuard.savePreset(
+      preset,
+      (value) => html.window.localStorage[_key] = value,
+    );
   }
 }

@@ -7,8 +7,7 @@ void main() {
       () {
     final visibleCopy = [
       QuickConfig.workDuration,
-      QuickConfig.achievementBanner,
-      QuickConfig.mainAppMetrics,
+      QuickConfig.professionalSummary,
       ...ProjectModel.getProductionApps().expand(
         (project) => [
           project.title,
@@ -49,5 +48,18 @@ void main() {
       cashiu.playStore,
       'https://play.google.com/store/apps/details?id=com.cmv.chaching&hl=en&gl=MY',
     );
+  });
+
+  test('production projects carry verified source-proportion media', () {
+    final projects = ProjectModel.getProductionApps();
+
+    expect(projects, hasLength(2));
+    expect(projects.expand((project) => project.media), hasLength(4));
+    for (final media in projects.expand((project) => project.media)) {
+      expect(media.assetPath, startsWith('assets/portfolio/products/'));
+      expect(media.assetPath, endsWith('.webp'));
+      expect(media.semanticLabel, isNotEmpty);
+      expect(media.width / media.height, closeTo(0.46, 0.01));
+    }
   });
 }

@@ -46,6 +46,7 @@ For each project, keep these fields accurate:
 - achievements, features, technologies
 - metrics, status
 - githubUrl/liveUrl (if available)
+- media assets, semantic labels, and intrinsic dimensions where available
 
 ## Alternative Content Strategy (when you grow)
 
@@ -74,14 +75,8 @@ Use:
 Each category contains:
 
 - title
-- icon name
-- color name
 - level
 - skills list
-
-If you need a new icon/color key, add it in:
-
-- `lib/apps/landing/utils/landing_page_utils.dart`
 
 ## When Updating Work Experience Implementation Rows
 
@@ -92,11 +87,8 @@ Use:
 Each implementation row contains:
 
 - title
-- icon name
 - description
 - detail bullet list
-- technologies list
-- optional `showStoreLinks` boolean
 
 This avoids editing section layout code for content-only changes. Layout and visual treatment live in the landing design-system primitives under `lib/apps/landing/widgets/components/landing_design_system.dart` and the section widgets under `lib/apps/landing/widgets/sections/`.
 
@@ -104,7 +96,9 @@ This avoids editing section layout code for content-only changes. Layout and vis
 
 1. Add the project reference data in `project_model.dart`.
 2. Add store URLs in `QuickConfig.productionStoreLinks`.
-3. Use a `matchTitleContains` value that matches your project title.
+3. Add approved WebP evidence under `assets/portfolio/products/` and update
+   its `ASSETS.md` provenance record.
+4. Use a `matchTitleContains` value that matches your project title.
 
 ## Build and Verify
 

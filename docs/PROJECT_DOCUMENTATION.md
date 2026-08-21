@@ -156,13 +156,11 @@ Controls the following from a single file:
 
 | Category | Fields |
 |----------|--------|
-| Personal Info | `fullName`, `currentRole`, `headerTitle`, `headerSubtitle`, `workStatus`, `statusType`, `email`, `emailSubject` |
+| Personal Info | `fullName`, `currentRole`, `headerTitle`, `headerSubtitle`, `workStatus`, `email`, `emailSubject` |
 | Current Job | `currentCompany`, `currentPosition`, `workDuration` |
 | Positioning | `professionalSummary`, availability copy, headline metrics |
 | Social Links | `githubUrl`, `linkedinUrl`, `appUrl` |
-| App Showcase | `mainAppName`, `mainAppMetrics` |
 | Footer | `copyrightYear`, `contactSubtitle` |
-| Technical Stack | `primaryTechnologies`, `currentProjects` |
 | Experience Rows | `experienceImplementations` (list of `QuickExperienceImplementation`) |
 | Skill Categories | `skillCategories` (list of `QuickSkillCategory`) |
 | Store Links | `productionStoreLinks` (list of `QuickStoreLinks`) |
@@ -172,15 +170,13 @@ Controls the following from a single file:
 
 | Model | File | Source |
 |-------|------|--------|
-| `QuickSkillCategory` | `models/quick_content_models.dart` | Lightweight skill group (title, icon, color, level, skills list) |
+| `QuickSkillCategory` | `models/quick_content_models.dart` | Lightweight skill group (title, level, skills list) |
 | `QuickStoreLinks` | `models/quick_content_models.dart` | App store URLs matched by project title |
 | `QuickExperienceImplementation` | `models/quick_content_models.dart` | Work experience row data (title, icon, description, details, technologies) |
 | `PersonalInfoModel` | `models/personal_info_model.dart` | Derives from `QuickConfig` — name, role, status, email |
 | `WorkExperienceModel` | `models/work_experience_model.dart` | Derives from `QuickConfig` — company, position, duration |
-| `SocialLinkModel` | `models/social_link_model.dart` | Derives from `QuickConfig` — GitHub, LinkedIn, email URLs |
-| `ProjectModel` | `models/project_model.dart` | Production apps and personal projects with full metadata |
-| `FeatureModel` | `models/feature_model.dart` | Capability feature descriptions |
-| `TechnicalSkillsModel` | `models/technical_skills_model.dart` | Extended typed skill model with proficiency tracking |
+| `FooterInfoModel` | `models/social_link_model.dart` | Derives footer contact and copyright copy from `QuickConfig` |
+| `ProjectModel` | `models/project_model.dart` | Production apps, personal projects, and source-proportion product media |
 
 ### Services
 
@@ -194,7 +190,6 @@ Controls the following from a single file:
 | Utility | Purpose |
 |---------|---------|
 | `ResponsiveUtils` | Breakpoint detection (mobile/tablet/desktop), responsive padding, grid column calculations |
-| `LandingPageUtils` | Icon name → `IconData` mapping, color name → `Color` mapping for data-driven widgets |
 
 ### Landing Page Theme
 
@@ -210,7 +205,7 @@ See `docs/landing/CONTENT_UPDATE_GUIDE.md` for the full workflow. Quick summary:
 
 1. **Profile/links/metrics**: Edit `lib/apps/landing/config/quick_config.dart`
 2. **Projects**: Edit `lib/apps/landing/models/project_model.dart`
-3. **New icons/colors**: Add to `lib/apps/landing/utils/landing_page_utils.dart`
+3. **Product evidence**: Add approved WebP assets and provenance under `assets/portfolio/products/`
 4. **Test locally**: `make run_landing_web`
 5. **Build**: `make build_landing`
 

@@ -1,8 +1,18 @@
-/// Project model for landing page portfolio projects
-///
-/// - Add new projects to getProductionApps() or getPersonalProjects()
-/// - Update existing project details by modifying the project objects
-/// - Use consistent iconName and colorName from landing_page_utils.dart
+class ProjectMedia {
+  final String assetPath;
+  final String semanticLabel;
+  final int width;
+  final int height;
+
+  const ProjectMedia({
+    required this.assetPath,
+    required this.semanticLabel,
+    required this.width,
+    required this.height,
+  });
+}
+
+/// Project model for landing page portfolio projects.
 class ProjectModel {
   final String title; // Project name
   final String
@@ -15,8 +25,7 @@ class ProjectModel {
   final String? liveUrl; // Live app/demo URL (optional)
   final String status; // Current status (e.g., "Live in Production")
   final String metrics; // Durable project proof or verified platform scale
-  final String iconName; // Icon identifier (see landing_page_utils.dart)
-  final String colorName; // Color identifier (see landing_page_utils.dart)
+  final List<ProjectMedia> media;
 
   const ProjectModel({
     required this.title,
@@ -29,8 +38,7 @@ class ProjectModel {
     this.liveUrl,
     required this.status,
     required this.metrics,
-    required this.iconName,
-    required this.colorName,
+    this.media = const [],
   });
 
   /// Production applications.
@@ -39,7 +47,7 @@ class ProjectModel {
   /// To add a new production app:
   /// 1. Add a new ProjectModel object to the list below
   /// 2. Fill in all required fields
-  /// 3. Ensure iconName and colorName exist in landing_page_utils.dart
+  /// 3. Record any product evidence in the asset manifest
   static List<ProjectModel> getProductionApps() {
     return [
       const ProjectModel(
@@ -69,10 +77,24 @@ class ProjectModel {
           'Mobile Attribution',
           'Clean Architecture'
         ],
-        iconName: 'trending_up',
-        colorName: 'orange',
         status: 'Live in Production',
         metrics: 'iOS and Android • Platform serving 500+ advertisers',
+        media: [
+          ProjectMedia(
+            assetPath: 'assets/portfolio/products/involve-asia-01.webp',
+            semanticLabel:
+                'Involve Asia mobile overview showing affiliate offers and deeplink performance',
+            width: 600,
+            height: 1300,
+          ),
+          ProjectMedia(
+            assetPath: 'assets/portfolio/products/involve-asia-02.webp',
+            semanticLabel:
+                'Involve Asia brand discovery screen with affiliate offers',
+            width: 600,
+            height: 1300,
+          ),
+        ],
       ),
       const ProjectModel(
         title: 'Cashiu: Everyday cashback',
@@ -100,10 +122,24 @@ class ProjectModel {
           'REST APIs',
           'Clean Architecture',
         ],
-        iconName: 'shopping_bag',
-        colorName: 'blue',
         status: 'Listed in Malaysia',
         metrics: 'iOS and Android • First launched as Cha Ching',
+        media: [
+          ProjectMedia(
+            assetPath: 'assets/portfolio/products/cashiu-01.webp',
+            semanticLabel:
+                'Cashiu shopping screen showing merchants and cashback offers',
+            width: 599,
+            height: 1300,
+          ),
+          ProjectMedia(
+            assetPath: 'assets/portfolio/products/cashiu-02.webp',
+            semanticLabel:
+                'Cashiu referral rewards screen with sharing options',
+            width: 599,
+            height: 1300,
+          ),
+        ],
       ),
     ];
   }
@@ -153,8 +189,6 @@ class ProjectModel {
           'Freezed Models',
           'Mocktail Testing'
         ],
-        iconName: 'architecture',
-        colorName: 'purple',
         status: 'Open Source Template',
         metrics:
             'Architecture showcase • Developer template • GitHub available',
@@ -186,8 +220,6 @@ class ProjectModel {
           'Release Automation',
           'Local Persistence',
         ],
-        iconName: 'video_settings',
-        colorName: 'red',
         status: 'Released Utility',
         metrics: 'Desktop app • CLI • GitHub releases',
         githubUrl: 'https://github.com/boonyongyang/fpv-overlay-app',
@@ -226,8 +258,6 @@ class ProjectModel {
           'Clean Architecture',
           'Crashlytics'
         ],
-        iconName: 'account_balance_wallet',
-        colorName: 'green',
         status: 'Open Source Project',
         metrics: 'Personal project • Full feature set • GitHub available',
         githubUrl: 'https://github.com/boonyongyang/pocketfi',

@@ -121,10 +121,94 @@ class _CaseStudyDetail extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (project.media.isNotEmpty) ...[
+          _ProductEvidence(media: project.media),
+          Gap(tokens.spaceXl),
+        ],
         Text(project.description, style: theme.textTheme.bodyLarge),
         Gap(tokens.spaceXl),
         _CaseStudyColumns(
           project: project,
+        ),
+      ],
+    );
+  }
+}
+
+class _ProductEvidence extends StatelessWidget {
+  const _ProductEvidence({required this.media});
+
+  final List<ProjectMedia> media;
+
+  @override
+  Widget build(BuildContext context) {
+    final tokens = context.landingTokens;
+    final theme = Theme.of(context);
+    final isMobile = ResponsiveUtils.isMobile(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Real product screens', style: theme.textTheme.titleSmall),
+        Gap(tokens.spaceMd),
+        LayoutBuilder(
+          builder: (context, constraints) {
+            final evidenceHeight =
+                (constraints.maxWidth * (isMobile ? 0.95 : 0.62))
+                    .clamp(240.0, isMobile ? 340.0 : 440.0)
+                    .toDouble();
+
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (var index = 0; index < media.length; index++) ...[
+                  Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        top: index.isOdd ? (isMobile ? 12 : 20) : 0,
+                      ),
+                      child: Align(
+                        alignment: Alignment.topCenter,
+                        child: SizedBox(
+                          height: evidenceHeight,
+                          child: AspectRatio(
+                            aspectRatio:
+                                media[index].width / media[index].height,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: tokens.elevated,
+                                border: Border.all(color: tokens.border),
+                                borderRadius:
+                                    BorderRadius.circular(tokens.radiusSm),
+                              ),
+                              child: ClipRRect(
+                                borderRadius:
+                                    BorderRadius.circular(tokens.radiusSm),
+                                child: Image.asset(
+                                  media[index].assetPath,
+                                  fit: BoxFit.contain,
+                                  alignment: Alignment.topCenter,
+                                  filterQuality: FilterQuality.high,
+                                  semanticLabel: media[index].semanticLabel,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  if (index != media.length - 1)
+                    Gap(isMobile ? tokens.spaceSm : tokens.spaceMd),
+                ],
+              ],
+            );
+          },
+        ),
+        Gap(tokens.spaceSm),
+        Text(
+          'Publisher-provided App Store imagery, shown at its original proportions.',
+          style: theme.textTheme.bodySmall?.copyWith(color: tokens.textMuted),
         ),
       ],
     );

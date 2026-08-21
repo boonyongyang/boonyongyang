@@ -1,6 +1,6 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Locator, type Page } from '@playwright/test';
 
-const landingURL = 'http://127.0.0.1:4174';
+const landingURL = process.env.LANDING_URL ?? 'http://127.0.0.1:4174';
 const appURL = 'http://127.0.0.1:4175';
 
 async function waitForFlutter(page: Page, url: string) {
@@ -23,6 +23,19 @@ async function expectContainedLayout(page: Page) {
 
 async function activate(locator: ReturnType<Page['locator']>) {
   await locator.evaluate((element) => (element as HTMLElement).click());
+}
+
+async function scrollFlutterLocatorIntoView(page: Page, locator: Locator) {
+  const viewport = page.viewportSize();
+  if (!viewport) throw new Error('Expected a configured viewport');
+
+  await page.mouse.move(viewport.width / 2, viewport.height / 2);
+  for (let attempt = 0; attempt < 12; attempt += 1) {
+    await page.mouse.wheel(0, viewport.height * 0.72);
+    await page.waitForTimeout(120);
+    const box = await locator.boundingBox();
+    if (box && box.y >= 80 && box.y + box.height <= viewport.height * 0.55) return;
+  }
 }
 
 test.describe('Flutter deployment layout baselines', () => {
@@ -60,6 +73,57 @@ test.describe('Flutter deployment layout baselines', () => {
     await expect(page).toHaveScreenshot('landing-versions-selector.png', {
       maxDiffPixelRatio: 0.001,
     });
+  });
+
+  test('landing real product evidence', async ({ page }, testInfo) => {
+    await page.addInitScript(() => localStorage.clear());
+    await waitForFlutter(page, landingURL);
+
+    const evidenceHeading = page.getByText('Real product screens').first();
+    await scrollFlutterLocatorIntoView(page, evidenceHeading);
+    await page.waitForTimeout(500);
+
+    await expect(evidenceHeading).toBeInViewport();
+    await expect(page.getByRole('img', { name: /Involve Asia mobile overview/ })).toBeVisible();
+    await expect(page.getByRole('img', { name: /Involve Asia brand discovery/ })).toBeVisible();
+    await expectContainedLayout(page);
+    await page.screenshot({ path: testInfo.outputPath('landing-product-evidence-proof.png') });
+    await expect(page).toHaveScreenshot('landing-product-evidence.png', {
+      maxDiffPixelRatio: 0.001,
+    });
+  });
+
+  test('landing product evidence responsive matrix', async ({ page }, testInfo) => {
+    test.skip(testInfo.project.name !== 'desktop', 'One browser project owns the width matrix');
+    await page.addInitScript(() => localStorage.clear());
+
+    for (const viewport of [
+      { width: 320, height: 568 },
+      { width: 390, height: 844 },
+      { width: 768, height: 1024 },
+      { width: 1024, height: 768 },
+      { width: 1440, height: 900 },
+      { width: 1920, height: 1080 }
+    ]) {
+      await page.setViewportSize(viewport);
+      await page.goto('about:blank');
+      await waitForFlutter(page, landingURL);
+      const images = [
+        page.getByRole('img', { name: /Involve Asia mobile overview/ }),
+        page.getByRole('img', { name: /Involve Asia brand discovery/ }),
+        page.getByRole('img', { name: /Cashiu shopping screen/ }),
+        page.getByRole('img', { name: /Cashiu referral rewards/ })
+      ];
+
+      for (const image of images) {
+        await expect(image).toBeVisible();
+        const box = await image.boundingBox();
+        expect(box).not.toBeNull();
+        expect(box!.x).toBeGreaterThanOrEqual(0);
+        expect(box!.x + box!.width).toBeLessThanOrEqual(viewport.width);
+      }
+      await expectContainedLayout(page);
+    }
   });
 
   for (const route of [

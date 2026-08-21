@@ -66,9 +66,15 @@ Keep source copy short. The UI assumes each project has a concise description, a
 
 Production app panels keep role, outcome, product scope, stack, and store links inline. Keep this landing slice single-page unless a later content pass proves that dedicated case-study routes are worth the extra surface area.
 
+Each production app may also carry a small `ProjectMedia` evidence set. Record
+the source, publisher, dimensions, and review date in
+`assets/portfolio/products/ASSETS.md`; render the recorded aspect ratio with
+`BoxFit.contain` so responsive layouts never stretch or crop product screens.
+
 ## Maintenance Rules
 
 - Do not add a full UI dependency for shadcn/ForUI styling until the Flutter SDK is upgraded enough to support it cleanly.
 - Avoid rebuilding card grids, glow gradients, pill-heavy skill areas, or fake phone mockups unless there is a specific product need.
 - Keep theme colors inside `LandingTokens`; do not hard-code section colors.
 - Add screenshots after visual changes so desktop and mobile regressions are easy to catch.
+- Keep authentic product evidence source-proportional and covered by the six-width browser matrix.
