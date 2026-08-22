@@ -1,11 +1,11 @@
 # Current Status
 
-Last updated: 2026-08-21
+Last updated: 2026-08-22
 
 ## Deployment State
 
 Status: all four isolated portfolio surfaces are live. The Flutter landing was
-refreshed and all four versions were publicly reverified on 2026-08-21; only
+refreshed and all four versions were publicly reverified on 2026-08-22; only
 the optional custom app and 3D subdomains remain pending DNS setup.
 
 - Revamped portfolio landing builds to `build/landing/`.
@@ -59,24 +59,26 @@ make deploy_landing
 make deploy_app
 ```
 
-## Last Verified On 2026-08-21
+## Last Verified On 2026-08-22
 
-- Firebase Hosting released 45 landing files. The landing, interactive app,
-  Next.js + Three.js portfolio, all three 3D theme routes, V4, and all four new
-  product-image URLs returned HTTP 200.
+- The landing, interactive app, Next.js + Three.js portfolio, all three 3D
+  theme routes, and V4 returned HTTP 200 in a fresh public availability check.
+- Firebase Hosting previously released 45 landing files, and all four deployed
+  product-image URLs returned HTTP 200 during the release closure.
 - The focused public browser pass matched the reviewed desktop/mobile evidence
   screenshots and contained all four product images at 320, 390, 768, 1024,
   1440, and 1920 pixel widths: 3 checks passed with 1 intentional duplicate
   project skip.
-- Flutter GitHub Actions run `32477214371` passed analysis, all 72 tests,
-  formatting, both production builds, and all 15 Linux layout comparisons with
-  1 intentional duplicate matrix skip.
+- Flutter commit `07d96dd` is deployed. GitHub Actions run `32478674724`
+  passed analysis, all 72 tests, formatting, both production builds, and all
+  15 Linux layout comparisons with 1 intentional duplicate matrix skip.
 - V4 commit `18db24c` remains deployed. GitHub Actions run `31852110551`
   passed, and the fresh local release pass completed with 34 browser checks and
   5 intentional project-specific skips.
-- V3 commit `0ffaf38` remains deployed. GitHub Actions run `31830721418`
-  passed; fresh local quality, static-build, link, metadata, and hosting gates
-  passed with 63 browser checks and 21 intentional viewport/project skips.
+- V3 commit `80097f9` is the final release-closure head. GitHub Actions run
+  `32477777240` passed its quality and Chromium verification jobs; the fresh
+  local quality, static-build, link, metadata, and hosting gates passed with
+  63 browser checks and 21 intentional viewport/project skips.
 
 Earlier release-repair evidence remains valid:
 
