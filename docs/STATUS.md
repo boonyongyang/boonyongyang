@@ -62,6 +62,25 @@ make deploy_landing
 make deploy_app
 ```
 
+## Last Verified On 2026-08-23
+
+- Squarespace publishes `app` and `3d` CNAME records to their isolated
+  Firebase Hosting sites. Both branded origins return HTTP 200 with valid TLS;
+  the permanent `web.app` fallbacks also return 200.
+- The branded 3D root and Release Bench, Field Manual, and Store Review Room
+  routes return HTTP 200. The old long 3D origin returns HTTP 301 to
+  `https://3d.boonyongyang.com` for both root and unknown paths.
+- Flutter commit `8883e97` is deployed to the landing and interactive-app
+  sites. Analysis, all 72 tests, formatting, both production builds, and the
+  screenshot matrix passed with 15 comparisons and 1 intentional skip.
+- V3 commit `195fa8f` is deployed. `npm run check` passed all outbound links,
+  metadata, Hosting, bundle, and static-build gates; `npm run verify` passed 63
+  browser checks with 21 intentional project-specific skips.
+- V4 commit `a3a23ad` is deployed. Its source/build gates and browser suite
+  passed with 34 checks and 5 intentional project-specific skips.
+- Exact-head GitHub Actions passed for Flutter run `32645614958` and V4 run
+  `32645591992`; the V3 run is `32645742477`.
+
 ## Last Verified On 2026-08-22
 
 - The landing, interactive app, Next.js + Three.js portfolio, all three 3D
