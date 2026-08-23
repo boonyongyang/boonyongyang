@@ -22,7 +22,7 @@ This project contains two separate Flutter applications:
 - Full-featured interactive application
 - Games, maps, charts, and experiments
 - Complete routing and state management
-- Deploy independently to `boonyongyang-app.web.app`, with `app.boonyongyang.com` reserved as its custom domain
+- Deploy independently to `app.boonyongyang.com`, with `boonyongyang-app.web.app` retained as its Firebase fallback
 
 ## Getting Started
 
@@ -100,7 +100,7 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 ```
 build/
 ├── landing/    # → boonyongyang.com / boonyongyang.web.app
-└── app/        # → boonyongyang-app.web.app / future app.boonyongyang.com
+└── app/        # → app.boonyongyang.com / boonyongyang-app.web.app fallback
 ```
 
 ## Features

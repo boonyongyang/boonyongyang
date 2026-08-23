@@ -30,7 +30,7 @@ class QuickConfig {
   static const String githubUrl = 'https://github.com/boonyongyang';
   static const String linkedinUrl =
       'https://www.linkedin.com/in/boon-yong-yang-64096b1aa/';
-  static const String appUrl = 'https://boonyongyang-app.web.app';
+  static const String appUrl = 'https://app.boonyongyang.com';
 
   // Footer
   static const String copyrightYear = '2026';

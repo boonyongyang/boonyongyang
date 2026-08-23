@@ -39,11 +39,11 @@ void main() {
     );
     expect(
       PortfolioSurface.flutterInteractive.url,
-      'https://boonyongyang-app.web.app',
+      'https://app.boonyongyang.com',
     );
     expect(
       PortfolioSurface.nextThree.url,
-      'https://boonyongyang-3d.web.app',
+      'https://3d.boonyongyang.com',
     );
     expect(
       PortfolioSurface.releaseDossier.url,
@@ -54,15 +54,15 @@ void main() {
   test('3D themes use directly shareable canonical URLs', () {
     expect(
       PortfolioThreeTheme.releaseBench.url,
-      'https://boonyongyang-3d.web.app/themes/release-bench/',
+      'https://3d.boonyongyang.com/themes/release-bench/',
     );
     expect(
       PortfolioThreeTheme.fieldManual.url,
-      'https://boonyongyang-3d.web.app/themes/field-manual/',
+      'https://3d.boonyongyang.com/themes/field-manual/',
     );
     expect(
       PortfolioThreeTheme.reviewRoom.url,
-      'https://boonyongyang-3d.web.app/themes/review-room/',
+      'https://3d.boonyongyang.com/themes/review-room/',
     );
   });
 }

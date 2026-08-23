@@ -138,7 +138,8 @@ Status: in progress
       surface.
 - [x] Add a separate 3D themes group linking Release Bench, Field Manual, and
       Store Review Room from both Flutter surfaces.
-- [ ] Connect `app.boonyongyang.com` and `3d.boonyongyang.com` after their DNS records are added.
+- [x] Connect `app.boonyongyang.com` and `3d.boonyongyang.com` with verified
+      Squarespace DNS and Firebase-managed TLS.
 
 Verification:
 

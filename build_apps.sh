@@ -26,9 +26,9 @@ print_error() {
 # Function to build landing page
 build_landing() {
     print_status "Building landing page..."
-    APP_URL="${APP_URL:-https://boonyongyang-app.web.app}"
+    APP_URL="${APP_URL:-https://app.boonyongyang.com}"
     SITE_URL="${SITE_URL:-https://boonyongyang.com}"
-    PORTFOLIO_3D_URL="${PORTFOLIO_3D_URL:-https://boonyongyang-3d.web.app}"
+    PORTFOLIO_3D_URL="${PORTFOLIO_3D_URL:-https://3d.boonyongyang.com}"
     PORTFOLIO_V4_URL="${PORTFOLIO_V4_URL:-https://boonyongyang-v4.web.app}"
     GITHUB_URL="${GITHUB_URL:-https://github.com/boonyongyang}"
     LINKEDIN_URL="${LINKEDIN_URL:-https://linkedin.com/in/boonyongyang}"
@@ -65,9 +65,9 @@ Sitemap: $SITE_URL/sitemap.xml" > build/landing/robots.txt
 # Function to build main app
 build_main_app() {
     print_status "Building main app..."
-    APP_URL="${APP_URL:-https://boonyongyang-app.web.app}"
+    APP_URL="${APP_URL:-https://app.boonyongyang.com}"
     SITE_URL="${SITE_URL:-https://boonyongyang.com}"
-    PORTFOLIO_3D_URL="${PORTFOLIO_3D_URL:-https://boonyongyang-3d.web.app}"
+    PORTFOLIO_3D_URL="${PORTFOLIO_3D_URL:-https://3d.boonyongyang.com}"
     PORTFOLIO_V4_URL="${PORTFOLIO_V4_URL:-https://boonyongyang-v4.web.app}"
     
     # Create main app build

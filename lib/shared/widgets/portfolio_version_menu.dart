@@ -39,12 +39,12 @@ extension PortfolioSurfaceDetails on PortfolioSurface {
       case PortfolioSurface.flutterInteractive:
         return const String.fromEnvironment(
           'APP_URL',
-          defaultValue: 'https://boonyongyang-app.web.app',
+          defaultValue: 'https://app.boonyongyang.com',
         );
       case PortfolioSurface.nextThree:
         return const String.fromEnvironment(
           'PORTFOLIO_3D_URL',
-          defaultValue: 'https://boonyongyang-3d.web.app',
+          defaultValue: 'https://3d.boonyongyang.com',
         );
       case PortfolioSurface.releaseDossier:
         return const String.fromEnvironment(
