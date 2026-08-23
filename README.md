@@ -48,6 +48,16 @@ make visual_test
 When a visual change is intentional, inspect the new output first and then run
 `make visual_update` to replace the committed baselines.
 
+Verify every public portfolio origin, theme, fallback, metadata contract, and
+legacy redirect:
+
+```bash
+make production_smoke
+```
+
+The same production smoke runs on a six-hour GitHub Actions schedule and can be
+started manually from the Actions page.
+
 The default local target is Flutter Web. Use simulator commands only when you specifically need iOS behavior:
 ```bash
 # Revamped landing

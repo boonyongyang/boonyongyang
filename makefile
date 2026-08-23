@@ -1,4 +1,4 @@
-.PHONY: help get run_landing_web run_app_web run_landing_sim_active run_app_sim_active analyze test format format_check build_landing build_app build_all visual_get visual_install_browser visual_test visual_update deploy_landing deploy_app deploy_web deploy_web_channel clean
+.PHONY: help get run_landing_web run_app_web run_landing_sim_active run_app_sim_active analyze test format format_check build_landing build_app build_all visual_get visual_install_browser visual_test visual_update production_smoke deploy_landing deploy_app deploy_web deploy_web_channel clean
 
 help:
 	@echo "Available commands:"
@@ -18,6 +18,7 @@ help:
 	@echo "  make visual_install_browser Install the pinned Playwright Chromium"
 	@echo "  make visual_test            Build and compare Flutter layout screenshots"
 	@echo "  make visual_update          Review and replace Flutter screenshot baselines"
+	@echo "  make production_smoke      Verify every live portfolio route and domain"
 	@echo "  make deploy_landing         Deploy only the Flutter landing site"
 	@echo "  make deploy_app             Deploy only the Flutter interactive app"
 	@echo "  make deploy_web             Alias for deploy_landing"
@@ -81,13 +82,18 @@ visual_test: build_all
 visual_update: build_all
 	npm --prefix visual-tests run update
 
+production_smoke:
+	node tool/verify_portfolio_production.mjs
+
 deploy_landing:
 	./build_apps.sh landing
 	firebase deploy --only hosting:boonyongyang --project boonyongyang
+	$(MAKE) production_smoke
 
 deploy_app:
 	./build_apps.sh app
 	firebase deploy --only hosting:boonyongyang-app --project boonyongyang
+	$(MAKE) production_smoke
 
 deploy_web: deploy_landing
 

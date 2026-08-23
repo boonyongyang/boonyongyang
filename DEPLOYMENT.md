@@ -138,6 +138,7 @@ Run:
 make analyze
 make test
 make build_all
+make production_smoke
 git diff --check
 ```
 
