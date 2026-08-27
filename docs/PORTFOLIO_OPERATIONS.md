@@ -11,11 +11,11 @@ the decision gate for future versions without merging their build systems.
 | V1 | Flutter editorial landing | `https://boonyongyang.com` | Parent Flutter repository |
 | V2 | Flutter interactive app | `https://app.boonyongyang.com` | Parent Flutter repository |
 | V3 | Next.js + Three.js portfolio | `https://3d.boonyongyang.com` | `portfolio-3d-next/` isolated repository |
-| V4 | Static Release Dossier | `https://boonyongyang-v4.web.app` | `portfolio-v4-casebook/` isolated repository |
+| V4 | Static Release Dossier | `https://v4.boonyongyang.com` | `portfolio-v4-casebook/` isolated repository |
 
 The permanent Firebase fallback origins remain valid release-recovery paths.
-V4 can move to `https://v4.boonyongyang.com` only after its Firebase custom
-domain association, DNS, certificate, and public smoke checks all pass.
+V4 moved to `https://v4.boonyongyang.com` after its Firebase association, DNS,
+certificate, and public smoke checks passed on 2026-08-28.
 
 ## Privacy-safe analytics
 

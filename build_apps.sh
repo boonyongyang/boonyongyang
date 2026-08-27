@@ -29,7 +29,7 @@ build_landing() {
     APP_URL="${APP_URL:-https://app.boonyongyang.com}"
     SITE_URL="${SITE_URL:-https://boonyongyang.com}"
     PORTFOLIO_3D_URL="${PORTFOLIO_3D_URL:-https://3d.boonyongyang.com}"
-    PORTFOLIO_V4_URL="${PORTFOLIO_V4_URL:-https://boonyongyang-v4.web.app}"
+    PORTFOLIO_V4_URL="${PORTFOLIO_V4_URL:-https://v4.boonyongyang.com}"
     GITHUB_URL="${GITHUB_URL:-https://github.com/boonyongyang}"
     LINKEDIN_URL="${LINKEDIN_URL:-https://linkedin.com/in/boonyongyang}"
     ANALYTICS_MEASUREMENT_ID="${ANALYTICS_MEASUREMENT_ID:-}"
@@ -68,7 +68,7 @@ build_main_app() {
     APP_URL="${APP_URL:-https://app.boonyongyang.com}"
     SITE_URL="${SITE_URL:-https://boonyongyang.com}"
     PORTFOLIO_3D_URL="${PORTFOLIO_3D_URL:-https://3d.boonyongyang.com}"
-    PORTFOLIO_V4_URL="${PORTFOLIO_V4_URL:-https://boonyongyang-v4.web.app}"
+    PORTFOLIO_V4_URL="${PORTFOLIO_V4_URL:-https://v4.boonyongyang.com}"
     ANALYTICS_MEASUREMENT_ID="${ANALYTICS_MEASUREMENT_ID:-}"
     GOOGLE_SITE_VERIFICATION="${GOOGLE_SITE_VERIFICATION:-}"
     

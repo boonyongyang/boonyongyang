@@ -47,7 +47,7 @@ void main() {
     );
     expect(
       PortfolioSurface.releaseDossier.url,
-      'https://boonyongyang-v4.web.app',
+      'https://v4.boonyongyang.com',
     );
   });
 

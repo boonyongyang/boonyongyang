@@ -10,9 +10,8 @@ This is the working task list for the portfolio revamp and the dual-app command 
 - Current implementation state: design-system revamp is implemented; command docs, build outputs, and Firebase landing deployment config are aligned.
 - Deployment state: Flutter landing, Flutter interactive app, isolated Next.js
   + Three.js portfolio, and V4 Release Dossier each have separate live Firebase
-  Hosting sites. Custom `app` and `3d` subdomains are connected. The V4 custom
-  domain is associated and its DNS record is public, with certificate
-  provisioning still pending.
+  Hosting sites. Custom `app`, `3d`, and `v4` subdomains are connected with
+  public DNS and Firebase-managed TLS.
 
 ## Phase 0 — Command Surface And Handoff
 

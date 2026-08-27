@@ -19,7 +19,8 @@ const routes = [
   ['3D Field Manual', 'https://3d.boonyongyang.com/themes/field-manual/'],
   ['3D Store Review Room', 'https://3d.boonyongyang.com/themes/review-room/'],
   ['3D fallback', 'https://boonyongyang-3d.web.app/'],
-  ['V4 Release Dossier', 'https://boonyongyang-v4.web.app/']
+  ['V4 Release Dossier custom', 'https://v4.boonyongyang.com/'],
+  ['V4 Release Dossier fallback', 'https://boonyongyang-v4.web.app/']
 ];
 
 const report = {
@@ -141,6 +142,34 @@ for (const url of [
 
 const contentContracts = [
   [
+    'Landing metadata',
+    'https://boonyongyang.web.app/',
+    [
+      '<link rel="canonical" href="https://boonyongyang.com/">',
+      'portfolio-analytics.js',
+      'ProfilePage'
+    ]
+  ],
+  [
+    'Landing analytics contract',
+    'https://boonyongyang.web.app/portfolio-analytics.js',
+    ['portfolio_version_view', 'allowedParameters', 'googletagmanager.com']
+  ],
+  [
+    'Interactive app metadata',
+    'https://boonyongyang-app.web.app/',
+    [
+      '<link rel="canonical" href="https://app.boonyongyang.com/">',
+      'portfolio-analytics.js',
+      'WebApplication'
+    ]
+  ],
+  [
+    'Interactive app analytics contract',
+    'https://boonyongyang-app.web.app/portfolio-analytics.js',
+    ['portfolio_version_view', 'allowedParameters', 'googletagmanager.com']
+  ],
+  [
     '3D metadata and navigation',
     'https://3d.boonyongyang.com/',
     [
@@ -166,14 +195,22 @@ const contentContracts = [
     ]
   ],
   [
-    'V4 version navigation',
-    'https://boonyongyang-v4.web.app/',
+    'V4 metadata and version navigation',
+    'https://v4.boonyongyang.com/',
     [
+      '<link rel="canonical" href="https://v4.boonyongyang.com/"',
+      'portfolio-analytics.js',
+      'ProfilePage',
       'https://app.boonyongyang.com',
       'https://3d.boonyongyang.com/themes/release-bench/',
       'https://3d.boonyongyang.com/themes/field-manual/',
       'https://3d.boonyongyang.com/themes/review-room/'
     ]
+  ],
+  [
+    'V4 analytics contract',
+    'https://v4.boonyongyang.com/portfolio-analytics.js',
+    ['portfolio_version_view', 'a[data-analytics-event]', 'googletagmanager.com']
   ],
   [
     'Landing version navigation',
@@ -191,7 +228,12 @@ for (const [label, url, markers] of contentContracts) {
   await runCheck('content', label, url, () => expectContent(url, markers));
 }
 
-for (const host of ['boonyongyang.com', 'app.boonyongyang.com', '3d.boonyongyang.com']) {
+for (const host of [
+  'boonyongyang.com',
+  'app.boonyongyang.com',
+  '3d.boonyongyang.com',
+  'v4.boonyongyang.com'
+]) {
   await runCheck('tls', host, host, async () => `${await certificateDaysRemaining(host)} days remaining`);
 }
 

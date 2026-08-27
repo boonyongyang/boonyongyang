@@ -18,7 +18,8 @@ custom app and 3D subdomains were connected and promoted on 2026-08-23.
   `boonyongyang-3d` at `https://3d.boonyongyang.com`, with
   `https://boonyongyang-3d.web.app` as a permanent fallback.
 - V4 Release Dossier is served independently by `boonyongyang-v4` at
-  `https://boonyongyang-v4.web.app`.
+  `https://v4.boonyongyang.com`, with `https://boonyongyang-v4.web.app` as its
+  permanent fallback.
 - The previous `boonyongyang-portfolio-3d.web.app` URL redirects permanently to
   the branded canonical URL.
 - `boonyongyang.com` currently redirects to the Flutter landing origin.
@@ -50,10 +51,8 @@ custom app and 3D subdomains were connected and promoted on 2026-08-23.
 - Bundle budgets guard both Flutter outputs, the V3 static export, and V4. The
   scheduled production smoke now retains a machine-readable JSON report and
   checks branded TLS expiry.
-- Firebase Hosting accepted `v4.boonyongyang.com` as a V4 custom domain, and
-  Squarespace publishes `CNAME v4 -> boonyongyang-v4.web.app`. Certificate
-  provisioning is still pending, so `boonyongyang-v4.web.app` remains the
-  canonical public V4 URL until HTTPS verifies cleanly.
+- Firebase Hosting connects `v4.boonyongyang.com` to V4, Squarespace publishes
+  `CNAME v4 -> boonyongyang-v4.web.app`, and Firebase-managed TLS validates.
 
 ## Release Hardening Verified On 2026-08-28
 
@@ -67,9 +66,8 @@ custom app and 3D subdomains were connected and promoted on 2026-08-23.
 - V4 `npm run check` passed source, formatting, build, and bundle gates. Its
   complete responsive and screenshot matrix passed 37 checks with 5
   intentional project-specific skips.
-- The public smoke passed 21 route, redirect, content, and TLS checks. DNS for
-  `v4.boonyongyang.com` resolves publicly, while the custom-domain certificate
-  remains the only domain-association propagation gate.
+- The public smoke passed every route, redirect, content, and TLS check. DNS and
+  HTTPS for `v4.boonyongyang.com` are publicly valid.
 
 ## Primary Commands
 
@@ -171,5 +169,3 @@ Use `docs/ROADMAP.md` Phase 5 for product improvements:
   measurement ID.
 - Complete Search Console ownership only after the owner supplies or authorizes
   the provider verification token.
-- Promote `v4.boonyongyang.com` only after Firebase reports Connected and its
-  certificate passes public TLS validation.

@@ -7,7 +7,7 @@ This project builds two separate Flutter Web outputs:
 | Revamped Flutter portfolio | `lib/main_landing.dart` | `build/landing/` | `boonyongyang.com` and `boonyongyang.web.app` |
 | Flutter interactive app | `lib/main_app.dart` | `build/app/` | `app.boonyongyang.com`; fallback `boonyongyang-app.web.app` |
 | Next.js + Three.js portfolio | isolated repository | `portfolio-3d-next/out/` | `3d.boonyongyang.com`; fallback `boonyongyang-3d.web.app` |
-| V4 Release Dossier | isolated repository | `portfolio-v4-casebook/dist/` | `boonyongyang-v4.web.app` |
+| V4 Release Dossier | isolated repository | `portfolio-v4-casebook/dist/` | `v4.boonyongyang.com`; fallback `boonyongyang-v4.web.app` |
 
 ## Build Commands
 
@@ -45,7 +45,7 @@ build/
 SITE_URL=https://boonyongyang.com \
 APP_URL=https://app.boonyongyang.com \
 PORTFOLIO_3D_URL=https://3d.boonyongyang.com \
-PORTFOLIO_V4_URL=https://boonyongyang-v4.web.app \
+PORTFOLIO_V4_URL=https://v4.boonyongyang.com \
 GITHUB_URL=https://github.com/boonyongyang \
 LINKEDIN_URL=https://linkedin.com/in/boonyongyang \
 ANALYTICS_MEASUREMENT_ID=G-XXXXXXXXXX \
@@ -60,7 +60,7 @@ Defaults:
 | `SITE_URL` | `https://boonyongyang.com` |
 | `APP_URL` | `https://app.boonyongyang.com` |
 | `PORTFOLIO_3D_URL` | `https://3d.boonyongyang.com` |
-| `PORTFOLIO_V4_URL` | `https://boonyongyang-v4.web.app` |
+| `PORTFOLIO_V4_URL` | `https://v4.boonyongyang.com` |
 | `GITHUB_URL` | `https://github.com/boonyongyang` |
 | `LINKEDIN_URL` | `https://linkedin.com/in/boonyongyang` |
 | `ANALYTICS_MEASUREMENT_ID` | Empty; analytics loader disabled |
@@ -120,7 +120,7 @@ The custom-domain plan is:
 | `boonyongyang.com` | `boonyongyang` | Existing |
 | `app.boonyongyang.com` | `boonyongyang-app` | Connected; Firebase-managed TLS |
 | `3d.boonyongyang.com` | `boonyongyang-3d` | Connected; Firebase-managed TLS |
-| `v4.boonyongyang.com` | `boonyongyang-v4` | DNS published; Firebase certificate pending |
+| `v4.boonyongyang.com` | `boonyongyang-v4` | Connected; Firebase-managed TLS |
 
 The `.web.app` origins remain permanent fallbacks, so adding custom domains does not replace a version.
 

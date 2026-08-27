@@ -51,7 +51,7 @@ extension PortfolioSurfaceDetails on PortfolioSurface {
       case PortfolioSurface.releaseDossier:
         return const String.fromEnvironment(
           'PORTFOLIO_V4_URL',
-          defaultValue: 'https://boonyongyang-v4.web.app',
+          defaultValue: 'https://v4.boonyongyang.com',
         );
     }
   }
