@@ -1,6 +1,6 @@
 # Current Status
 
-Last updated: 2026-08-23
+Last updated: 2026-08-28
 
 ## Deployment State
 
@@ -41,6 +41,35 @@ custom app and 3D subdomains were connected and promoted on 2026-08-23.
   navigation uses accessible button semantics and a compact layout below 1024px.
 - The reduced-motion interactive-home hero uses a deterministic decorative
   palette, so layout regressions are not invalidated by random color state.
+- All four surfaces now share a privacy-safe analytics event contract. The
+  provider loader stays disabled until an owner supplies a GA4 measurement ID;
+  the deployed default makes no analytics request.
+- V1, V2, and V4 now publish canonical, social, structured-data, robots, and
+  sitemap contracts with optional Search Console verification injection. V3
+  retains its existing complete metadata and schema graph.
+- Bundle budgets guard both Flutter outputs, the V3 static export, and V4. The
+  scheduled production smoke now retains a machine-readable JSON report and
+  checks branded TLS expiry.
+- Firebase Hosting accepted `v4.boonyongyang.com` as a V4 custom domain, and
+  Squarespace publishes `CNAME v4 -> boonyongyang-v4.web.app`. Certificate
+  provisioning is still pending, so `boonyongyang-v4.web.app` remains the
+  canonical public V4 URL until HTTPS verifies cleanly.
+
+## Release Hardening Verified On 2026-08-28
+
+- Flutter analysis passed with no issues; all 74 tests passed.
+- Both Flutter production builds passed metadata, discovery, analytics, and
+  bundle contracts. The screenshot matrix passed 17 checks with 1 intentional
+  duplicate matrix skip.
+- V3 `npm run check` passed all quality, export, metadata, hosting, bundle, and
+  public-link gates. Its complete browser matrix passed 66 checks with 21
+  intentional capability or viewport skips.
+- V4 `npm run check` passed source, formatting, build, and bundle gates. Its
+  complete responsive and screenshot matrix passed 37 checks with 5
+  intentional project-specific skips.
+- The public smoke passed 21 route, redirect, content, and TLS checks. DNS for
+  `v4.boonyongyang.com` resolves publicly, while the custom-domain certificate
+  remains the only domain-association propagation gate.
 
 ## Primary Commands
 
@@ -138,4 +167,9 @@ Use `docs/ROADMAP.md` Phase 5 for product improvements:
 
 - Keep production app proof inline unless a later content pass justifies dedicated case-study routes.
 - Consider ForUI/shadcn package migration only after a Flutter/Dart SDK upgrade.
-- Add privacy-safe analytics only when there is a concrete measurement goal.
+- Activate GA4 only after the owner selects a property and supplies its public
+  measurement ID.
+- Complete Search Console ownership only after the owner supplies or authorizes
+  the provider verification token.
+- Promote `v4.boonyongyang.com` only after Firebase reports Connected and its
+  certificate passes public TLS validation.

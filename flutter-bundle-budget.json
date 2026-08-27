@@ -1,0 +1,12 @@
+{
+  "landing": {
+    "totalBytes": 26000000,
+    "mainJavaScriptBytes": 2150000,
+    "mainJavaScriptGzipBytes": 650000
+  },
+  "app": {
+    "totalBytes": 27000000,
+    "mainJavaScriptBytes": 3200000,
+    "mainJavaScriptGzipBytes": 970000
+  }
+}

@@ -45,6 +45,34 @@ test.describe('Flutter deployment layout baselines', () => {
     testInfo.snapshotSuffix = process.platform;
   });
 
+  test('records privacy-safe version views without loading a provider', async ({ page }) => {
+    for (const surface of [
+      { url: landingURL, version: 'v1' },
+      { url: appURL, version: 'v2' }
+    ]) {
+      await page.goto(surface.url);
+      await expect
+        .poll(() =>
+          page.evaluate(() =>
+            (
+              window as Window & {
+                portfolioAnalytics?: {
+                  events: Array<{ name: string; parameters: Record<string, string> }>;
+                };
+              }
+            ).portfolioAnalytics?.events
+          )
+        )
+        .toEqual([
+          {
+            name: 'portfolio_version_view',
+            parameters: { version: surface.version, path: '/' }
+          }
+        ]);
+      await expect(page.locator('script[src*="googletagmanager.com"]')).toHaveCount(0);
+    }
+  });
+
   for (const preset of [
     { label: 'Studio Light', snapshot: 'landing-studio-light.png', storage: null },
     { label: 'Midnight Zinc', snapshot: 'landing-midnight-zinc.png', storage: 'midnightZinc' },

@@ -32,6 +32,8 @@ build_landing() {
     PORTFOLIO_V4_URL="${PORTFOLIO_V4_URL:-https://boonyongyang-v4.web.app}"
     GITHUB_URL="${GITHUB_URL:-https://github.com/boonyongyang}"
     LINKEDIN_URL="${LINKEDIN_URL:-https://linkedin.com/in/boonyongyang}"
+    ANALYTICS_MEASUREMENT_ID="${ANALYTICS_MEASUREMENT_ID:-}"
+    GOOGLE_SITE_VERIFICATION="${GOOGLE_SITE_VERIFICATION:-}"
     
     # Create landing page build with optimizations
     flutter build web \
@@ -54,10 +56,8 @@ build_landing() {
         print_status "Custom landing HTML applied"
     fi
     
-    # Add robots.txt for SEO
-    echo "User-agent: *
-Allow: /
-Sitemap: $SITE_URL/sitemap.xml" > build/landing/robots.txt
+    node tool/configure_flutter_web.mjs \
+        build/landing "$SITE_URL" v1 "$ANALYTICS_MEASUREMENT_ID" "$GOOGLE_SITE_VERIFICATION"
     
     print_status "Landing page built successfully in build/landing"
 }
@@ -69,6 +69,8 @@ build_main_app() {
     SITE_URL="${SITE_URL:-https://boonyongyang.com}"
     PORTFOLIO_3D_URL="${PORTFOLIO_3D_URL:-https://3d.boonyongyang.com}"
     PORTFOLIO_V4_URL="${PORTFOLIO_V4_URL:-https://boonyongyang-v4.web.app}"
+    ANALYTICS_MEASUREMENT_ID="${ANALYTICS_MEASUREMENT_ID:-}"
+    GOOGLE_SITE_VERIFICATION="${GOOGLE_SITE_VERIFICATION:-}"
     
     # Create main app build
     flutter build web \
@@ -81,6 +83,9 @@ build_main_app() {
         --dart-define=PORTFOLIO_3D_URL="$PORTFOLIO_3D_URL" \
         --dart-define=PORTFOLIO_V4_URL="$PORTFOLIO_V4_URL" \
         --release
+
+    node tool/configure_flutter_web.mjs \
+        build/app "$APP_URL" v2 "$ANALYTICS_MEASUREMENT_ID" "$GOOGLE_SITE_VERIFICATION"
     
     print_status "Main app built successfully in build/app"
 }

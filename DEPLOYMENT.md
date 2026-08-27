@@ -48,6 +48,8 @@ PORTFOLIO_3D_URL=https://3d.boonyongyang.com \
 PORTFOLIO_V4_URL=https://boonyongyang-v4.web.app \
 GITHUB_URL=https://github.com/boonyongyang \
 LINKEDIN_URL=https://linkedin.com/in/boonyongyang \
+ANALYTICS_MEASUREMENT_ID=G-XXXXXXXXXX \
+GOOGLE_SITE_VERIFICATION=<search-console-token> \
 ./build_apps.sh landing
 ```
 
@@ -61,6 +63,11 @@ Defaults:
 | `PORTFOLIO_V4_URL` | `https://boonyongyang-v4.web.app` |
 | `GITHUB_URL` | `https://github.com/boonyongyang` |
 | `LINKEDIN_URL` | `https://linkedin.com/in/boonyongyang` |
+| `ANALYTICS_MEASUREMENT_ID` | Empty; analytics loader disabled |
+| `GOOGLE_SITE_VERIFICATION` | Empty; Search Console meta omitted |
+
+See `docs/PORTFOLIO_OPERATIONS.md` for the shared event vocabulary, privacy
+contract, provider activation steps, monitoring artifact, and quarterly review.
 
 ## Static Hosting
 
@@ -113,6 +120,7 @@ The custom-domain plan is:
 | `boonyongyang.com` | `boonyongyang` | Existing |
 | `app.boonyongyang.com` | `boonyongyang-app` | Connected; Firebase-managed TLS |
 | `3d.boonyongyang.com` | `boonyongyang-3d` | Connected; Firebase-managed TLS |
+| `v4.boonyongyang.com` | `boonyongyang-v4` | DNS published; Firebase certificate pending |
 
 The `.web.app` origins remain permanent fallbacks, so adding custom domains does not replace a version.
 

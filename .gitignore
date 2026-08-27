@@ -33,6 +33,7 @@ migrate_working_dir/
 /build/
 .firebase/
 /visual-tests/verification/
+/verification/
 /visual-tests/node_modules/
 /coverage/
 

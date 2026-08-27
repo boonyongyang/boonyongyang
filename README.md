@@ -102,6 +102,7 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 - Command guide: `docs/COMMANDS.md`
 - Revamp roadmap: `docs/ROADMAP.md`
 - Current status: `docs/STATUS.md`
+- Portfolio analytics, discovery, monitoring, and maintenance: `docs/PORTFOLIO_OPERATIONS.md`
 - Landing architecture: `docs/landing/ARCHITECTURE.md`
 - Landing content updates: `docs/landing/CONTENT_UPDATE_GUIDE.md`
 - Main app architecture: `docs/main_app/ARCHITECTURE.md`

@@ -1,4 +1,4 @@
-.PHONY: help get run_landing_web run_app_web run_landing_sim_active run_app_sim_active analyze test format format_check build_landing build_app build_all visual_get visual_install_browser visual_test visual_update production_smoke deploy_landing deploy_app deploy_web deploy_web_channel clean
+.PHONY: help get run_landing_web run_app_web run_landing_sim_active run_app_sim_active analyze test format format_check build_landing build_app build_all web_contract bundle_budget visual_get visual_install_browser visual_test visual_update production_smoke deploy_landing deploy_app deploy_web deploy_web_channel clean
 
 help:
 	@echo "Available commands:"
@@ -14,6 +14,8 @@ help:
 	@echo "  make build_landing          Build revamped landing web app"
 	@echo "  make build_app              Build old/main web app"
 	@echo "  make build_all              Build both web apps"
+	@echo "  make web_contract           Check production metadata, discovery, and analytics"
+	@echo "  make bundle_budget          Enforce Flutter production bundle ceilings"
 	@echo "  make visual_get             Install locked visual-test dependencies"
 	@echo "  make visual_install_browser Install the pinned Playwright Chromium"
 	@echo "  make visual_test            Build and compare Flutter layout screenshots"
@@ -70,6 +72,12 @@ build_app:
 build_all:
 	./build_apps.sh all
 
+web_contract: build_all
+	node tool/check_flutter_web_contract.mjs
+
+bundle_budget: build_all
+	node tool/check_flutter_bundle_budget.mjs
+
 visual_get:
 	npm --prefix visual-tests ci
 
@@ -77,6 +85,8 @@ visual_install_browser:
 	visual-tests/node_modules/.bin/playwright install chromium
 
 visual_test: build_all
+	node tool/check_flutter_web_contract.mjs
+	node tool/check_flutter_bundle_budget.mjs
 	npm --prefix visual-tests run test
 
 visual_update: build_all

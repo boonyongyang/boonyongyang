@@ -23,3 +23,12 @@ jobs:
           node-version: 22
       - name: Verify live portfolio surfaces
         run: make production_smoke
+
+      - name: Retain production smoke evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: portfolio-production-smoke-${{ github.run_id }}
+          path: verification/production-smoke.json
+          if-no-files-found: error
+          retention-days: 30

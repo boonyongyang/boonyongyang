@@ -4,24 +4,26 @@
   <base href="$FLUTTER_BASE_HREF">
   <meta charset="UTF-8">
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="Boon Yong Yang - Mobile Engineer specializing in Flutter development. 2+ years delivering production apps with Clean Architecture, BLoC patterns, and CI/CD pipelines.">
+  <meta name="description" content="Boon Yong Yang builds Flutter products from architecture and product UI through store release and production feedback.">
   <meta name="keywords" content="Boon Yong Yang, Flutter Developer, Mobile Engineer, iOS Developer, Android Developer, BLoC, Clean Architecture, CI/CD">
   <meta name="author" content="Boon Yong Yang">
+  <meta name="google-site-verification" content="__GOOGLE_SITE_VERIFICATION__">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="canonical" href="__PORTFOLIO_ORIGIN__/">
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://boonyongyang.com">
+  <meta property="og:url" content="__PORTFOLIO_ORIGIN__/">
   <meta property="og:title" content="Boon Yong Yang - Mobile Engineer (Flutter)">
-  <meta property="og:description" content="Mobile Engineer specializing in Flutter development. 2+ years delivering production apps with expertise in Clean Architecture and CI/CD pipelines.">
-  <meta property="og:image" content="https://boonyongyang.com/icons/Icon-512.png">
+  <meta property="og:description" content="Shipped Flutter work, product decisions, and the release systems behind it.">
+  <meta property="og:image" content="__PORTFOLIO_ORIGIN__/icons/Icon-512.png">
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image">
-  <meta property="twitter:url" content="https://boonyongyang.com">
+  <meta property="twitter:url" content="__PORTFOLIO_ORIGIN__/">
   <meta property="twitter:title" content="Boon Yong Yang - Mobile Engineer (Flutter)">
-  <meta property="twitter:description" content="Mobile Engineer specializing in Flutter development with 2+ years delivering production applications.">
-  <meta property="twitter:image" content="https://boonyongyang.com/icons/Icon-512.png">
+  <meta property="twitter:description" content="Shipped Flutter work, product decisions, and the release systems behind it.">
+  <meta property="twitter:image" content="__PORTFOLIO_ORIGIN__/icons/Icon-512.png">
 
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,6 +36,12 @@
 
   <title>Boon Yong Yang - Mobile Engineer (Flutter) Portfolio</title>
   <link rel="manifest" href="manifest.json">
+  <script
+    src="portfolio-analytics.js"
+    data-measurement-id="__ANALYTICS_MEASUREMENT_ID__"
+    data-version="__PORTFOLIO_VERSION__"
+    defer
+  ></script>
 
   <!-- Preconnect to external domains for faster loading -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -120,35 +128,32 @@
       });
     });
 
-    // Add structured data for SEO
-    const structuredData = {
+  </script>
+  <script type="application/ld+json">
+    {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Boon Yong Yang",
-      "jobTitle": "Mobile Engineer (Flutter)",
-      "description": "Mobile Engineer specializing in Flutter development with 2+ years delivering production applications using Clean Architecture and modern CI/CD practices",
-      "url": "https://boonyongyang.com",
-      "sameAs": [
-        "https://github.com/boonyongyang",
-        "https://linkedin.com/in/boonyongyang"
-      ],
-      "knowsAbout": [
-        "Flutter",
-        "Dart",
-        "Mobile Development",
-        "iOS Development", 
-        "Android Development",
-        "BLoC Pattern",
-        "Clean Architecture",
-        "CI/CD",
-        "Firebase"
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "__PORTFOLIO_ORIGIN__/#person",
+          "name": "Boon Yong Yang",
+          "jobTitle": "Flutter Engineer",
+          "url": "__PORTFOLIO_ORIGIN__/",
+          "sameAs": [
+            "https://github.com/boonyongyang",
+            "https://www.linkedin.com/in/boon-yong-yang-64096b1aa/"
+          ],
+          "knowsAbout": ["Flutter", "Dart", "Mobile development", "BLoC", "CI/CD"]
+        },
+        {
+          "@type": "ProfilePage",
+          "@id": "__PORTFOLIO_ORIGIN__/#profile",
+          "url": "__PORTFOLIO_ORIGIN__/",
+          "name": "Boon Yong Yang | Flutter Engineer",
+          "mainEntity": { "@id": "__PORTFOLIO_ORIGIN__/#person" }
+        }
       ]
-    };
-
-    const script = document.createElement('script');
-    script.type = 'application/ld+json';
-    script.textContent = JSON.stringify(structuredData);
-    document.head.appendChild(script);
+    }
   </script>
 </body>
 </html>

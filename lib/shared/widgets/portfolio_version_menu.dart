@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../services/portfolio_analytics.dart';
+
 enum PortfolioSurface {
   flutterPortfolio,
   flutterInteractive,
@@ -97,6 +99,7 @@ class PortfolioVersionMenu extends StatelessWidget {
   final Color? backgroundColor;
 
   Future<void> _openDestination(Uri destination) async {
+    PortfolioAnalytics.trackDestination(destination);
     await launchUrl(
       destination,
       webOnlyWindowName: '_self',

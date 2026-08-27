@@ -10,8 +10,9 @@ This is the working task list for the portfolio revamp and the dual-app command 
 - Current implementation state: design-system revamp is implemented; command docs, build outputs, and Firebase landing deployment config are aligned.
 - Deployment state: Flutter landing, Flutter interactive app, isolated Next.js
   + Three.js portfolio, and V4 Release Dossier each have separate live Firebase
-  Hosting sites. Custom `app` and `3d` subdomains remain pending DNS
-  configuration.
+  Hosting sites. Custom `app` and `3d` subdomains are connected. The V4 custom
+  domain is associated and its DNS record is public, with certificate
+  provisioning still pending.
 
 ## Phase 0 — Command Surface And Handoff
 
@@ -130,7 +131,8 @@ Status: in progress
 
 - [x] Add visible project screenshots or product imagery where available.
 - [ ] Add per-project case-study detail pages only if the landing page becomes too dense.
-- [ ] Add lightweight analytics only if there is a clear privacy-safe use.
+- [x] Add privacy-safe, provider-optional analytics for version, theme, project,
+      profile, and contact-intent measurement without personal-data parameters.
 - [ ] Consider ForUI/shadcn package migration after Flutter/Dart SDK upgrade.
 - [x] Configure separate Firebase Hosting site IDs for the Flutter landing and interactive app.
 - [x] Add a cross-surface Versions selector linking every deployed surface.
@@ -140,6 +142,9 @@ Status: in progress
       Store Review Room from both Flutter surfaces.
 - [x] Connect `app.boonyongyang.com` and `3d.boonyongyang.com` with verified
       Squarespace DNS and Firebase-managed TLS.
+- [x] Add cross-surface production monitoring, machine-readable evidence,
+      TLS-expiry checks, and bundle budgets.
+- [x] Define the quarterly maintenance routine and the decision gate for V5.
 
 Verification:
 

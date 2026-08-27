@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../shared/services/portfolio_analytics.dart';
 import '../config/quick_config.dart';
 
 class UrlLauncherService {
@@ -11,6 +12,7 @@ class UrlLauncherService {
 
     if (appUrl.startsWith('http')) {
       // Production: redirect to subdomain
+      PortfolioAnalytics.trackDestination(Uri.parse(appUrl));
       launchUrl(Uri.parse(appUrl));
     } else {
       // Development: show dialog
@@ -36,6 +38,7 @@ class UrlLauncherService {
   static Future<void> launchGitHub() async {
     final uri = Uri.parse(QuickConfig.githubUrl);
     if (await canLaunchUrl(uri)) {
+      PortfolioAnalytics.trackDestination(uri);
       await launchUrl(uri);
     }
   }
@@ -43,6 +46,7 @@ class UrlLauncherService {
   static Future<void> launchLinkedIn() async {
     final uri = Uri.parse(QuickConfig.linkedinUrl);
     if (await canLaunchUrl(uri)) {
+      PortfolioAnalytics.trackDestination(uri);
       await launchUrl(uri);
     }
   }
@@ -54,6 +58,7 @@ class UrlLauncherService {
       queryParameters: {'subject': QuickConfig.emailSubject},
     );
     if (await canLaunchUrl(uri)) {
+      PortfolioAnalytics.trackDestination(uri);
       await launchUrl(uri);
     }
   }
@@ -61,6 +66,7 @@ class UrlLauncherService {
   static Future<void> launchCustomUrl(String url) async {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
+      PortfolioAnalytics.trackDestination(uri);
       await launchUrl(uri);
     }
   }

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../shared/services/portfolio_analytics.dart';
+
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
 
@@ -55,9 +57,12 @@ class AboutPage extends StatelessWidget {
                 ),
                 const Gap(8),
                 InkWell(
-                  onTap: () => launchUrl(
-                    Uri.parse('https://github.com/boonyongyang'),
-                  ),
+                  onTap: () {
+                    final destination =
+                        Uri.parse('https://github.com/boonyongyang');
+                    PortfolioAnalytics.trackDestination(destination);
+                    launchUrl(destination);
+                  },
                   child: const Text(
                     'GitHub Repository',
                     style: TextStyle(
