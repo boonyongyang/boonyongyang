@@ -9,6 +9,7 @@ enum PortfolioSurface {
   flutterInteractive,
   nextThree,
   releaseDossier,
+  wildfield,
 }
 
 enum PortfolioThreeTheme {
@@ -28,6 +29,8 @@ extension PortfolioSurfaceDetails on PortfolioSurface {
         return 'Next.js + Three.js portfolio';
       case PortfolioSurface.releaseDossier:
         return 'V4 Release Dossier';
+      case PortfolioSurface.wildfield:
+        return 'V5 Wildfield';
     }
   }
 
@@ -52,6 +55,11 @@ extension PortfolioSurfaceDetails on PortfolioSurface {
         return const String.fromEnvironment(
           'PORTFOLIO_V4_URL',
           defaultValue: 'https://v4.boonyongyang.com',
+        );
+      case PortfolioSurface.wildfield:
+        return const String.fromEnvironment(
+          'PORTFOLIO_V5_URL',
+          defaultValue: 'https://v5.boonyongyang.com',
         );
     }
   }

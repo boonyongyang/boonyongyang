@@ -9,6 +9,12 @@ void main() {
     expect(v2.name, PortfolioAnalytics.versionSwitch);
     expect(v2.parameters, const {'target': 'v2'});
 
+    final v5 = PortfolioAnalytics.classifyDestination(
+      Uri.parse('https://v5.boonyongyang.com'),
+    );
+    expect(v5.name, PortfolioAnalytics.versionSwitch);
+    expect(v5.parameters, const {'target': 'v5'});
+
     final theme = PortfolioAnalytics.classifyDestination(
       Uri.parse('https://3d.boonyongyang.com/themes/field-manual/'),
     );

@@ -40,6 +40,7 @@ migrate_working_dir/
 # Standalone repositories hosted inside this workspace are versioned separately.
 /portfolio-3d-next/
 /portfolio-v4-casebook/
+/portfolio-v5-wildfield/
 
 # Local Spec Kit/Gemini planning scaffold retained outside the product source.
 /boonyongyang/

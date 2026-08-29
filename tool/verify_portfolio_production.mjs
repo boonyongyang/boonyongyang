@@ -20,7 +20,9 @@ const routes = [
   ['3D Store Review Room', 'https://3d.boonyongyang.com/themes/review-room/'],
   ['3D fallback', 'https://boonyongyang-3d.web.app/'],
   ['V4 Release Dossier custom', 'https://v4.boonyongyang.com/'],
-  ['V4 Release Dossier fallback', 'https://boonyongyang-v4.web.app/']
+  ['V4 Release Dossier fallback', 'https://boonyongyang-v4.web.app/'],
+  ['V5 Wildfield custom', 'https://v5.boonyongyang.com/'],
+  ['V5 Wildfield fallback', 'https://boonyongyang-v5.web.app/']
 ];
 
 const report = {
@@ -175,6 +177,7 @@ const contentContracts = [
     [
       'https://3d.boonyongyang.com',
       'https://app.boonyongyang.com',
+      'https://v5.boonyongyang.com',
       'Release Bench',
       '/themes/field-manual/',
       '/themes/review-room/'
@@ -204,7 +207,8 @@ const contentContracts = [
       'https://app.boonyongyang.com',
       'https://3d.boonyongyang.com/themes/release-bench/',
       'https://3d.boonyongyang.com/themes/field-manual/',
-      'https://3d.boonyongyang.com/themes/review-room/'
+      'https://3d.boonyongyang.com/themes/review-room/',
+      'https://v5.boonyongyang.com'
     ]
   ],
   [
@@ -213,14 +217,33 @@ const contentContracts = [
     ['portfolio_version_view', 'a[data-analytics-event]', 'googletagmanager.com']
   ],
   [
+    'V5 metadata and version navigation',
+    'https://v5.boonyongyang.com/',
+    [
+      '<link rel="canonical" href="https://v5.boonyongyang.com/"',
+      'portfolio-analytics.js',
+      'ProfilePage',
+      'Wildfield',
+      'https://boonyongyang.com',
+      'https://app.boonyongyang.com',
+      'https://3d.boonyongyang.com',
+      'https://v4.boonyongyang.com'
+    ]
+  ],
+  [
+    'V5 analytics contract',
+    'https://v5.boonyongyang.com/portfolio-analytics.js',
+    ['portfolio_version_view', 'a[data-analytics-event]', 'googletagmanager.com']
+  ],
+  [
     'Landing version navigation',
     'https://boonyongyang.web.app/main.dart.js',
-    ['https://app.boonyongyang.com', 'https://3d.boonyongyang.com']
+    ['https://app.boonyongyang.com', 'https://3d.boonyongyang.com', 'https://v5.boonyongyang.com']
   ],
   [
     'Interactive app version navigation',
     'https://boonyongyang-app.web.app/main.dart.js',
-    ['https://app.boonyongyang.com', 'https://3d.boonyongyang.com']
+    ['https://app.boonyongyang.com', 'https://3d.boonyongyang.com', 'https://v5.boonyongyang.com']
   ]
 ];
 
@@ -232,7 +255,8 @@ for (const host of [
   'boonyongyang.com',
   'app.boonyongyang.com',
   '3d.boonyongyang.com',
-  'v4.boonyongyang.com'
+  'v4.boonyongyang.com',
+  'v5.boonyongyang.com'
 ]) {
   await runCheck('tls', host, host, async () => `${await certificateDaysRemaining(host)} days remaining`);
 }

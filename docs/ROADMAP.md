@@ -9,9 +9,9 @@ This is the working task list for the portfolio revamp and the dual-app command 
 - Secondary target: active iOS Simulator only when iOS behavior needs checking.
 - Current implementation state: design-system revamp is implemented; command docs, build outputs, and Firebase landing deployment config are aligned.
 - Deployment state: Flutter landing, Flutter interactive app, isolated Next.js
-  + Three.js portfolio, and V4 Release Dossier each have separate live Firebase
-  Hosting sites. Custom `app`, `3d`, and `v4` subdomains are connected with
-  public DNS and Firebase-managed TLS.
+  + Three.js portfolio, V4 Release Dossier, and V5 Wildfield each have separate
+  Firebase Hosting sites. Custom `app`, `3d`, and `v4` subdomains are connected;
+  the `v5` Firebase association is awaiting its DNS/TLS verification.
 
 ## Phase 0 — Command Surface And Handoff
 
@@ -144,6 +144,11 @@ Status: in progress
 - [x] Add cross-surface production monitoring, machine-readable evidence,
       TLS-expiry checks, and bundle budgets.
 - [x] Define the quarterly maintenance routine and the decision gate for V5.
+- [x] Build and deploy V5 Wildfield as an isolated React Spring portfolio with
+      five palettes, responsive image protection, and shared version discovery.
+- [x] Extend local regression, bundle, metadata, analytics, and visual contracts
+      from four portfolio versions to five.
+- [ ] Complete the `v5.boonyongyang.com` DNS record and Firebase-managed TLS.
 
 Verification:
 
