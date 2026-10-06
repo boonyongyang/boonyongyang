@@ -6,7 +6,7 @@ import { setTimeout as wait } from 'node:timers/promises';
 const timeoutMs = 20_000;
 const retryCount = 2;
 const minimumCertificateDays = 21;
-const userAgent = 'boonyongyang-portfolio-production-smoke/2.0';
+const userAgent = 'boonyongyang-portfolio-production-smoke/3.0';
 const reportPath = process.env.PRODUCTION_SMOKE_REPORT ?? 'verification/production-smoke.json';
 
 const routes = [
@@ -22,7 +22,9 @@ const routes = [
   ['V4 Release Dossier custom', 'https://v4.boonyongyang.com/'],
   ['V4 Release Dossier fallback', 'https://boonyongyang-v4.web.app/'],
   ['V5 Wildfield custom', 'https://v5.boonyongyang.com/'],
-  ['V5 Wildfield fallback', 'https://boonyongyang-v5.web.app/']
+  ['V5 Wildfield fallback', 'https://boonyongyang-v5.web.app/'],
+  ['V6 Afterimage custom', 'https://v6.boonyongyang.com/'],
+  ['V6 Afterimage fallback', 'https://boonyongyang-v6.web.app/']
 ];
 
 const report = {
@@ -178,6 +180,7 @@ const contentContracts = [
       'https://3d.boonyongyang.com',
       'https://app.boonyongyang.com',
       'https://v5.boonyongyang.com',
+      'https://v6.boonyongyang.com',
       'Release Bench',
       '/themes/field-manual/',
       '/themes/review-room/'
@@ -208,7 +211,8 @@ const contentContracts = [
       'https://3d.boonyongyang.com/themes/release-bench/',
       'https://3d.boonyongyang.com/themes/field-manual/',
       'https://3d.boonyongyang.com/themes/review-room/',
-      'https://v5.boonyongyang.com'
+      'https://v5.boonyongyang.com',
+      'https://v6.boonyongyang.com'
     ]
   ],
   [
@@ -227,7 +231,8 @@ const contentContracts = [
       'https://boonyongyang.com',
       'https://app.boonyongyang.com',
       'https://3d.boonyongyang.com',
-      'https://v4.boonyongyang.com'
+      'https://v4.boonyongyang.com',
+      'https://v6.boonyongyang.com'
     ]
   ],
   [
@@ -236,14 +241,43 @@ const contentContracts = [
     ['portfolio_version_view', 'a[data-analytics-event]', 'googletagmanager.com']
   ],
   [
+    'V6 metadata and version navigation',
+    'https://v6.boonyongyang.com/',
+    [
+      '<link rel="canonical" href="https://v6.boonyongyang.com/"',
+      'portfolio-analytics.js',
+      'Afterimage',
+      'https://boonyongyang.com',
+      'https://app.boonyongyang.com',
+      'https://3d.boonyongyang.com',
+      'https://v4.boonyongyang.com',
+      'https://v5.boonyongyang.com'
+    ]
+  ],
+  [
+    'V6 analytics contract',
+    'https://v6.boonyongyang.com/portfolio-analytics.js',
+    ['portfolio_version_view', 'allowedParameters', 'googletagmanager.com']
+  ],
+  [
     'Landing version navigation',
     'https://boonyongyang.web.app/main.dart.js',
-    ['https://app.boonyongyang.com', 'https://3d.boonyongyang.com', 'https://v5.boonyongyang.com']
+    [
+      'https://app.boonyongyang.com',
+      'https://3d.boonyongyang.com',
+      'https://v5.boonyongyang.com',
+      'https://v6.boonyongyang.com'
+    ]
   ],
   [
     'Interactive app version navigation',
     'https://boonyongyang-app.web.app/main.dart.js',
-    ['https://app.boonyongyang.com', 'https://3d.boonyongyang.com', 'https://v5.boonyongyang.com']
+    [
+      'https://app.boonyongyang.com',
+      'https://3d.boonyongyang.com',
+      'https://v5.boonyongyang.com',
+      'https://v6.boonyongyang.com'
+    ]
   ]
 ];
 
@@ -256,7 +290,8 @@ for (const host of [
   'app.boonyongyang.com',
   '3d.boonyongyang.com',
   'v4.boonyongyang.com',
-  'v5.boonyongyang.com'
+  'v5.boonyongyang.com',
+  'v6.boonyongyang.com'
 ]) {
   await runCheck('tls', host, host, async () => `${await certificateDaysRemaining(host)} days remaining`);
 }

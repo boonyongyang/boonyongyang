@@ -70,6 +70,13 @@ abstract final class PortfolioAnalytics {
         parameters: const {'target': 'v5'},
       );
     }
+    if (destination.host == 'v6.boonyongyang.com' ||
+        destination.host == 'boonyongyang-v6.web.app') {
+      return (
+        name: versionSwitch,
+        parameters: const {'target': 'v6'},
+      );
+    }
     if (destination.host.contains('github.com')) {
       return (
         name: externalProfileClick,

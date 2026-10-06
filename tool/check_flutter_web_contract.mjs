@@ -56,6 +56,9 @@ for (const surface of surfaces) {
       throw new Error(`${surface.name} is missing analytics event ${event}.`);
     }
   }
+  if (!application.includes('https://v6.boonyongyang.com')) {
+    throw new Error(`${surface.name} is missing the V6 canonical destination.`);
+  }
   if (/__(?:PORTFOLIO_ORIGIN|PORTFOLIO_VERSION|ANALYTICS_MEASUREMENT_ID|GOOGLE_SITE_VERIFICATION)__/.test(html)) {
     throw new Error(`${surface.name} contains an unresolved production marker.`);
   }

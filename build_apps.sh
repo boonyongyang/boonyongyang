@@ -31,6 +31,7 @@ build_landing() {
     PORTFOLIO_3D_URL="${PORTFOLIO_3D_URL:-https://3d.boonyongyang.com}"
     PORTFOLIO_V4_URL="${PORTFOLIO_V4_URL:-https://v4.boonyongyang.com}"
     PORTFOLIO_V5_URL="${PORTFOLIO_V5_URL:-https://v5.boonyongyang.com}"
+    PORTFOLIO_V6_URL="${PORTFOLIO_V6_URL:-https://v6.boonyongyang.com}"
     GITHUB_URL="${GITHUB_URL:-https://github.com/boonyongyang}"
     LINKEDIN_URL="${LINKEDIN_URL:-https://linkedin.com/in/boonyongyang}"
     ANALYTICS_MEASUREMENT_ID="${ANALYTICS_MEASUREMENT_ID:-}"
@@ -47,6 +48,7 @@ build_landing() {
         --dart-define=PORTFOLIO_3D_URL="$PORTFOLIO_3D_URL" \
         --dart-define=PORTFOLIO_V4_URL="$PORTFOLIO_V4_URL" \
         --dart-define=PORTFOLIO_V5_URL="$PORTFOLIO_V5_URL" \
+        --dart-define=PORTFOLIO_V6_URL="$PORTFOLIO_V6_URL" \
         --dart-define=GITHUB_URL="$GITHUB_URL" \
         --dart-define=LINKEDIN_URL="$LINKEDIN_URL" \
         --tree-shake-icons \
@@ -72,6 +74,7 @@ build_main_app() {
     PORTFOLIO_3D_URL="${PORTFOLIO_3D_URL:-https://3d.boonyongyang.com}"
     PORTFOLIO_V4_URL="${PORTFOLIO_V4_URL:-https://v4.boonyongyang.com}"
     PORTFOLIO_V5_URL="${PORTFOLIO_V5_URL:-https://v5.boonyongyang.com}"
+    PORTFOLIO_V6_URL="${PORTFOLIO_V6_URL:-https://v6.boonyongyang.com}"
     ANALYTICS_MEASUREMENT_ID="${ANALYTICS_MEASUREMENT_ID:-}"
     GOOGLE_SITE_VERIFICATION="${GOOGLE_SITE_VERIFICATION:-}"
     
@@ -86,6 +89,7 @@ build_main_app() {
         --dart-define=PORTFOLIO_3D_URL="$PORTFOLIO_3D_URL" \
         --dart-define=PORTFOLIO_V4_URL="$PORTFOLIO_V4_URL" \
         --dart-define=PORTFOLIO_V5_URL="$PORTFOLIO_V5_URL" \
+        --dart-define=PORTFOLIO_V6_URL="$PORTFOLIO_V6_URL" \
         --release
 
     node tool/configure_flutter_web.mjs \

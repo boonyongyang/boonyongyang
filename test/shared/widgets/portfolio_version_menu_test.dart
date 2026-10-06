@@ -25,6 +25,7 @@ void main() {
     expect(find.text('Next.js + Three.js portfolio'), findsOneWidget);
     expect(find.text('V4 Release Dossier'), findsOneWidget);
     expect(find.text('V5 Wildfield'), findsOneWidget);
+    expect(find.text('V6 Afterimage'), findsOneWidget);
     expect(find.text('3D themes'), findsOneWidget);
     expect(find.text('Release Bench'), findsOneWidget);
     expect(find.text('Field Manual'), findsOneWidget);
@@ -53,6 +54,10 @@ void main() {
     expect(
       PortfolioSurface.wildfield.url,
       'https://v5.boonyongyang.com',
+    );
+    expect(
+      PortfolioSurface.afterimage.url,
+      'https://v6.boonyongyang.com',
     );
   });
 

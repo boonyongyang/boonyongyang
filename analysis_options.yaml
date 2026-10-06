@@ -17,6 +17,8 @@ analyzer:
     - portfolio-v4-casebook/**
     # This is an independent React V5 repository with Node-based tooling.
     - portfolio-v5-wildfield/**
+    # This is an independent React V6 repository with GSAP tooling.
+    - portfolio-v6-afterimage/**
 
 linter:
   # The lint rules applied to this project can be customized in the

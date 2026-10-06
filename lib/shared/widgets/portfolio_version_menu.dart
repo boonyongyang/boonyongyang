@@ -10,6 +10,7 @@ enum PortfolioSurface {
   nextThree,
   releaseDossier,
   wildfield,
+  afterimage,
 }
 
 enum PortfolioThreeTheme {
@@ -31,6 +32,8 @@ extension PortfolioSurfaceDetails on PortfolioSurface {
         return 'V4 Release Dossier';
       case PortfolioSurface.wildfield:
         return 'V5 Wildfield';
+      case PortfolioSurface.afterimage:
+        return 'V6 Afterimage';
     }
   }
 
@@ -60,6 +63,11 @@ extension PortfolioSurfaceDetails on PortfolioSurface {
         return const String.fromEnvironment(
           'PORTFOLIO_V5_URL',
           defaultValue: 'https://v5.boonyongyang.com',
+        );
+      case PortfolioSurface.afterimage:
+        return const String.fromEnvironment(
+          'PORTFOLIO_V6_URL',
+          defaultValue: 'https://v6.boonyongyang.com',
         );
     }
   }
