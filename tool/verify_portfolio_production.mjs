@@ -110,6 +110,30 @@ const expectContent = async (url, requiredValues) => {
   return `${requiredValues.length} markers`;
 };
 
+const expectApplicationContent = async (url, requiredValues) => {
+  const response = await request(url);
+  if (response.status !== 200) throw new Error(`expected HTTP 200, received ${response.status}`);
+  const html = await response.text();
+  const origin = new URL(url);
+  const scriptUrls = [...html.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["']/gi)]
+    .map((match) => new URL(match[1], origin))
+    .filter((scriptUrl) => scriptUrl.origin === origin.origin);
+  const scriptBodies = await Promise.all(
+    scriptUrls.map(async (scriptUrl) => {
+      const scriptResponse = await request(scriptUrl);
+      if (scriptResponse.status !== 200) {
+        throw new Error(`expected HTTP 200 for ${scriptUrl.pathname}, received ${scriptResponse.status}`);
+      }
+      return scriptResponse.text();
+    })
+  );
+  const shippedContent = [html, ...scriptBodies].join('\n');
+  for (const value of requiredValues) {
+    if (!shippedContent.includes(value)) throw new Error(`missing ${value}`);
+  }
+  return `${requiredValues.length} markers across HTML and ${scriptBodies.length} scripts`;
+};
+
 const certificateDaysRemaining = (host) =>
   new Promise((resolve, reject) => {
     let settled = false;
@@ -218,7 +242,7 @@ const contentContracts = [
   [
     'V4 analytics contract',
     'https://v4.boonyongyang.com/portfolio-analytics.js',
-    ['portfolio_version_view', 'a[data-analytics-event]', 'googletagmanager.com']
+    ['portfolio_version_view', 'allowedParameters', 'data-analytics-event', 'googletagmanager.com']
   ],
   [
     'V5 metadata and version navigation',
@@ -238,7 +262,7 @@ const contentContracts = [
   [
     'V5 analytics contract',
     'https://v5.boonyongyang.com/portfolio-analytics.js',
-    ['portfolio_version_view', 'a[data-analytics-event]', 'googletagmanager.com']
+    ['portfolio_version_view', 'allowedParameters', 'data-analytics-event', 'googletagmanager.com']
   ],
   [
     'V6 metadata and version navigation',
@@ -257,7 +281,7 @@ const contentContracts = [
   [
     'V6 analytics contract',
     'https://v6.boonyongyang.com/portfolio-analytics.js',
-    ['portfolio_version_view', 'allowedParameters', 'googletagmanager.com']
+    ['portfolio_version_view', 'external_profile_click', 'data-analytics-event', 'googletagmanager.com']
   ],
   [
     'Landing version navigation',
@@ -282,7 +306,10 @@ const contentContracts = [
 ];
 
 for (const [label, url, markers] of contentContracts) {
-  await runCheck('content', label, url, () => expectContent(url, markers));
+  const check = label === 'V5 metadata and version navigation' || label === 'V6 metadata and version navigation'
+    ? expectApplicationContent
+    : expectContent;
+  await runCheck('content', label, url, () => check(url, markers));
 }
 
 for (const host of [

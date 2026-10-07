@@ -1,6 +1,6 @@
 # Portfolio Operations
 
-This guide is the shared operating contract for the five independently deployed
+This guide is the shared operating contract for the six independently deployed
 portfolio versions. It covers measurement, discovery, regression evidence, and
 the decision gate for future versions without merging their build systems.
 
@@ -13,11 +13,14 @@ the decision gate for future versions without merging their build systems.
 | V3 | Next.js + Three.js portfolio | `https://3d.boonyongyang.com` | `portfolio-3d-next/` isolated repository |
 | V4 | Static Release Dossier | `https://v4.boonyongyang.com` | `portfolio-v4-casebook/` isolated repository |
 | V5 | React Spring Wildfield | `https://v5.boonyongyang.com` | `portfolio-v5-wildfield/` isolated repository |
+| V6 | GSAP Afterimage | `https://v6.boonyongyang.com` | `portfolio-v6-afterimage/` isolated private repository |
 
 The permanent Firebase fallback origins remain valid release-recovery paths.
 V4 moved to `https://v4.boonyongyang.com` after its Firebase association, DNS,
-certificate, and public smoke checks passed on 2026-08-28. V5 retains
-`https://boonyongyang-v5.web.app` as its release-recovery origin.
+certificate, and public smoke checks passed on 2026-08-28. V5 and V6 completed
+their DNS, Firebase association, managed-certificate, and public browser gates
+on 2026-10-07. Their permanent release-recovery origins are
+`https://boonyongyang-v5.web.app` and `https://boonyongyang-v6.web.app`.
 
 ## Privacy-safe analytics
 
@@ -54,6 +57,9 @@ ANALYTICS_MEASUREMENT_ID=G-XXXXXXXXXX npm run build
 
 cd ../portfolio-v5-wildfield
 ANALYTICS_MEASUREMENT_ID=G-XXXXXXXXXX npm run build
+
+cd ../portfolio-v6-afterimage
+ANALYTICS_MEASUREMENT_ID=G-XXXXXXXXXX npm run build
 ```
 
 An empty value is the safe production default and produces no analytics network
@@ -76,6 +82,9 @@ cd ../portfolio-v4-casebook
 GOOGLE_SITE_VERIFICATION=<token> npm run build
 
 cd ../portfolio-v5-wildfield
+GOOGLE_SITE_VERIFICATION=<token> npm run build
+
+cd ../portfolio-v6-afterimage
 GOOGLE_SITE_VERIFICATION=<token> npm run build
 ```
 
@@ -111,6 +120,9 @@ cd portfolio-v4-casebook && npm run check && npm run verify
 
 # V5
 cd portfolio-v5-wildfield && npm run check && npm run verify
+
+# V6
+cd portfolio-v6-afterimage && npm run check && npm run verify
 ```
 
 Bundle budgets are release gates. Raise a budget only after inspecting the
@@ -135,17 +147,17 @@ Once per quarter, or after a material product launch:
 
 ## Future-version decision gate
 
-Do not create V6 merely to add another theme. Start it only when all of these
+Do not create V7 merely to add another theme. Start it only when all of these
 are true:
 
-- It serves a distinct audience or hiring conversation that V1-V5 do not.
+- It serves a distinct audience or hiring conversation that V1-V6 do not.
 - It has a one-sentence visual and interaction thesis before implementation.
 - Its content source, accessibility target, performance budget, canonical URL,
   repository owner, deployment target, monitoring contract, and retirement plan
   are written down.
 - The additional maintenance cost is justified by a measurable goal.
 - It can be added to the shared Versions control and smoke suite without
-  weakening the five existing releases.
+  weakening the six existing releases.
 
 If the need is only a new palette, copy revision, or case study, improve an
 existing version instead.

@@ -123,8 +123,8 @@ build/
 - Compact project index with GitHub links
 - Capability rows grouped by product delivery workflow
 - Shared Versions selector for both Flutter surfaces, the Next.js + Three.js
-  portfolio, V4 Release Dossier, and V5 Wildfield, plus direct links to all
-  three 3D themes
+  portfolio, V4 Release Dossier, V5 Wildfield, and V6 Afterimage, plus direct
+  links to all three 3D themes
 
 ### Main App
 - Interactive games (Connect 4, Tic-tac-toe, Snake, Brick Breaker)

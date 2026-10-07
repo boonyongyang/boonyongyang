@@ -9,6 +9,7 @@ This project builds two separate Flutter Web outputs:
 | Next.js + Three.js portfolio | isolated repository | `portfolio-3d-next/out/` | `3d.boonyongyang.com`; fallback `boonyongyang-3d.web.app` |
 | V4 Release Dossier | isolated repository | `portfolio-v4-casebook/dist/` | `v4.boonyongyang.com`; fallback `boonyongyang-v4.web.app` |
 | V5 Wildfield | isolated repository | `portfolio-v5-wildfield/dist/` | `v5.boonyongyang.com`; fallback `boonyongyang-v5.web.app` |
+| V6 Afterimage | isolated repository | `portfolio-v6-afterimage/dist/` | `v6.boonyongyang.com`; fallback `boonyongyang-v6.web.app` |
 
 ## Build Commands
 
@@ -48,6 +49,7 @@ APP_URL=https://app.boonyongyang.com \
 PORTFOLIO_3D_URL=https://3d.boonyongyang.com \
 PORTFOLIO_V4_URL=https://v4.boonyongyang.com \
 PORTFOLIO_V5_URL=https://v5.boonyongyang.com \
+PORTFOLIO_V6_URL=https://v6.boonyongyang.com \
 GITHUB_URL=https://github.com/boonyongyang \
 LINKEDIN_URL=https://linkedin.com/in/boonyongyang \
 ANALYTICS_MEASUREMENT_ID=G-XXXXXXXXXX \
@@ -64,6 +66,7 @@ Defaults:
 | `PORTFOLIO_3D_URL` | `https://3d.boonyongyang.com` |
 | `PORTFOLIO_V4_URL` | `https://v4.boonyongyang.com` |
 | `PORTFOLIO_V5_URL` | `https://v5.boonyongyang.com` |
+| `PORTFOLIO_V6_URL` | `https://v6.boonyongyang.com` |
 | `GITHUB_URL` | `https://github.com/boonyongyang` |
 | `LINKEDIN_URL` | `https://linkedin.com/in/boonyongyang` |
 | `ANALYTICS_MEASUREMENT_ID` | Empty; analytics loader disabled |
@@ -111,6 +114,10 @@ V5 keeps a third isolated repository and owns only the `boonyongyang-v5`
 Hosting site. Its React Spring source, five palettes, tests, CI, and deployment
 configuration live in `portfolio-v5-wildfield/`.
 
+V6 keeps a fourth isolated private repository and owns only the
+`boonyongyang-v6` Hosting site. Its GSAP source, responsive motion variants,
+tests, CI, and deployment configuration live in `portfolio-v6-afterimage/`.
+
 Explicit production commands:
 
 ```bash
@@ -119,6 +126,7 @@ make deploy_app
 cd portfolio-3d-next && npm run deploy:firebase
 cd portfolio-v4-casebook && npm run deploy
 cd portfolio-v5-wildfield && FIREBASE_ACCOUNT=<authorized-email> npm run deploy
+cd portfolio-v6-afterimage && FIREBASE_ACCOUNT=<authorized-email> npm run deploy
 ```
 
 The custom-domain plan is:
@@ -129,12 +137,13 @@ The custom-domain plan is:
 | `app.boonyongyang.com` | `boonyongyang-app` | Connected; Firebase-managed TLS |
 | `3d.boonyongyang.com` | `boonyongyang-3d` | Connected; Firebase-managed TLS |
 | `v4.boonyongyang.com` | `boonyongyang-v4` | Connected; Firebase-managed TLS |
-| `v5.boonyongyang.com` | `boonyongyang-v5` | Firebase association created; DNS/TLS verification required |
+| `v5.boonyongyang.com` | `boonyongyang-v5` | Connected; Firebase-managed TLS |
+| `v6.boonyongyang.com` | `boonyongyang-v6` | Connected; Firebase-managed TLS |
 
 The `.web.app` origins remain permanent fallbacks, so adding custom domains does not replace a version.
 
 Every surface exposes the same hidden layers control. Its first group contains
-the five independently deployed portfolio versions. Its second group contains
+the six independently deployed portfolio versions. Its second group contains
 the three shareable themes within the Next.js + Three.js version:
 
 | 3D theme | Canonical route |
