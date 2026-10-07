@@ -64,10 +64,10 @@ V6, while the three V3 themes remain a separate group.
 | ------- | --------- | --------------------- | ---------------- |
 | V1 Editorial | `https://boonyongyang.com` | `1cc599849377d171a887ea92ed1b2af1483344fa` | 74 Flutter tests, 17 visual checks, one intentional matrix skip, and public smoke passed |
 | V2 Interactive | `https://app.boonyongyang.com` | `1cc599849377d171a887ea92ed1b2af1483344fa` | Same isolated Flutter release gates and public route smoke passed |
-| V3 Next.js + Three.js | `https://3d.boonyongyang.com` | `ec31f11856d2a08973d9a7379c18d3bb63cbdf1e` | [CI run 37548096904](https://github.com/boonyongyang/boonyongyang-portfolio-3d/actions/runs/37548096904) passed; production audit reports zero vulnerabilities |
+| V3 Next.js + Three.js | `https://3d.boonyongyang.com` | `ec31f11856d2a08973d9a7379c18d3bb63cbdf1e` | [Final evidence CI run 37568399069](https://github.com/boonyongyang/boonyongyang-portfolio-3d/actions/runs/37568399069) passed at roadmap head `4936e5bcb1480c204f3d86bd960908895e856cc3`; production audit reports zero vulnerabilities |
 | V4 Release Dossier | `https://v4.boonyongyang.com` | `7235849847bd1ab92d4031a75027b63a57243e5b` | [CI run 37546685018](https://github.com/boonyongyang/boonyongyang-portfolio-v4/actions/runs/37546685018) passed at reviewed baseline commit `c8e56e6518c8090f22cda99b83322d1c9f5f0378` |
 | V5 Wildfield | `https://v5.boonyongyang.com` | `4c41297d021f4cbaf4ab02ae85ba9abad94a4184` | [CI run 37545961686](https://github.com/boonyongyang/boonyongyang-portfolio-v5/actions/runs/37545961686) passed |
-| V6 Afterimage | `https://v6.boonyongyang.com` | `28002f975851c6d2a37f03c1632ecd629ec30834` | [Final evidence CI run 37547381068](https://github.com/boonyongyang/boonyongyang-portfolio-v6/actions/runs/37547381068) passed; evidence head `9c7e5b3e42e47c4d760fdaa5fb5f8e9a5d9af5b9` |
+| V6 Afterimage | `https://v6.boonyongyang.com` | `28002f975851c6d2a37f03c1632ecd629ec30834` | [Final evidence CI run 37568433090](https://github.com/boonyongyang/boonyongyang-portfolio-v6/actions/runs/37568433090) passed at evidence head `9c7e5b3e42e47c4d760fdaa5fb5f8e9a5d9af5b9` |
 
 - V6 Afterimage is live at `https://v6.boonyongyang.com`; its fallback and
   custom canonical both return HTTP 200 with valid TLS, security headers,
